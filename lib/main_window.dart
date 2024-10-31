@@ -71,7 +71,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const SizedBox(
-                      width: 80,
+                      width: 75,
                       child: Text('来自网络'),
                     ),
                     Transform.scale(
