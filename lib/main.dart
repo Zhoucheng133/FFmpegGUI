@@ -1,3 +1,4 @@
+import 'package:ffmpeg_gui/main_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -44,9 +45,7 @@ class MainApp extends StatelessWidget {
         splashColor: Colors.transparent,
       ),
       home: const Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
+        body: MainWindow()
       ),
     );
   }
