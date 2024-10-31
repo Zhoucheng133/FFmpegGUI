@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
@@ -46,6 +47,16 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
 
   bool fromNetwork=false;
   TextEditingController input=TextEditingController();
+  TextEditingController output=TextEditingController();
+  String format='mp4';
+  TextEditingController name=TextEditingController();
+  String encoder='H.264';
+
+  List videoFormat=['mp4', 'mkv', 'flv'];
+  List audioFormat=['mp3', 'acc', 'wav'];
+
+  List videoEncoder=['H.264', 'H.265', 'AV1', 'MPEG-4'];
+  List audioEncoder=['AAC ', 'MP3', 'FLAC'];
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +145,168 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                       child: const Text('选取')
                     )
                   ],
-                )
+                ),
+                const SizedBox(height: 10,),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      width: 80,
+                      child: Text('编码'),
+                    ),
+                    SizedBox(
+                      width: 120,
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton2<String>(
+                          isExpanded: true,
+                          items: [
+                            ...List.generate(videoEncoder.length, (index){
+                              return DropdownMenuItem(
+                                value: videoEncoder[index],
+                                child: Text(videoEncoder[index]),
+                              );
+                            }),
+                            const DropdownMenuItem(enabled: false, child: Divider()),
+                            ...List.generate(audioEncoder.length, (index){
+                              return DropdownMenuItem(
+                                value: audioEncoder[index],
+                                child: Text(audioEncoder[index]),
+                              );
+                            }),
+                          ],
+                          value: encoder,
+                          onChanged: (String? value) {
+                            if(value!=null){
+                              setState(() {
+                                encoder = value;
+                              });
+                            }
+                          },
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                const SizedBox(height: 10,),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      width: 80,
+                      child: Text('输出格式'),
+                    ),
+                    SizedBox(
+                      width: 120,
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton2<String>(
+                          isExpanded: true,
+                          items: [
+                            ...List.generate(videoFormat.length, (index){
+                              return DropdownMenuItem(
+                                value: videoFormat[index],
+                                child: Text(videoFormat[index]),
+                              );
+                            }),
+                            const DropdownMenuItem(enabled: false, child: Divider()),
+                            ...List.generate(audioFormat.length, (index){
+                              return DropdownMenuItem(
+                                value: audioFormat[index],
+                                child: Text(audioFormat[index]),
+                              );
+                            }),
+                          ],
+                          value: format,
+                          onChanged: (String? value) {
+                            if(value!=null){
+                              setState(() {
+                                format = value;
+                              });
+                            }
+                          },
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                const SizedBox(height: 10,),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      width: 80,
+                      child: Text('输出文件名'),
+                    ),
+                    Expanded(
+                      child: TextField(
+                        controller: name,
+                        decoration: const InputDecoration(
+                          isCollapsed: true,
+                          contentPadding: EdgeInsets.only(left: 10, right: 10, top: 9, bottom: 10),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10),
+                            )
+                          ),
+                        ),
+                        style: const TextStyle(
+                          fontSize: 14
+                        ),
+                        autocorrect: false,
+                        enableSuggestions: false,
+                      ),
+                    ),
+                    const SizedBox(width: 5,),
+                    Text('.$format')
+                  ],
+                ),
+                const SizedBox(height: 10,),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      width: 80,
+                      child: Text('输出目录'),
+                    ),
+                    Expanded(
+                      child: TextField(
+                        controller: output,
+                        enabled: false,
+                        decoration: const InputDecoration(
+                          isCollapsed: true,
+                          contentPadding: EdgeInsets.only(left: 10, right: 10, top: 9, bottom: 10),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10),
+                            )
+                          ),
+                        ),
+                        style: const TextStyle(
+                          fontSize: 14
+                        ),
+                        autocorrect: false,
+                        enableSuggestions: false,
+                      ),
+                    ),
+                    const SizedBox(width: 10,),
+                    FilledButton(
+                      onPressed: () async {
+                        String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+                        if(selectedDirectory!=null){
+                          setState(() {
+                            output.text=selectedDirectory;
+                          });
+                        }
+                      }, 
+                      child: const Text('选取')
+                    )
+                  ],
+                ),
               ],
             ),
           )
