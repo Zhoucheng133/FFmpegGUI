@@ -1,8 +1,11 @@
 import 'dart:io';
 
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:ffmpeg_gui/service/task.dart';
+import 'package:ffmpeg_gui/service/variables.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:process_run/which.dart';
 
@@ -50,13 +53,16 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
   TextEditingController output=TextEditingController();
   String format='mp4';
   TextEditingController name=TextEditingController();
-  String encoder='H.264';
+  String encoder='libx264';
 
   List videoFormat=['mp4', 'mkv', 'flv'];
   List audioFormat=['mp3', 'acc', 'wav'];
 
-  List videoEncoder=['H.264', 'H.265', 'AV1', 'MPEG-4'];
-  List audioEncoder=['AAC ', 'MP3', 'FLAC'];
+  List videoEncoder=['libx264', 'libx265', 'libaom-av1', 'libxvid'];
+  List audioEncoder=['aac ', 'libmp3lame', 'flac'];
+
+  Task task=Task();
+  final Controller c = Get.put(Controller());
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +81,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
         ),
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
+            padding: const EdgeInsets.only(top: 10, bottom: 20, left: 20, right: 20),
             child: Column(
               children: [
                 Row(
@@ -113,7 +119,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                         enabled: fromNetwork,
                         decoration: InputDecoration(
                           isCollapsed: true,
-                          contentPadding: const EdgeInsets.only(left: 10, right: 10, top: 9, bottom: 10),
+                          contentPadding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
                           border: const OutlineInputBorder(
                             borderSide: BorderSide(
                               width: 2,
@@ -241,7 +247,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                         controller: name,
                         decoration: const InputDecoration(
                           isCollapsed: true,
-                          contentPadding: EdgeInsets.only(left: 10, right: 10, top: 9, bottom: 10),
+                          contentPadding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
                           border: OutlineInputBorder(
                             borderSide: BorderSide(
                               width: 2,
@@ -276,7 +282,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                         enabled: false,
                         decoration: const InputDecoration(
                           isCollapsed: true,
-                          contentPadding: EdgeInsets.only(left: 10, right: 10, top: 9, bottom: 10),
+                          contentPadding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
                           border: OutlineInputBorder(
                             borderSide: BorderSide(
                               width: 2,
@@ -307,6 +313,23 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                     )
                   ],
                 ),
+                Expanded(child: Container()),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    FilledButton(
+                      onPressed: (){
+                        if(c.running.value){
+                          task.stop();
+                        }else{
+                          task.run(input.text, output.text, format, encoder, name.text, context);
+                        }
+                      }, 
+                      child: Obx(()=>Text(c.running.value ? '停止' : '开始'))
+                    )
+                  ],
+                )
               ],
             ),
           )
