@@ -318,6 +318,11 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
+                    TextButton(
+                      onPressed: ()=>task.log(context), 
+                      child: const Text('日志')
+                    ),
+                    const SizedBox(width: 10,),
                     FilledButton(
                       onPressed: (){
                         if(c.running.value){

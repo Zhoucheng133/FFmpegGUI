@@ -37,6 +37,33 @@ class Task {
     
   }
 
+  void log(BuildContext context){
+    showDialog(
+      context: context, 
+      builder: (context)=>AlertDialog(
+        title: const Text('日志'),
+        content: SizedBox(
+          height: 300,
+          width: 500,
+          child: Obx(()=>ListView.builder(
+            itemCount: c.log.length,
+            itemBuilder: (context, index)=>Text(
+              c.log[index]
+            ),
+          ))
+        ),
+        actions: [
+          FilledButton(
+            onPressed: (){
+              Navigator.pop(context);
+            }, 
+            child: const Text('完成')
+          )
+        ],
+      )
+    );
+  }
+
   Future<void> run(String input, String output, String format, String encoder, String name, BuildContext context) async {
 
     if(input.isEmpty){
@@ -68,8 +95,10 @@ ffmpeg -i "$input" -c:v $encoder "$output/$name.$format"
     try {
       c.running.value=true;
       controller.stream.listen((event){
-        // c.log.value=event;
-        print('【输出】$event');
+        if(c.log.length>=50){
+          c.log.removeAt(0);
+        }
+        c.log.add(event);
       });
       await shell.run(cmd);
       c.running.value=false;
