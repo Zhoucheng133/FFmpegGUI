@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:process_run/which.dart';
@@ -43,6 +44,9 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
     init();
   }
 
+  bool fromNetwork=false;
+  TextEditingController input=TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -58,6 +62,83 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
             ],
           ) : DragToMoveArea(child: Container())
         ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
+            child: Column(
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      width: 80,
+                      child: Text('来自网络'),
+                    ),
+                    Transform.scale(
+                      scale: 0.8,
+                      child: Switch(
+                        splashRadius: 0,
+                        value: fromNetwork, 
+                        onChanged: (val){
+                          setState(() {
+                            fromNetwork=val;
+                          });
+                        }
+                      ),
+                    )
+                  ],
+                ),
+                const SizedBox(height: 10,),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      width: 80,
+                      child: Text('输入'),
+                    ),
+                    Expanded(
+                      child: TextField(
+                        controller: input,
+                        enabled: fromNetwork,
+                        decoration: InputDecoration(
+                          isCollapsed: true,
+                          contentPadding: const EdgeInsets.only(left: 10, right: 10, top: 9, bottom: 10),
+                          border: const OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10),
+                            )
+                          ),
+                          hintText: fromNetwork ? 'http(s)://' : ''
+                        ),
+                        style: const TextStyle(
+                          fontSize: 14
+                        ),
+                        autocorrect: false,
+                        enableSuggestions: false,
+                      ),
+                    ),
+                    const SizedBox(width: 10,),
+                    FilledButton(
+                      onPressed: fromNetwork ? null : () async {
+                        FilePickerResult? result = await FilePicker.platform.pickFiles();
+                        if (result != null) {
+                          File file = File(result.files.single.path!);
+                          setState(() {
+                            input.text=file.path;
+                          });
+                        }
+                      }, 
+                      child: const Text('选取')
+                    )
+                  ],
+                )
+              ],
+            ),
+          )
+        )
       ],
     );
   }
