@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ffmpeg_gui/components/top_menu_bar_item.dart';
 import 'package:ffmpeg_gui/service/task_item.dart';
 import 'package:ffmpeg_gui/service/variables.dart';
@@ -35,12 +37,26 @@ class _TopMenuBarState extends State<TopMenuBar> {
     }
   }
 
+  Future<void> pickDir() async {
+    String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+    if(selectedDirectory!=null){
+      final directory = Directory(selectedDirectory);
+      List<FileSystemEntity> allFiles = directory.listSync();
+      List<String> files = allFiles.where((file) {
+        return file is File && judgeFile(file.path);
+      }).map((file)=>file.path).toList();
+      for(var path in files){
+        c.fileList.add(TaskItem(path: path));
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         TopMenuBarItem(title: '添加文件', icon: Icons.add_rounded, func: ()=>pickFile(), enable: true),
-        TopMenuBarItem(title: '添加目录', icon: Icons.add_rounded, func: (){}, enable: true),
+        TopMenuBarItem(title: '添加目录', icon: Icons.add_rounded, func: ()=>pickDir(), enable: true),
         Obx(()=>TopMenuBarItem(title: '开始当前任务', icon: Icons.play_arrow_rounded, func: (){}, enable: !c.running.value)),
         Obx(()=>TopMenuBarItem(title: '开始所有任务', icon: Icons.play_arrow_rounded, func: (){}, enable: !c.running.value)),
         Obx(()=>TopMenuBarItem(title: '停止', icon: Icons.stop_rounded, func: (){}, enable: c.running.value))
