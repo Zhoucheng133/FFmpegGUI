@@ -84,12 +84,16 @@ class Task {
       return;
     }
 
-    shell=Shell(stdout: controller.sink, stderr: controller.sink);
+    output=output.replaceAll('\\', '/');
+    String fileName=p.basename(input);
+    String workDirectory=p.dirname(input);
+
+    shell=Shell(stdout: controller.sink, stderr: controller.sink, workingDirectory: workDirectory);
 
     var cmd="";
     if(format=='mp4' || format=='flv' || format=='mkv'){
       cmd='''
-ffmpeg -i "$input" -c:v $encoder "$output/$name.$format"
+ffmpeg -i "$fileName" -c:v $encoder "$output/$name.$format"
 ''';
     }
     try {
