@@ -20,6 +20,7 @@ class TaskItem{
   late String format;
   late String? subtitle;
   late int? channel;
+  late int? subtitleLine;
 
   TaskItem({required this.path}){
     if(getType(path)==Types.video){
@@ -27,11 +28,13 @@ class TaskItem{
       format='mp4';
       subtitle=null;
       channel=null;
+      subtitleLine=null;
     }else if(getType(path)==Types.audio){
       encoder='aac';
       format='mp3';
       subtitle=null;
       channel=null;
+      subtitleLine=null;
     }
   }
 }
