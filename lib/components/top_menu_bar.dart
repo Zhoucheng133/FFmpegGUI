@@ -16,8 +16,6 @@ class _TopMenuBarState extends State<TopMenuBar> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        TopMenuBarItem(title: '选取文件', icon: Icons.insert_drive_file_rounded, func: (){}, enable: true,),
-        TopMenuBarItem(title: '选取目录', icon: Icons.folder_rounded, func: (){}, enable: true,),
         Obx(()=>TopMenuBarItem(title: '开始当前任务', icon: Icons.play_arrow_rounded, func: (){}, enable: !c.running.value)),
         Obx(()=>TopMenuBarItem(title: '开始所有任务', icon: Icons.play_arrow_rounded, func: (){}, enable: !c.running.value)),
         Obx(()=>TopMenuBarItem(title: '停止', icon: Icons.stop_rounded, func: (){}, enable: c.running.value))
