@@ -38,7 +38,7 @@ class _TopMenuBarItemState extends State<TopMenuBarItem> {
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
           decoration: BoxDecoration(
-            color: hover ? const Color.fromARGB(255, 221, 247, 223) : const Color.fromARGB(0, 221, 247, 223),
+            color: hover ? const Color.fromARGB(255, 223, 240, 198) : const Color.fromARGB(0, 223, 240, 198),
             borderRadius: BorderRadius.circular(10)
           ),
           child: Padding(
@@ -50,13 +50,13 @@ class _TopMenuBarItemState extends State<TopMenuBarItem> {
                   widget.icon, size: 20, 
                   color: widget.enable ? Colors.grey[800] : Colors.grey[400],
                 ),
-                const SizedBox(width: 5,),
-                Text(
+                widget.title.isNotEmpty ? const SizedBox(width: 5,) : Container(),
+                widget.title.isNotEmpty ? Text(
                   widget.title, 
                   style: GoogleFonts.notoSansSc(
                     color: widget.enable ? Colors.grey[800] : Colors.grey[400]
                   ),
-                ),
+                ) : Container(),
               ],
             ),
           ),

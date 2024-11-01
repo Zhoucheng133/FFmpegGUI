@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:ffmpeg_gui/components/config_panel.dart';
+import 'package:ffmpeg_gui/components/file_list.dart';
 import 'package:ffmpeg_gui/components/top_menu_bar.dart';
 import 'package:ffmpeg_gui/service/task.dart';
 import 'package:ffmpeg_gui/service/variables.dart';
@@ -78,12 +80,24 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
             ],
           ) : DragToMoveArea(child: Container())
         ),
-        const Padding(
-          padding: EdgeInsets.only(left: 20, right: 20),
-          child: Column(
-            children: [
-              TopMenuBar(),
-            ],
+        const Expanded(
+          child: Padding(
+            padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
+            child: Column(
+              children: [
+                TopMenuBar(),
+                Divider(),
+                Expanded(
+                  child: Row(
+                    children: [
+                      FileList(),
+                      VerticalDivider(),
+                      Expanded(child: ConfigPanel())
+                    ],
+                  )
+                )
+              ],
+            ),
           ),
         )
       ],
