@@ -21,6 +21,7 @@ class _TopMenuBarItemState extends State<TopMenuBarItem> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: ()=>widget.func(),
       child: MouseRegion(
         onEnter: (_){
           if(widget.enable){
