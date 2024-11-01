@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:ffmpeg_gui/components/config_panel.dart';
 import 'package:ffmpeg_gui/components/file_list.dart';
 import 'package:ffmpeg_gui/components/top_menu_bar.dart';
-import 'package:ffmpeg_gui/service/task.dart';
 import 'package:ffmpeg_gui/service/variables.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -49,20 +48,8 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
     init();
   }
 
-  bool fromNetwork=false;
-  TextEditingController input=TextEditingController();
   TextEditingController output=TextEditingController();
-  String format='mp4';
-  TextEditingController name=TextEditingController();
-  String encoder='libx264';
 
-  List videoFormat=['mp4', 'mkv', 'flv'];
-  List audioFormat=['mp3', 'acc', 'wav'];
-
-  List videoEncoder=['libx264', 'libx265', 'libaom-av1', 'libxvid'];
-  List audioEncoder=['aac ', 'libmp3lame', 'flac'];
-
-  Task task=Task();
   final Controller c = Get.put(Controller());
 
   @override
@@ -98,6 +85,39 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                 )
               ],
             ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: output,
+                  enabled: false,
+                  decoration: const InputDecoration(
+                    isCollapsed: true,
+                    contentPadding: EdgeInsets.only(left: 10, right: 10, top: 9, bottom: 10),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      )
+                    ),
+                    hintText: '输出路径'
+                  ),
+                  style: const TextStyle(
+                    fontSize: 14
+                  ),
+                  autocorrect: false,
+                  enableSuggestions: false,
+                ),
+              ),
+              const SizedBox(width: 5,),
+              FilledButton(onPressed: (){}, child: const Text('选取'))
+            ],
           ),
         )
       ],

@@ -7,4 +7,5 @@ class Controller extends GetxController{
   RxString command="".obs;
 
   var fileList=<TaskItem>[].obs;
+  RxInt selectIndex=0.obs;
 }
