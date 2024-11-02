@@ -17,14 +17,12 @@ class _FileListState extends State<FileList> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 200,
-      child: Expanded(
-        child: Obx(()=>
-          ListView.builder(
-            itemCount: c.fileList.length,
-            itemBuilder: (context, index)=>FilePreview(item: c.fileList[index], index: index)
-          )
-        ),
+      width: 210,
+      child: Obx(()=>
+        ListView.builder(
+          itemCount: c.fileList.length,
+          itemBuilder: (context, index)=>FilePreview(item: c.fileList[index], index: index)
+        )
       )
     );
   }

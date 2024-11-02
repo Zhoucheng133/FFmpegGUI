@@ -78,7 +78,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                   child: Row(
                     children: [
                       FileList(),
-                      VerticalDivider(),
+                      SizedBox(width: 5,),
                       Expanded(child: ConfigPanel())
                     ],
                   )
