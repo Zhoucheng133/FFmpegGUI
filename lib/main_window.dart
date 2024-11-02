@@ -4,6 +4,7 @@ import 'package:ffmpeg_gui/components/config_panel.dart';
 import 'package:ffmpeg_gui/components/file_list.dart';
 import 'package:ffmpeg_gui/components/top_menu_bar.dart';
 import 'package:ffmpeg_gui/service/variables.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:window_manager/window_manager.dart';
@@ -51,6 +52,16 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
   TextEditingController output=TextEditingController();
 
   final Controller c = Get.put(Controller());
+
+  Future<void> selectOutput() async {
+    String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+    if(selectedDirectory!=null){
+      // final directory = Directory(selectedDirectory);
+      setState(() {
+        output.text=selectedDirectory;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +127,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                 ),
               ),
               const SizedBox(width: 5,),
-              FilledButton(onPressed: (){}, child: const Text('选取'))
+              FilledButton(onPressed: ()=>selectOutput(), child: const Text('选取'))
             ],
           ),
         )
