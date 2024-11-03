@@ -52,6 +52,9 @@ class _FilePreviewState extends State<FilePreview> {
       ],
     );
     if(val=='del'){
+      if(c.selectIndex.value>=widget.index){
+        c.selectIndex.value=0;
+      }
       c.fileList.removeAt(widget.index);
       c.fileList.refresh();
     }
