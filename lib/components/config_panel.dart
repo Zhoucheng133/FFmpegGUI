@@ -82,7 +82,8 @@ class _ConfigPanelState extends State<ConfigPanel> {
                       ),
                       ComboBoxItem(
                         value: Encoders.libaomav1,
-                        enabled: c.fileList[c.selectIndex.value].type==Types.video,
+                        // TODO 临时，注意修改
+                        enabled: false,
                         child: Text('libaomav1', style: GoogleFonts.notoSansSc(),),
                       ),
                       ComboBoxItem(
