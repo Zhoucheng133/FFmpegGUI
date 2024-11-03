@@ -1,28 +1,31 @@
 import 'dart:io';
 
+import 'package:ffmpeg_gui/service/task_item.dart';
 import 'package:ffmpeg_gui/service/variables.dart';
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:process_run/process_run.dart';
 import 'package:path/path.dart' as p;
 
 class Task {
   late Shell shell;
   final Controller c = Get.put(Controller());
-  var controller = ShellLinesController();
+  late ShellLinesController controller;
+  bool stopTask=false;
 
   void simpleDialog(String title, String content, BuildContext context){
     showDialog(
       context: context, 
-      builder: (context)=>AlertDialog(
-        title: Text(title),
-        content: Text(content),
+      builder: (context)=>ContentDialog(
+        title: Text(title, style: GoogleFonts.notoSansSc()),
+        content: Text(content, style: GoogleFonts.notoSansSc()),
         actions: [
           FilledButton(
             onPressed: (){
               Navigator.pop(context);
             }, 
-            child: const Text('好的')
+            child: Text('好的', style: GoogleFonts.notoSansSc(),)
           )
         ],
       )
@@ -40,7 +43,7 @@ class Task {
   void log(BuildContext context){
     showDialog(
       context: context, 
-      builder: (context)=>AlertDialog(
+      builder: (context)=>ContentDialog(
         title: const Text('日志'),
         content: SizedBox(
           height: 300,
@@ -64,38 +67,49 @@ class Task {
     );
   }
 
-  Future<void> run(String input, String output, String format, String encoder, String name, BuildContext context) async {
+  String removeExtension(String fileName){
+    int lastDotIndex = fileName.lastIndexOf('.');
+    if (lastDotIndex == -1) {
+      return fileName;
+    }
+    return fileName.substring(0, lastDotIndex);
+  }
 
-    if(input.isEmpty){
-      simpleDialog('启动失败', '输入内容不能为空', context);
-      return;
-    }else if(output.isEmpty){
-      simpleDialog('启动失败', '输出内容不能为空', context);
-      return;
-    }else if(name.isEmpty){
-      simpleDialog('启动失败', '输出文件名不能为空', context);
+  String subtitle(String fileName){
+    if(c.fileList[c.selectIndex.value].subtitleLine==null){
+      return "";
+    }
+    return '''-vf "subtitles='$fileName':si=${c.fileList[c.selectIndex.value].subtitleLine}"''';
+  }
+
+  Future<void> singleRun(BuildContext context) async {
+
+    if(c.output.isEmpty){
+      simpleDialog('启动失败', '输出目录不能为空', context);
       return;
     }
-
-    String path = p.join(output, '$name.$format');
-    File file = File(path);
+    String outputPath = p.join(c.output.value, '${removeExtension(p.basename(c.fileList[c.selectIndex.value].path))}.${c.fileList[c.selectIndex.value].format.toString().split('.').last}');
+    File file = File(outputPath);
     if(file.existsSync()){
       simpleDialog('启动失败', '输出目录下存在相同文件', context);
       return;
     }
-
-    output=output.replaceAll('\\', '/');
-    String fileName=p.basename(input);
-    String workDirectory=p.dirname(input);
-
+    String output=outputPath.replaceAll('\\', '/');
+    String fileName=p.basename(c.fileList[c.selectIndex.value].path);
+    String workDirectory=p.dirname(c.fileList[c.selectIndex.value].path);
+    controller=ShellLinesController();
     shell=Shell(stdout: controller.sink, stderr: controller.sink, workingDirectory: workDirectory);
-
-    var cmd="";
-    if(format=='mp4' || format=='flv' || format=='mkv'){
+    var cmd='';
+    if(c.fileList[c.selectIndex.value].type==Types.video){
       cmd='''
-ffmpeg -i "$fileName" -c:v $encoder "$output/$name.$format"
+ffmpeg -i "$fileName" -c:v ${c.fileList[c.selectIndex.value].encoder.toString().split('.').last} -ac ${c.fileList[c.selectIndex.value].channel} -map 0:v:${c.fileList[c.selectIndex.value].videoTrack} -map 0:a:${c.fileList[c.selectIndex.value].audioTrack} ${subtitle(fileName)} "$output"
+''';
+    }else{
+      cmd='''
+ffmpeg -i "$fileName" -c:a ${c.fileList[c.selectIndex.value].encoder.toString().split('.').last} -ac ${c.fileList[c.selectIndex.value].channel} "$output"
 ''';
     }
+    print(cmd);
     try {
       c.running.value=true;
       controller.stream.listen((event){

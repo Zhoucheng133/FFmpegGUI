@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:ffmpeg_gui/components/top_menu_bar_item.dart';
+import 'package:ffmpeg_gui/service/task.dart';
 import 'package:ffmpeg_gui/service/task_item.dart';
 import 'package:ffmpeg_gui/service/variables.dart';
 import 'package:file_picker/file_picker.dart';
@@ -16,6 +17,8 @@ class TopMenuBar extends StatefulWidget {
 
 class _TopMenuBarState extends State<TopMenuBar> {
   final Controller c = Get.put(Controller());
+
+  final Task task=Task();
 
   bool judgeFile(String path){
     if(path.endsWith('.mp4') || path.endsWith('.mkv') || path.endsWith('.flv')){
@@ -51,15 +54,17 @@ class _TopMenuBarState extends State<TopMenuBar> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         TopMenuBarItem(title: '添加文件', icon: Icons.add_rounded, func: ()=>pickFile(), enable: true),
         TopMenuBarItem(title: '添加目录', icon: Icons.add_rounded, func: ()=>pickDir(), enable: true),
-        Obx(()=>TopMenuBarItem(title: '开始当前任务', icon: Icons.play_arrow_rounded, func: (){}, enable: !c.running.value)),
-        Obx(()=>TopMenuBarItem(title: '开始所有任务', icon: Icons.play_arrow_rounded, func: (){}, enable: !c.running.value)),
-        Obx(()=>TopMenuBarItem(title: '停止', icon: Icons.stop_rounded, func: (){}, enable: c.running.value))
+        Obx(()=>TopMenuBarItem(title: '开始当前任务', icon: Icons.play_arrow_rounded, func: ()=>task.singleRun(context), enable: !c.running.value)),
+        // Obx(()=>TopMenuBarItem(title: '开始所有任务', icon: Icons.play_arrow_rounded, func: (){}, enable: false)),
+        Obx(()=>TopMenuBarItem(title: '停止', icon: Icons.stop_rounded, func: ()=>task.stop(), enable: c.running.value)),
+        TopMenuBarItem(title: '日志', icon: Icons.content_paste_rounded, func: (){}, enable: true),
       ],
     );
   }
