@@ -1,7 +1,6 @@
 import 'package:ffmpeg_gui/main_window.dart';
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:window_manager/window_manager.dart';
 
 Future<void> main() async {
@@ -31,22 +30,17 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return FluentApp(
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate
       ],
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
-        useMaterial3: true,
-        textTheme: GoogleFonts.notoSansScTextTheme(),
-        splashColor: Colors.transparent,
+      theme: FluentThemeData(
+        accentColor: Colors.green,
       ),
-      home: const Scaffold(
-        body: MainWindow()
-      ),
+      home: const MainWindow()
     );
   }
 }

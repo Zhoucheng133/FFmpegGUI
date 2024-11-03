@@ -5,8 +5,9 @@ import 'package:ffmpeg_gui/components/file_list.dart';
 import 'package:ffmpeg_gui/components/top_menu_bar.dart';
 import 'package:ffmpeg_gui/service/variables.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:process_run/which.dart';
 
@@ -25,7 +26,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         showDialog(
           context: context, 
-          builder: (BuildContext context)=>AlertDialog(
+          builder: (BuildContext context)=>ContentDialog(
             title: const Text('没有找到FFmpeg'), 
             content: const Text('没有找到FFmpeg的位置，请确定将其加入到系统环境变量'),
             actions: [
@@ -65,73 +66,72 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          height: 30,
-          color: Colors.transparent,
-          child: Platform.isWindows ? Row(
-            children: [
-              Expanded(child: DragToMoveArea(child: Container())),
-              WindowCaptionButton.minimize(onPressed: ()=>windowManager.minimize(),),
-              WindowCaptionButton.close(onPressed: ()=>windowManager.close(),)
-            ],
-          ) : DragToMoveArea(child: Container())
-        ),
-        const Expanded(
-          child: Padding(
-            padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
-            child: Column(
+    return Container(
+      color: const Color.fromARGB(255, 247, 251, 241),
+      child: Column(
+        children: [
+          Container(
+            height: 30,
+            color: Colors.transparent,
+            child: Platform.isWindows ? Row(
               children: [
-                TopMenuBar(),
-                Divider(),
+                Expanded(child: DragToMoveArea(child: Container())),
+                WindowCaptionButton.minimize(onPressed: ()=>windowManager.minimize(),),
+                WindowCaptionButton.close(onPressed: ()=>windowManager.close(),)
+              ],
+            ) : DragToMoveArea(child: Container())
+          ),
+          const Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
+              child: Column(
+                children: [
+                  TopMenuBar(),
+                  Padding(
+                    padding: EdgeInsets.only(top: 5, bottom: 5),
+                    child: Divider(),
+                  ),
+                  Expanded(
+                    child: Row(
+                      children: [
+                        FileList(),
+                        SizedBox(width: 5,),
+                        Expanded(child: ConfigPanel())
+                      ],
+                    )
+                  )
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 8, right: 8, bottom: 10),
+            child: Row(
+              children: [
                 Expanded(
-                  child: Row(
-                    children: [
-                      FileList(),
-                      SizedBox(width: 5,),
-                      Expanded(child: ConfigPanel())
-                    ],
+                  child: TextBox(
+                    controller: output,
+                    enabled: false,
+                    style: const TextStyle(
+                      fontSize: 14
+                    ),
+                    autocorrect: false,
+                    enableSuggestions: false,
+                  ),
+                ),
+                const SizedBox(width: 5,),
+                FilledButton(
+                  onPressed: ()=>selectOutput(), 
+                  child: Text(
+                    '选取', 
+                    style: GoogleFonts.notoSansSc(),
                   )
                 )
               ],
             ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: output,
-                  enabled: false,
-                  decoration: const InputDecoration(
-                    isCollapsed: true,
-                    contentPadding: EdgeInsets.only(left: 10, right: 10, top: 9, bottom: 10),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        width: 2,
-                      ),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
-                      )
-                    ),
-                    hintText: '输出路径'
-                  ),
-                  style: const TextStyle(
-                    fontSize: 14
-                  ),
-                  autocorrect: false,
-                  enableSuggestions: false,
-                ),
-              ),
-              const SizedBox(width: 5,),
-              FilledButton(onPressed: ()=>selectOutput(), child: const Text('选取'))
-            ],
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 }
