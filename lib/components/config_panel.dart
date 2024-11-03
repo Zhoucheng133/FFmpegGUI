@@ -150,9 +150,9 @@ class _ConfigPanelState extends State<ConfigPanel> {
                         child: Text('mp3', style: GoogleFonts.notoSansSc(),),
                       ),
                       ComboBoxItem(
-                        value: Formats.acc,
+                        value: Formats.aac,
                         enabled: c.fileList[c.selectIndex.value].type==Types.audio,
-                        child: Text('acc', style: GoogleFonts.notoSansSc(),),
+                        child: Text('aac', style: GoogleFonts.notoSansSc(),),
                       ),
                       ComboBoxItem(
                         value: Formats.wav,
