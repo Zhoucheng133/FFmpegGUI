@@ -57,10 +57,10 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
   Future<void> selectOutput() async {
     String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
     if(selectedDirectory!=null){
-      // final directory = Directory(selectedDirectory);
       setState(() {
         output.text=selectedDirectory;
       });
+      c.output.value=selectedDirectory;
     }
   }
 
