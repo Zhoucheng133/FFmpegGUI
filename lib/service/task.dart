@@ -120,6 +120,8 @@ ffmpeg -i "$fileName" -c:a ${c.fileList[c.selectIndex.value].encoder.toString().
       });
       await shell.run(cmd);
       c.running.value=false;
-    } on ShellException catch (_) {}
+    } on ShellException catch (_) {
+      c.running.value=false;
+    }
   }
 }

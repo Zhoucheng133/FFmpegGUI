@@ -110,6 +110,11 @@ class _ConfigPanelState extends State<ConfigPanel> {
                     onChanged: (value){
                       if(value!=null){
                         c.fileList[c.selectIndex.value].encoder=value;
+                        if(c.fileList[c.selectIndex.value].encoder==Encoders.aac){
+                          c.fileList[c.selectIndex.value].format=Formats.m4a;
+                        }else if(c.fileList[c.selectIndex.value].encoder==Encoders.flac){
+                          c.fileList[c.selectIndex.value].format=Formats.flac;
+                        }
                         c.fileList.refresh();
                       }
                     },
@@ -147,7 +152,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                       ),
                       ComboBoxItem(
                         value: Formats.mp3,
-                        enabled: c.fileList[c.selectIndex.value].type==Types.audio,
+                        enabled: c.fileList[c.selectIndex.value].type==Types.audio && c.fileList[c.selectIndex.value].encoder!=Encoders.aac,
                         child: Text('mp3', style: GoogleFonts.notoSansSc(),),
                       ),
                       ComboBoxItem(
@@ -157,13 +162,18 @@ class _ConfigPanelState extends State<ConfigPanel> {
                       ),
                       ComboBoxItem(
                         value: Formats.wav,
-                        enabled: c.fileList[c.selectIndex.value].type==Types.audio,
+                        enabled: c.fileList[c.selectIndex.value].type==Types.audio && c.fileList[c.selectIndex.value].encoder!=Encoders.aac,
                         child: Text('wav', style: GoogleFonts.notoSansSc(),),
                       ),
                       ComboBoxItem(
-                        value: Formats.flac,
+                        value: Formats.m4a,
                         enabled: c.fileList[c.selectIndex.value].type==Types.audio,
-                        child: Text('mp4', style: GoogleFonts.notoSansSc(),),
+                        child: Text('m4a', style: GoogleFonts.notoSansSc(),),
+                      ),
+                      ComboBoxItem(
+                        value: Formats.flac,
+                        enabled: c.fileList[c.selectIndex.value].type==Types.audio && c.fileList[c.selectIndex.value].encoder==Encoders.flac,
+                        child: Text('flac', style: GoogleFonts.notoSansSc(),),
                       ),
                     ],
                     onChanged: (value){

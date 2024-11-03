@@ -12,6 +12,7 @@ enum Formats{
   aac,
   wav,
   flac,
+  m4a
 }
 
 enum Encoders{
@@ -56,7 +57,7 @@ class TaskItem{
       format=Formats.mp4;
       subtitleLine=null;
     }else if(type==Types.audio){
-      encoder=Encoders.aac;
+      encoder=Encoders.libmp3lame;
       format=Formats.mp3;
       subtitleLine=null;
     }
