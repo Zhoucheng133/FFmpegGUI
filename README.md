@@ -1,3 +1,3 @@
-# ffmpeg_gui
+# FFmpeg GUI
 
-A new Flutter project.
+FFmpeg的图形化界面
