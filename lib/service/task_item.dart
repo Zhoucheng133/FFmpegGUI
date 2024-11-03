@@ -4,6 +4,26 @@ enum Types{
   none,
 }
 
+enum Formats{
+  mp4,
+  mkv,
+  flv,
+  mp3,
+  acc,
+  wav,
+  flac,
+}
+
+enum Encoders{
+  libx264,
+  libx265,
+  libaomav1,
+  libxvid,
+  aac,
+  libmp3lame,
+  flac,
+}
+
 Types getType(String path){
   if(path.endsWith('.mp4') || path.endsWith('.mkv') || path.endsWith('.flv')){
       return Types.video;
@@ -16,22 +36,24 @@ Types getType(String path){
 class TaskItem{
 
   late String path;
-  late String encoder;
-  late String format;
+  late Encoders encoder;
+  late Formats format;
   late String? subtitle;
   late int? channel;
   late int? subtitleLine;
+  late Types type;
 
   TaskItem({required this.path}){
-    if(getType(path)==Types.video){
-      encoder='libx264';
-      format='mp4';
+    type=getType(path);
+    if(type==Types.video){
+      encoder=Encoders.libx264;
+      format=Formats.mp4;
       subtitle=null;
       channel=null;
       subtitleLine=null;
-    }else if(getType(path)==Types.audio){
-      encoder='aac';
-      format='mp3';
+    }else if(type==Types.audio){
+      encoder=Encoders.aac;
+      format=Formats.mp3;
       subtitle=null;
       channel=null;
       subtitleLine=null;
