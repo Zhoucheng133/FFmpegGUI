@@ -15,7 +15,7 @@ class ConfigPanel extends StatefulWidget {
 class _ConfigPanelState extends State<ConfigPanel> {
   
   final Controller c = Get.put(Controller());
-
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -109,11 +109,199 @@ class _ConfigPanelState extends State<ConfigPanel> {
                     onChanged: (value){
                       if(value!=null){
                         c.fileList[c.selectIndex.value].encoder=value;
+                        c.fileList.refresh();
                       }
                     },
                   ),
                 ],
               ),
+              const SizedBox(height: 10,),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 90,
+                    child: Text(
+                      '格式',
+                      style: GoogleFonts.notoSansSc(),
+                    ),
+                  ),
+                  ComboBox(
+                    value: c.fileList[c.selectIndex.value].format,
+                    items: [
+                      ComboBoxItem(
+                        value: Formats.mp4,
+                        enabled: c.fileList[c.selectIndex.value].type==Types.video,
+                        child: Text('mp4', style: GoogleFonts.notoSansSc(),),
+                      ),
+                      ComboBoxItem(
+                        value: Formats.mkv,
+                        enabled: c.fileList[c.selectIndex.value].type==Types.video,
+                        child: Text('mkv', style: GoogleFonts.notoSansSc(),),
+                      ),
+                      ComboBoxItem(
+                        value: Formats.flv,
+                        enabled: c.fileList[c.selectIndex.value].type==Types.video,
+                        child: Text('flv', style: GoogleFonts.notoSansSc(),),
+                      ),
+                      ComboBoxItem(
+                        value: Formats.mp3,
+                        enabled: c.fileList[c.selectIndex.value].type==Types.audio,
+                        child: Text('mp3', style: GoogleFonts.notoSansSc(),),
+                      ),
+                      ComboBoxItem(
+                        value: Formats.acc,
+                        enabled: c.fileList[c.selectIndex.value].type==Types.audio,
+                        child: Text('acc', style: GoogleFonts.notoSansSc(),),
+                      ),
+                      ComboBoxItem(
+                        value: Formats.wav,
+                        enabled: c.fileList[c.selectIndex.value].type==Types.audio,
+                        child: Text('wav', style: GoogleFonts.notoSansSc(),),
+                      ),
+                      ComboBoxItem(
+                        value: Formats.flac,
+                        enabled: c.fileList[c.selectIndex.value].type==Types.audio,
+                        child: Text('mp4', style: GoogleFonts.notoSansSc(),),
+                      ),
+                    ],
+                    onChanged: (value){
+                      if(value!=null){
+                        c.fileList[c.selectIndex.value].format=value;
+                        c.fileList.refresh();
+                      }
+                    },
+                  ),
+                ],
+              ),
+              c.fileList[c.selectIndex.value].type==Types.video ? const SizedBox(height: 10,) : Container(),
+              c.fileList[c.selectIndex.value].type==Types.video ? Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 90,
+                    child: Text(
+                      '视频轨道',
+                      style: GoogleFonts.notoSansSc(),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 200,
+                    child: NumberBox(
+                      min: 0,
+                      mode: SpinButtonPlacementMode.inline,
+                      value: c.fileList[c.selectIndex.value].videoTrack, 
+                      onChanged: (val){
+                        if(val!=null && val>=0){
+                          c.fileList[c.selectIndex.value].videoTrack=val;
+                          c.fileList.refresh();
+                        }
+                      }
+                    ),
+                  )
+                ]
+              ) : Container(),
+              c.fileList[c.selectIndex.value].type==Types.video ? const SizedBox(height: 10,) : Container(),
+              c.fileList[c.selectIndex.value].type==Types.video ? Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 90,
+                    child: Text(
+                      '音频轨道',
+                      style: GoogleFonts.notoSansSc(),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 200,
+                    child: NumberBox(
+                      min: 0,
+                      mode: SpinButtonPlacementMode.inline,
+                      value: c.fileList[c.selectIndex.value].audioTrack, 
+                      onChanged: (val){
+                        if(val!=null && val>=0){
+                          c.fileList[c.selectIndex.value].audioTrack=val;
+                          c.fileList.refresh();
+                        }
+                      }
+                    ),
+                  )
+                ]
+              ) : Container(),
+              const SizedBox(height: 10,),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 90,
+                    child: Text(
+                      '声道',
+                      style: GoogleFonts.notoSansSc(),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 200,
+                    child: NumberBox(
+                      mode: SpinButtonPlacementMode.inline,
+                      value: c.fileList[c.selectIndex.value].channel,
+                      min: 1,
+                      max: 6,
+                      onChanged: (val){
+                        if(val!=null){
+                          c.fileList[c.selectIndex.value].channel=val;
+                          c.fileList.refresh();
+                        }
+                      }
+                    ),
+                  )
+                ]
+              ),
+              const SizedBox(height: 10,),
+              c.fileList[c.selectIndex.value].type==Types.video ? Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 90,
+                    child: Text(
+                      '字幕轨道',
+                      style: GoogleFonts.notoSansSc(),
+                    ),
+                  ),
+                  Checkbox(
+                    checked: c.fileList[c.selectIndex.value].subtitleLine!=null, 
+                    onChanged: (val){
+                      if(val!=null){
+                        if(val==false){
+                          c.fileList[c.selectIndex.value].subtitleLine=null;
+                        }else{
+                          c.fileList[c.selectIndex.value].subtitleLine=0;
+                        }
+                        c.fileList.refresh();
+                      }
+                    },
+                    content: Text('使用字幕', style: GoogleFonts.notoSansSc(),),
+                  ),
+                  const SizedBox(width: 10,),
+                  SizedBox(
+                    width: 200,
+                    child: c.fileList[c.selectIndex.value].subtitleLine==null ? const NumberBox(
+                      mode: SpinButtonPlacementMode.inline,
+                      value: 0,
+                      onChanged: null,
+                    ) : NumberBox(
+                      mode: SpinButtonPlacementMode.inline,
+                      value: c.fileList[c.selectIndex.value].subtitleLine,
+                      min: 0,
+                      onChanged: (val){
+                        if(val!=null){
+                          c.fileList[c.selectIndex.value].subtitleLine=val;
+                          c.fileList.refresh();
+                        }
+                      }
+                    ),
+                  )
+                ]
+              ) : Container(),
             ],
           ) : Container()
         ),

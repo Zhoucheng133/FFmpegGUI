@@ -38,24 +38,26 @@ class TaskItem{
   late String path;
   late Encoders encoder;
   late Formats format;
-  late String? subtitle;
-  late int? channel;
+  // 声道数量
+  int channel=2;
+  // 字幕轨道
   late int? subtitleLine;
+  // 文件类型
   late Types type;
+  // 视频轨道
+  int videoTrack=0;
+  // 音频轨道
+  int audioTrack=0;
 
   TaskItem({required this.path}){
     type=getType(path);
     if(type==Types.video){
       encoder=Encoders.libx264;
       format=Formats.mp4;
-      subtitle=null;
-      channel=null;
       subtitleLine=null;
     }else if(type==Types.audio){
       encoder=Encoders.aac;
       format=Formats.mp3;
-      subtitle=null;
-      channel=null;
       subtitleLine=null;
     }
   }

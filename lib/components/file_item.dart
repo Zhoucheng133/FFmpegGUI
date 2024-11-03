@@ -26,24 +26,27 @@ class _FilePreviewState extends State<FilePreview> {
       onTap: (){
         c.selectIndex.value=widget.index;
       },
-      child: Padding(
-        padding: const EdgeInsets.only(right: 12),
-        child: Obx(()=>
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
-            decoration: BoxDecoration(
-              color: c.selectIndex.value==widget.index ? const Color.fromARGB(255, 223, 240, 198) : const Color.fromARGB(0, 223, 240, 198),
-              borderRadius: BorderRadius.circular(5)
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(top: 5, bottom: 5, left: 8, right: 8),
-              child: Text(
-                p.basename(widget.item.path),
-                style: GoogleFonts.notoSansSc(
-                  fontSize: 13,
+      child: SizedBox(
+        height: 50,
+        child: Padding(
+          padding: const EdgeInsets.only(right: 12),
+          child: Obx(()=>
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              decoration: BoxDecoration(
+                color: c.selectIndex.value==widget.index ? const Color.fromARGB(255, 223, 240, 198) : const Color.fromARGB(0, 223, 240, 198),
+                borderRadius: BorderRadius.circular(5)
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 5, bottom: 5, left: 8, right: 8),
+                child: Text(
+                  p.basename(widget.item.path),
+                  style: GoogleFonts.notoSansSc(
+                    fontSize: 13,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
               ),
             ),
           ),
