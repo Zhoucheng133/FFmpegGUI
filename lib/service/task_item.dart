@@ -60,6 +60,10 @@ class TaskItem{
       encoder=Encoders.libmp3lame;
       format=Formats.mp3;
       subtitleLine=null;
+    }else{
+      encoder=Encoders.libx264;
+      format=Formats.mp4;
+      subtitleLine=null;
     }
   }
 }

@@ -34,12 +34,22 @@ class Task {
   }
 
   void stop(){
+    if(!c.running.value){
+      return;
+    }
     stopTask=true;
     try {
       shell.kill();
       c.running.value=false;
       c.log.value=[];
     } catch (_) {}
+  }
+
+  String convertName(int index){
+    if(c.fileList[index].path.startsWith("http")){
+      return c.fileList[index].path;
+    }
+    return p.basename(c.fileList[index].path);
   }
 
   void log(BuildContext context){
@@ -54,7 +64,7 @@ class Task {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '正在执行的任务: ${c.running.value ? runIndex==-1 ? p.basename(c.fileList[c.selectIndex.value].path) : p.basename(c.fileList[runIndex].path) : '/'}',
+                '正在执行的任务: ${c.running.value ? runIndex==-1 ? convertName(c.selectIndex.value) : convertName(runIndex) : '/'}',
                 style: GoogleFonts.notoSansSc(
                   fontWeight: FontWeight.bold
                 ),
@@ -111,8 +121,55 @@ class Task {
     return encoder.toString().split('.').last;
   }
 
+  Future<void> mainService(int? index) async {
+    TaskItem item=c.fileList[index??c.selectIndex.value];
+    String outputPath='';
+    String fileName='';
+    String workDirectory='';
+    controller=ShellLinesController();
+    if(item.path.startsWith('http')){
+      outputPath = p.join(c.output.value, 'index${index ?? c.selectIndex.value}.${item.format.toString().split('.').last}');
+      fileName=item.path;
+      shell=Shell(stdout: controller.sink, stderr: controller.sink);
+    }else{
+      outputPath = p.join(c.output.value, '${removeExtension(p.basename(item.path))}.${item.format.toString().split('.').last}');
+      fileName=p.basename(item.path);
+      workDirectory=p.dirname(item.path);
+      shell=Shell(stdout: controller.sink, stderr: controller.sink, workingDirectory: workDirectory);
+    }
+    String output=outputPath.replaceAll('\\', '/');
+    runIndex=index??-1;
+    var cmd='';
+    if(item.type==Types.video){
+      cmd='''
+ffmpeg -i "$fileName" -c:v ${convertEncoder(item.encoder)} -ac ${item.channel} -map 0:v:${item.videoTrack} -map 0:a:${item.audioTrack} ${subtitle(fileName)} "$output"
+''';
+    }else if(item.type==Types.audio){
+      cmd='''
+ffmpeg -i "$fileName" -c:a ${item.encoder.toString().split('.').last} -ac ${item.channel} "$output"
+''';
+    }else{
+      cmd='''
+ffmpeg -i "$fileName" "$output"
+''';
+    }
+    print(cmd);
+    try {
+      c.running.value=true;
+      controller.stream.listen((event){
+        if(c.log.length>=50){
+          c.log.removeAt(0);
+        }
+        c.log.insert(0, event);
+      });
+      await shell.run(cmd);
+    } on ShellException catch (_) {}
+  }
+
   Future<void> multiRun(BuildContext context) async {
-    if(c.output.isEmpty){
+    if(c.running.value || c.fileList.isEmpty){
+      return;
+    }else if(c.output.isEmpty){
       simpleDialog('启动失败', '输出目录不能为空', context);
       return;
     }
@@ -129,42 +186,16 @@ class Task {
       if(stopTask){
         break;
       }
-      String outputPath = p.join(c.output.value, '${removeExtension(p.basename(c.fileList[index].path))}.${c.fileList[index].format.toString().split('.').last}');
-      String output=outputPath.replaceAll('\\', '/');
-      String fileName=p.basename(c.fileList[index].path);
-      String workDirectory=p.dirname(c.fileList[index].path);
-      controller=ShellLinesController();
-      shell=Shell(stdout: controller.sink, stderr: controller.sink, workingDirectory: workDirectory);
-      runIndex=index;
-      var cmd='';
-      if(c.fileList[index].type==Types.video){
-        cmd='''
-ffmpeg -i "$fileName" -c:v ${convertEncoder(c.fileList[index].encoder)} -ac ${c.fileList[index].channel} -map 0:v:${c.fileList[index].videoTrack} -map 0:a:${c.fileList[index].audioTrack} ${subtitle(fileName)} "$output"
-''';
-      }else{
-        cmd='''
-ffmpeg -i "$fileName" -c:a ${c.fileList[index].encoder.toString().split('.').last} -ac ${c.fileList[index].channel} "$output"
-''';
-      }
-      print(cmd);
-      try {
-        c.running.value=true;
-        controller.stream.listen((event){
-          if(c.log.length>=50){
-            c.log.removeAt(0);
-          }
-          c.log.insert(0, event);
-        });
-        await shell.run(cmd);
-      } on ShellException catch (_) {}
+      await mainService(index);
     }
     c.running.value=false;
     stopTask=false;
   }
 
   Future<void> singleRun(BuildContext context) async {
-
-    if(c.output.isEmpty){
+    if(c.running.value || c.fileList.isEmpty){
+      return;
+    }else if(c.output.isEmpty){
       simpleDialog('启动失败', '输出目录不能为空', context);
       return;
     }
@@ -175,36 +206,8 @@ ffmpeg -i "$fileName" -c:a ${c.fileList[index].encoder.toString().split('.').las
       return;
     }
     c.log.value=[];
-    String output=outputPath.replaceAll('\\', '/');
-    String fileName=p.basename(c.fileList[c.selectIndex.value].path);
-    String workDirectory=p.dirname(c.fileList[c.selectIndex.value].path);
-    controller=ShellLinesController();
-    shell=Shell(stdout: controller.sink, stderr: controller.sink, workingDirectory: workDirectory);
-    var cmd='';
-    runIndex=-1;
-    if(c.fileList[c.selectIndex.value].type==Types.video){
-      cmd='''
-ffmpeg -i "$fileName" -c:v ${convertEncoder(c.fileList[c.selectIndex.value].encoder)} -ac ${c.fileList[c.selectIndex.value].channel} -map 0:v:${c.fileList[c.selectIndex.value].videoTrack} -map 0:a:${c.fileList[c.selectIndex.value].audioTrack} ${subtitle(fileName)} "$output"
-''';
-    }else{
-      cmd='''
-ffmpeg -i "$fileName" -c:a ${c.fileList[c.selectIndex.value].encoder.toString().split('.').last} -ac ${c.fileList[c.selectIndex.value].channel} "$output"
-''';
-    }
-    // print(cmd);
-    try {
-      c.running.value=true;
-      controller.stream.listen((event){
-        if(c.log.length>=50){
-          c.log.removeAt(0);
-        }
-        c.log.insert(0, event);
-        // print(event);
-      });
-      await shell.run(cmd);
-      c.running.value=false;
-    } on ShellException catch (_) {
-      c.running.value=false;
-    }
+    await mainService(null);
+    c.running.value=false;
+    stopTask=false;
   }
 }
