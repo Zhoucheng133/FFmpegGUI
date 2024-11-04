@@ -36,6 +36,7 @@ class Task {
     try {
       shell.kill();
       c.running.value=false;
+      c.log.value=[];
     } catch (_) {}
     
   }
@@ -48,11 +49,32 @@ class Task {
         content: SizedBox(
           height: 300,
           width: 500,
-          child: Obx(()=>ListView.builder(
-            itemCount: c.log.length,
-            itemBuilder: (context, index)=>Text(
-              c.log[index]
-            ),
+          child: Obx(()=>Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                // '正在执行的任务: ${c.running.value ? p.basename(c.fileList[c.selectIndex.value].path) : '/'}',
+                '正在执行的任务: \n${p.basename(c.fileList[c.selectIndex.value].path)}',
+                style: GoogleFonts.notoSansSc(
+                  fontWeight: FontWeight.bold
+                ),
+                textAlign: TextAlign.left,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              const Padding(
+                padding: EdgeInsets.only(top: 5, bottom: 5),
+                child: Divider(),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: c.log.length,
+                  itemBuilder: (context, index)=>Text(
+                    c.log[index]
+                  ),
+                ),
+              ),
+            ],
           ))
         ),
         actions: [
@@ -123,11 +145,14 @@ ffmpeg -i "$fileName" -c:a ${c.fileList[c.selectIndex.value].encoder.toString().
         if(c.log.length>=50){
           c.log.removeAt(0);
         }
-        c.log.add(event);
+        c.log.insert(0, event);
+        // print(event);
       });
       await shell.run(cmd);
       c.running.value=false;
+      c.log.value=[];
     } on ShellException catch (_) {
+      c.log.value=[];
       c.running.value=false;
     }
   }
