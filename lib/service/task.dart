@@ -82,6 +82,13 @@ class Task {
     return '''-vf "subtitles='$fileName':si=${c.fileList[c.selectIndex.value].subtitleLine}"''';
   }
 
+  String convertEncoder(Encoders encoder){
+    if(encoder==Encoders.libaomav1){
+      return 'libaom-av1';
+    }
+    return encoder.toString().split('.').last;
+  }
+
   Future<void> singleRun(BuildContext context) async {
 
     if(c.output.isEmpty){
@@ -102,7 +109,7 @@ class Task {
     var cmd='';
     if(c.fileList[c.selectIndex.value].type==Types.video){
       cmd='''
-ffmpeg -i "$fileName" -c:v ${c.fileList[c.selectIndex.value].encoder.toString().split('.').last} -ac ${c.fileList[c.selectIndex.value].channel} -map 0:v:${c.fileList[c.selectIndex.value].videoTrack} -map 0:a:${c.fileList[c.selectIndex.value].audioTrack} ${subtitle(fileName)} "$output"
+ffmpeg -i "$fileName" -c:v ${convertEncoder(c.fileList[c.selectIndex.value].encoder)} -ac ${c.fileList[c.selectIndex.value].channel} -map 0:v:${c.fileList[c.selectIndex.value].videoTrack} -map 0:a:${c.fileList[c.selectIndex.value].audioTrack} ${subtitle(fileName)} "$output"
 ''';
     }else{
       cmd='''
