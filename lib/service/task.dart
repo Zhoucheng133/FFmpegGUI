@@ -53,8 +53,8 @@ class Task {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                // '正在执行的任务: ${c.running.value ? p.basename(c.fileList[c.selectIndex.value].path) : '/'}',
-                '正在执行的任务: \n${p.basename(c.fileList[c.selectIndex.value].path)}',
+                '正在执行的任务: ${c.running.value ? p.basename(c.fileList[c.selectIndex.value].path) : '/'}',
+                // '正在执行的任务: \n${p.basename(c.fileList[c.selectIndex.value].path)}',
                 style: GoogleFonts.notoSansSc(
                   fontWeight: FontWeight.bold
                 ),
@@ -138,7 +138,7 @@ ffmpeg -i "$fileName" -c:v ${convertEncoder(c.fileList[c.selectIndex.value].enco
 ffmpeg -i "$fileName" -c:a ${c.fileList[c.selectIndex.value].encoder.toString().split('.').last} -ac ${c.fileList[c.selectIndex.value].channel} "$output"
 ''';
     }
-    print(cmd);
+    // print(cmd);
     try {
       c.running.value=true;
       controller.stream.listen((event){

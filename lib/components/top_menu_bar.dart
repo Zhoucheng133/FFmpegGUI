@@ -63,7 +63,7 @@ class _TopMenuBarState extends State<TopMenuBar> {
           TopMenuBarItem(title: '添加文件', icon: Icons.add_rounded, func: ()=>pickFile(), enable: !c.running.value),
           TopMenuBarItem(title: '添加目录', icon: Icons.add_rounded, func: ()=>pickDir(), enable: !c.running.value),
           TopMenuBarItem(title: '开始当前任务', icon: Icons.play_arrow_rounded, func: ()=>task.singleRun(context), enable: !c.running.value),
-          // Obx(()=>TopMenuBarItem(title: '开始所有任务', icon: Icons.play_arrow_rounded, func: (){}, enable: false)),
+          TopMenuBarItem(title: '开始所有任务', icon: Icons.play_arrow_rounded, func: (){}, enable: false),
           TopMenuBarItem(title: '停止', icon: Icons.stop_rounded, func: ()=>task.stop(), enable: c.running.value),
           TopMenuBarItem(title: '日志', icon: Icons.content_paste_rounded, func: ()=>task.log(context), enable: true),
         ],
