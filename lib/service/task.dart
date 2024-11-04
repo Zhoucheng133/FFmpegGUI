@@ -153,7 +153,7 @@ ffmpeg -i "$fileName" -c:a ${item.encoder.toString().split('.').last} -ac ${item
 ffmpeg -i "$fileName" "$output"
 ''';
     }
-    print(cmd);
+    // print(cmd);
     try {
       c.running.value=true;
       controller.stream.listen((event){
