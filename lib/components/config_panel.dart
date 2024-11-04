@@ -31,12 +31,13 @@ class _ConfigPanelState extends State<ConfigPanel> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                p.basename(c.fileList[c.selectIndex.value].path),
+                c.fileList[c.selectIndex.value].path.startsWith('http') ? c.fileList[c.selectIndex.value].path : p.basename(c.fileList[c.selectIndex.value].path),
                 maxLines: 2,
                 style: GoogleFonts.notoSansSc(
                   fontSize: 16,
                   fontWeight: FontWeight.bold
                 ),
+                overflow: TextOverflow.ellipsis,
               ),
               const SizedBox(height: 10,),
               Row(
@@ -57,7 +58,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                 ],
               ),
               const SizedBox(height: 10,),
-              Row(
+              c.fileList[c.selectIndex.value].type!=Types.none ? Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
@@ -119,7 +120,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                     },
                   ),
                 ],
-              ),
+              ):Container(),
               const SizedBox(height: 10,),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,

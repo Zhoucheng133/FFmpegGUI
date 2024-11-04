@@ -48,10 +48,10 @@ class _TopMenuBarItemState extends State<TopMenuBarItem> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
-                  widget.icon, size: 20, 
+                  widget.icon, size: 12, 
                   color: widget.enable ? Colors.grey[800] : Colors.grey[400],
                 ),
-                widget.title.isNotEmpty ? const SizedBox(width: 5,) : Container(),
+                widget.title.isNotEmpty ? const SizedBox(width: 8,) : Container(),
                 widget.title.isNotEmpty ? Text(
                   widget.title, 
                   style: GoogleFonts.notoSansSc(

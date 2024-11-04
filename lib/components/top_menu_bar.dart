@@ -5,8 +5,10 @@ import 'package:ffmpeg_gui/service/task.dart';
 import 'package:ffmpeg_gui/service/task_item.dart';
 import 'package:ffmpeg_gui/service/variables.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class TopMenuBar extends StatefulWidget {
   const TopMenuBar({super.key});
@@ -30,6 +32,9 @@ class _TopMenuBarState extends State<TopMenuBar> {
   }
 
   Future<void> pickFile() async {
+    if(c.running.value){
+      return;
+    }
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['mp3', 'mp4', 'mkv', 'flv', 'acc', 'flac', 'wav']
@@ -41,6 +46,9 @@ class _TopMenuBarState extends State<TopMenuBar> {
   }
 
   Future<void> pickDir() async {
+    if(c.running.value){
+      return;
+    }
     String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
     if(selectedDirectory!=null){
       final directory = Directory(selectedDirectory);
@@ -54,18 +62,54 @@ class _TopMenuBarState extends State<TopMenuBar> {
     }
   }
 
+  void pickNetwork(BuildContext context){
+    if(c.running.value){
+      return;
+    }
+    TextEditingController controller=TextEditingController();
+    showDialog(
+      context: context, 
+      builder: (context)=>ContentDialog(
+        title: Text('添加任务来自网络', style: GoogleFonts.notoSansSc(),),
+        content: SizedBox(
+          height: 100,
+          child: TextBox(
+            controller: controller,
+            style: GoogleFonts.notoSansSc(),
+            placeholder: 'http(s)://',
+            textAlignVertical: TextAlignVertical.top,
+            maxLines: null,
+          ),
+        ),
+        actions: [
+          Button(
+            child: Text('取消', style: GoogleFonts.notoSansSc(),), 
+            onPressed: ()=>Navigator.pop(context)
+          ),
+          FilledButton(
+            child: Text('添加', style: GoogleFonts.notoSansSc(),),
+            onPressed: (){
+              c.fileList.add(TaskItem(path: controller.text));
+              Navigator.pop(context);
+            }
+          )
+        ],
+      )
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Obx(()=>
       Row(
         children: [
-          TopMenuBarItem(title: '添加文件', icon: Icons.add_rounded, func: ()=>pickFile(), enable: !c.running.value),
-          TopMenuBarItem(title: '添加目录', icon: Icons.add_rounded, func: ()=>pickDir(), enable: !c.running.value),
-          TopMenuBarItem(title: '开始当前任务', icon: Icons.play_arrow_rounded, func: ()=>task.singleRun(context), enable: !c.running.value),
-          TopMenuBarItem(title: '开始所有任务', icon: Icons.play_arrow_rounded, func: ()=>task.multiRun(context), enable: !c.running.value),
-          TopMenuBarItem(title: '停止', icon: Icons.stop_rounded, func: ()=>task.stop(), enable: c.running.value),
-          TopMenuBarItem(title: '日志', icon: Icons.content_paste_rounded, func: ()=>task.log(context), enable: true),
+          TopMenuBarItem(title: '来自网络', icon: FontAwesomeIcons.link, func: ()=>pickNetwork(context), enable: !c.running.value),
+          TopMenuBarItem(title: '添加文件', icon: FontAwesomeIcons.plus, func: ()=>pickFile(), enable: !c.running.value),
+          TopMenuBarItem(title: '添加目录', icon: FontAwesomeIcons.plus, func: ()=>pickDir(), enable: !c.running.value),
+          TopMenuBarItem(title: '开始当前任务', icon: FontAwesomeIcons.play, func: ()=>task.singleRun(context), enable: !c.running.value && c.fileList.isNotEmpty),
+          TopMenuBarItem(title: '开始所有任务', icon: FontAwesomeIcons.play, func: ()=>task.multiRun(context), enable: !c.running.value && c.fileList.isNotEmpty),
+          TopMenuBarItem(title: '停止', icon: FontAwesomeIcons.stop, func: ()=>task.stop(), enable: c.running.value),
+          TopMenuBarItem(title: '日志', icon: FontAwesomeIcons.clipboard, func: ()=>task.log(context), enable: true),
         ],
       ),
     );
