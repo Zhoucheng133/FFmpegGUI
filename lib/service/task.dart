@@ -13,6 +13,7 @@ class Task {
   final Controller c = Get.put(Controller());
   late ShellLinesController controller;
   bool stopTask=false;
+  int runIndex=-1;
 
   void simpleDialog(String title, String content, BuildContext context){
     showDialog(
@@ -33,12 +34,12 @@ class Task {
   }
 
   void stop(){
+    stopTask=true;
     try {
       shell.kill();
       c.running.value=false;
       c.log.value=[];
     } catch (_) {}
-    
   }
 
   void log(BuildContext context){
@@ -53,8 +54,7 @@ class Task {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '正在执行的任务: ${c.running.value ? p.basename(c.fileList[c.selectIndex.value].path) : '/'}',
-                // '正在执行的任务: \n${p.basename(c.fileList[c.selectIndex.value].path)}',
+                '正在执行的任务: ${c.running.value ? runIndex==-1 ? p.basename(c.fileList[c.selectIndex.value].path) : p.basename(c.fileList[runIndex].path) : '/'}',
                 style: GoogleFonts.notoSansSc(
                   fontWeight: FontWeight.bold
                 ),
@@ -111,6 +111,57 @@ class Task {
     return encoder.toString().split('.').last;
   }
 
+  Future<void> multiRun(BuildContext context) async {
+    if(c.output.isEmpty){
+      simpleDialog('启动失败', '输出目录不能为空', context);
+      return;
+    }
+    for(int index=0; index<c.fileList.length; index++){
+      String outputPath = p.join(c.output.value, '${removeExtension(p.basename(c.fileList[index].path))}.${c.fileList[index].format.toString().split('.').last}');
+      File file = File(outputPath);
+      if(file.existsSync()){
+        simpleDialog('启动失败', '输出目录下存在相同文件: $outputPath', context);
+        return;
+      }
+    }
+    c.log.value=[];
+    for(int index=0; index<c.fileList.length; index++){
+      if(stopTask){
+        break;
+      }
+      String outputPath = p.join(c.output.value, '${removeExtension(p.basename(c.fileList[index].path))}.${c.fileList[index].format.toString().split('.').last}');
+      String output=outputPath.replaceAll('\\', '/');
+      String fileName=p.basename(c.fileList[index].path);
+      String workDirectory=p.dirname(c.fileList[index].path);
+      controller=ShellLinesController();
+      shell=Shell(stdout: controller.sink, stderr: controller.sink, workingDirectory: workDirectory);
+      runIndex=index;
+      var cmd='';
+      if(c.fileList[index].type==Types.video){
+        cmd='''
+ffmpeg -i "$fileName" -c:v ${convertEncoder(c.fileList[index].encoder)} -ac ${c.fileList[index].channel} -map 0:v:${c.fileList[index].videoTrack} -map 0:a:${c.fileList[index].audioTrack} ${subtitle(fileName)} "$output"
+''';
+      }else{
+        cmd='''
+ffmpeg -i "$fileName" -c:a ${c.fileList[index].encoder.toString().split('.').last} -ac ${c.fileList[index].channel} "$output"
+''';
+      }
+      print(cmd);
+      try {
+        c.running.value=true;
+        controller.stream.listen((event){
+          if(c.log.length>=50){
+            c.log.removeAt(0);
+          }
+          c.log.insert(0, event);
+        });
+        await shell.run(cmd);
+      } on ShellException catch (_) {}
+    }
+    c.running.value=false;
+    stopTask=false;
+  }
+
   Future<void> singleRun(BuildContext context) async {
 
     if(c.output.isEmpty){
@@ -123,12 +174,14 @@ class Task {
       simpleDialog('启动失败', '输出目录下存在相同文件', context);
       return;
     }
+    c.log.value=[];
     String output=outputPath.replaceAll('\\', '/');
     String fileName=p.basename(c.fileList[c.selectIndex.value].path);
     String workDirectory=p.dirname(c.fileList[c.selectIndex.value].path);
     controller=ShellLinesController();
     shell=Shell(stdout: controller.sink, stderr: controller.sink, workingDirectory: workDirectory);
     var cmd='';
+    runIndex=-1;
     if(c.fileList[c.selectIndex.value].type==Types.video){
       cmd='''
 ffmpeg -i "$fileName" -c:v ${convertEncoder(c.fileList[c.selectIndex.value].encoder)} -ac ${c.fileList[c.selectIndex.value].channel} -map 0:v:${c.fileList[c.selectIndex.value].videoTrack} -map 0:a:${c.fileList[c.selectIndex.value].audioTrack} ${subtitle(fileName)} "$output"
@@ -150,9 +203,7 @@ ffmpeg -i "$fileName" -c:a ${c.fileList[c.selectIndex.value].encoder.toString().
       });
       await shell.run(cmd);
       c.running.value=false;
-      c.log.value=[];
     } on ShellException catch (_) {
-      c.log.value=[];
       c.running.value=false;
     }
   }
