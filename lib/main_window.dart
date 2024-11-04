@@ -112,7 +112,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                   child: TextBox(
                     controller: output,
                     enabled: false,
-                    style: const TextStyle(
+                    style: GoogleFonts.notoSansSc(
                       fontSize: 14
                     ),
                     autocorrect: false,
