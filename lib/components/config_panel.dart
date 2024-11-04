@@ -146,7 +146,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                       ),
                       ComboBoxItem(
                         value: Formats.flv,
-                        enabled: c.fileList[c.selectIndex.value].type==Types.video,
+                        enabled: c.fileList[c.selectIndex.value].type==Types.video && c.fileList[c.selectIndex.value].encoder!=Encoders.libaomav1,
                         child: Text('flv', style: GoogleFonts.notoSansSc(),),
                       ),
                       ComboBoxItem(
