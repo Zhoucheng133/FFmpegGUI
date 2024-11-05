@@ -49,6 +49,8 @@ class TaskItem{
   int videoTrack=0;
   // 音频轨道
   int audioTrack=0;
+  // 输出方式
+  late Types outType;
 
   TaskItem({required this.path}){
     type=getType(path);
@@ -56,11 +58,14 @@ class TaskItem{
       encoder=Encoders.libx264;
       format=Formats.mp4;
       subtitleLine=null;
+      outType=Types.video;
     }else if(type==Types.audio){
       encoder=Encoders.libmp3lame;
       format=Formats.mp3;
       subtitleLine=null;
+      outType=Types.audio;
     }else{
+      outType=Types.video;
       encoder=Encoders.libx264;
       format=Formats.mp4;
       subtitleLine=null;

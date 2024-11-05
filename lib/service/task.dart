@@ -140,11 +140,11 @@ class Task {
     String output=outputPath.replaceAll('\\', '/');
     runIndex=index??-1;
     var cmd='';
-    if(item.type==Types.video){
+    if(item.outType==Types.video){
       cmd='''
 ffmpeg -i "$fileName" -c:v ${convertEncoder(item.encoder)} -ac ${item.channel} -map 0:v:${item.videoTrack} -map 0:a:${item.audioTrack} ${subtitle(fileName)} "$output"
 ''';
-    }else if(item.type==Types.audio){
+    }else if(item.outType==Types.audio){
       cmd='''
 ffmpeg -i "$fileName" -c:a ${item.encoder.toString().split('.').last} -ac ${item.channel} "$output"
 ''';
