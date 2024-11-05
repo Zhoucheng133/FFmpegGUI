@@ -8,6 +8,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:process_run/which.dart';
 
@@ -20,8 +21,17 @@ class MainWindow extends StatefulWidget {
 
 class _MainWindowState extends State<MainWindow> with WindowListener {
 
-  void init(){
+  late SharedPreferences prefs;
+
+  Future<void> init() async {
     var ffmpegExectutable = whichSync('ffmpeg');
+    prefs = await SharedPreferences.getInstance();
+    final prefOutput=prefs.getString('output');
+    if(prefOutput!=null){
+      output.text=prefOutput;
+      c.output.value=prefOutput;
+      c.output.refresh();
+    }
     if(ffmpegExectutable==null){
       WidgetsBinding.instance.addPostFrameCallback((_) {
         showDialog(
@@ -61,6 +71,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
         output.text=selectedDirectory;
       });
       c.output.value=selectedDirectory;
+      prefs.setString('output', output.text);
     }
   }
 
