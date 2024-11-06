@@ -4,6 +4,12 @@ enum Types{
   none,
 }
 
+enum Status{
+  wait,
+  process,
+  finished,
+}
+
 enum Formats{
   mp4,
   mkv,
@@ -51,6 +57,7 @@ class TaskItem{
   int audioTrack=0;
   // 输出方式
   late Types outType;
+  Status status=Status.wait;
 
   TaskItem({required this.path}){
     type=getType(path);

@@ -1,6 +1,7 @@
 import 'package:ffmpeg_gui/service/task_item.dart';
 import 'package:ffmpeg_gui/service/variables.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:path/path.dart' as p;
@@ -80,13 +81,30 @@ class _FilePreviewState extends State<FilePreview> {
               ),
               child: Padding(
                 padding: const EdgeInsets.only(top: 5, bottom: 5, left: 8, right: 8),
-                child: Text(
-                  p.basename(widget.item.path),
-                  style: GoogleFonts.notoSansSc(
-                    fontSize: 13,
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+                child: Row(
+                  children: [
+                    widget.item.status==Status.wait ? const FaIcon(
+                      FontAwesomeIcons.clock,
+                      size: 13,
+                    ) : widget.item.status==Status.finished ? const FaIcon(
+                      FontAwesomeIcons.circleCheck,
+                      size: 13,
+                    ) : const FaIcon(
+                      FontAwesomeIcons.hourglassHalf,
+                      size: 13,
+                    ),
+                    const SizedBox(width: 7,),
+                    Expanded(
+                      child: Text(
+                        p.basename(widget.item.path),
+                        style: GoogleFonts.notoSansSc(
+                          fontSize: 13,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
