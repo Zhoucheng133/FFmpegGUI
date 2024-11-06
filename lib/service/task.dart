@@ -162,7 +162,11 @@ ffmpeg -i "$fileName" "$output"
         }
         c.log.insert(0, event);
       });
+      c.fileList[index??c.selectIndex.value].status=Status.process;
+      c.fileList.refresh();
       await shell.run(cmd);
+      c.fileList[index??c.selectIndex.value].status=Status.finished;
+      c.fileList.refresh();
     } on ShellException catch (_) {}
   }
 
