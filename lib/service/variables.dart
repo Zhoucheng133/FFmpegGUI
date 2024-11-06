@@ -9,4 +9,6 @@ class Controller extends GetxController{
   var fileList=<TaskItem>[].obs;
   RxInt selectIndex=0.obs;
   RxString output=''.obs;
+
+  String version='0.2.0';
 }

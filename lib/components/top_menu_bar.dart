@@ -9,6 +9,7 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TopMenuBar extends StatefulWidget {
   const TopMenuBar({super.key});
@@ -98,6 +99,76 @@ class _TopMenuBarState extends State<TopMenuBar> {
     );
   }
 
+  void showAbout(BuildContext context){
+    showDialog(
+      context: context, 
+      builder: (context)=>ContentDialog(
+        title: Text('关于FFmpeg GUI', style: GoogleFonts.notoSansSc(),),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Align(
+              alignment: Alignment.center,
+              child: SizedBox(
+                width: 100,
+                height: 100,
+                child: Image.asset('assets/icon.png')
+              ),
+            ),
+            Text(
+              'FFmpeg GUI', 
+              style: GoogleFonts.notoSansSc(
+                fontWeight: FontWeight.bold,
+                fontSize: 20
+              ),
+            ),
+            const SizedBox(height: 10,),
+            Text(
+              c.version,
+              style: GoogleFonts.notoSansSc(
+                color: Colors.grey[80],
+              ),
+            ),
+            const SizedBox(height: 15,),
+            GestureDetector(
+              onTap: () async {
+                final Uri url = Uri.parse('https://github.com/Zhoucheng133/FFmpegGUI');
+                await launchUrl(url);
+              },
+              child: MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const FaIcon(
+                      FontAwesomeIcons.github,
+                      size: 15,
+                    ),
+                    const SizedBox(width: 5,),
+                    Text(
+                      '本项目地址',
+                      style:  GoogleFonts.notoSansSc(),
+                    )
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
+        actions: [
+          FilledButton(
+            child: Text('好的', style: GoogleFonts.notoSansSc(),), 
+            onPressed: (){
+              Navigator.pop(context);
+            }
+          )
+        ],
+      )
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Obx(()=>
@@ -110,6 +181,8 @@ class _TopMenuBarState extends State<TopMenuBar> {
           TopMenuBarItem(title: '开始所有任务', icon: FontAwesomeIcons.play, func: ()=>task.multiRun(context), enable: !c.running.value && c.fileList.isNotEmpty),
           TopMenuBarItem(title: '停止', icon: FontAwesomeIcons.stop, func: ()=>task.stop(), enable: c.running.value),
           TopMenuBarItem(title: '日志', icon: FontAwesomeIcons.clipboard, func: ()=>task.log(context), enable: true),
+          Expanded(child: Container()),
+          TopMenuBarItem(title: '关于', icon: FontAwesomeIcons.circleInfo, func: ()=>showAbout(context), enable: true),
         ],
       ),
     );
