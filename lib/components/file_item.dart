@@ -34,19 +34,35 @@ class _FilePreviewState extends State<FilePreview> {
         position.dy + 50,
       ),
       items: [
-        const PopupMenuItem(
+        PopupMenuItem(
           value: "del",
           height: 35,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Icon(
+              const Icon(
                 Icons.delete_rounded,
                 size: 18,
               ),
-              SizedBox(width: 5),
-              Text('删除'),
+              const SizedBox(width: 5),
+              Text('删除', style: GoogleFonts.notoSansSc(),),
+            ],
+          ),
+        ),
+        if(c.fileList[widget.index].status==Status.finished) PopupMenuItem(
+          value: "reset",
+          height: 35,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.delete_rounded,
+                size: 18,
+              ),
+              const SizedBox(width: 5),
+              Text('重置状态', style: GoogleFonts.notoSansSc()),
             ],
           ),
         ),
@@ -57,6 +73,9 @@ class _FilePreviewState extends State<FilePreview> {
         c.selectIndex.value=0;
       }
       c.fileList.removeAt(widget.index);
+      c.fileList.refresh();
+    }else if(val=='reset'){
+      c.fileList[widget.index].status=Status.wait;
       c.fileList.refresh();
     }
   }
