@@ -167,7 +167,9 @@ ffmpeg -i "$fileName" "$output"
       await shell.run(cmd);
       c.fileList[index??c.selectIndex.value].status=Status.finished;
       c.fileList.refresh();
-    } on ShellException catch (_) {}
+    } on ShellException catch (_) {
+      c.fileList[index??c.selectIndex.value].status=Status.wait;
+    }
   }
 
   Future<void> multiRun(BuildContext context) async {
@@ -177,16 +179,19 @@ ffmpeg -i "$fileName" "$output"
       simpleDialog('启动失败', '输出目录不能为空', context);
       return;
     }
+    c.log.value=[];
     for(int index=0; index<c.fileList.length; index++){
       String outputPath = p.join(c.output.value, '${removeExtension(p.basename(c.fileList[index].path))}.${c.fileList[index].format.toString().split('.').last}');
       File file = File(outputPath);
-      if(file.existsSync()){
-        simpleDialog('启动失败', '输出目录下存在相同文件: $outputPath', context);
-        return;
+      if(c.fileList[index].status==Status.finished){
+        continue;
       }
-    }
-    c.log.value=[];
-    for(int index=0; index<c.fileList.length; index++){
+      if(file.existsSync()){
+        if(context.mounted){
+          simpleDialog('启动失败', '输出目录下存在相同文件: $outputPath', context);
+        }
+        continue;
+      }
       if(stopTask){
         break;
       }
@@ -201,6 +206,9 @@ ffmpeg -i "$fileName" "$output"
       return;
     }else if(c.output.isEmpty){
       simpleDialog('启动失败', '输出目录不能为空', context);
+      return;
+    }else if(c.fileList[c.selectIndex.value].status==Status.finished){
+      simpleDialog('启动失败', '当前任务已完成', context);
       return;
     }
     String outputPath = p.join(c.output.value, '${removeExtension(p.basename(c.fileList[c.selectIndex.value].path))}.${c.fileList[c.selectIndex.value].format.toString().split('.').last}');
