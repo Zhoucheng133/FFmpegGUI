@@ -169,6 +169,7 @@ ffmpeg -i "$fileName" "$output"
       c.fileList.refresh();
     } on ShellException catch (_) {
       c.fileList[index??c.selectIndex.value].status=Status.wait;
+      c.fileList.refresh();
     }
   }
 
