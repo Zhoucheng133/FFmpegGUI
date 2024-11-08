@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:ffmpeg_gui/service/task_item.dart';
@@ -126,7 +127,7 @@ class Task {
     String outputPath='';
     String fileName='';
     String workDirectory='';
-    controller=ShellLinesController();
+    controller=ShellLinesController(encoding: utf8);
     if(item.path.startsWith('http')){
       outputPath = p.join(c.output.value, 'index${index ?? c.selectIndex.value}.${item.format.toString().split('.').last}');
       fileName=item.path;
