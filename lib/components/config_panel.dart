@@ -1,6 +1,7 @@
 import 'package:ffmpeg_gui/service/task_item.dart';
 import 'package:ffmpeg_gui/service/variables.dart';
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:path/path.dart' as p;
@@ -219,6 +220,68 @@ class _ConfigPanelState extends State<ConfigPanel> {
                 ],
               ),
               c.fileList[c.selectIndex.value].type==Types.video ? const SizedBox(height: 10,) : Container(),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 90,
+                    child: Text(
+                      '大小',
+                      style: GoogleFonts.notoSansSc(),
+                    ),
+                  ),
+                  Checkbox(
+                    checked: (c.fileList[c.selectIndex.value].width!=null || c.fileList[c.selectIndex.value].height!=null), 
+                    onChanged: (val){
+                      if(val!=null){
+                        if(val==false){
+                          c.fileList[c.selectIndex.value].height=null;
+                          c.fileList[c.selectIndex.value].width=null;
+                        }else{
+                          c.fileList[c.selectIndex.value].height=1080;
+                          c.fileList[c.selectIndex.value].width=1920;
+                        }
+                        c.fileList.refresh();
+                      }
+                    },
+                    content: Text('指定大小', style: GoogleFonts.notoSansSc(),),
+                  ),
+                  const SizedBox(width: 10,),
+                  SizedBox(
+                    width: 130,
+                    child: NumberBox(
+                      value: c.fileList[c.selectIndex.value].width ?? 0, 
+                      mode: SpinButtonPlacementMode.inline,
+                      clearButton: false,
+                      onChanged: c.fileList[c.selectIndex.value].width==null ? null : (val){
+                        if(val!=null){
+                          int width=val as int;
+                          c.fileList[c.selectIndex.value].width=width;
+                        }
+                      }
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 5, right: 5),
+                    child: FaIcon(FontAwesomeIcons.xmark),
+                  ),
+                  SizedBox(
+                    width: 130,
+                    child: NumberBox(
+                      value: c.fileList[c.selectIndex.value].height ?? 0, 
+                      mode: SpinButtonPlacementMode.inline,
+                      clearButton: false,
+                      onChanged: c.fileList[c.selectIndex.value].height==null ? null : (val){
+                        if(val!=null){
+                          int width=val as int;
+                          c.fileList[c.selectIndex.value].height=width;
+                        }
+                      }
+                    ),
+                  ),
+                ],
+              ),
+              c.fileList[c.selectIndex.value].type==Types.video ? const SizedBox(height: 10,) : Container(),
               c.fileList[c.selectIndex.value].type==Types.video ? Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -232,6 +295,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                   SizedBox(
                     width: 200,
                     child: NumberBox(
+                      clearButton: false,
                       min: 0,
                       mode: SpinButtonPlacementMode.inline,
                       value: c.fileList[c.selectIndex.value].videoTrack, 
@@ -259,6 +323,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                   SizedBox(
                     width: 200,
                     child: NumberBox(
+                      clearButton: false,
                       min: 0,
                       mode: SpinButtonPlacementMode.inline,
                       value: c.fileList[c.selectIndex.value].audioTrack, 
@@ -286,6 +351,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                   SizedBox(
                     width: 200,
                     child: NumberBox(
+                      clearButton: false,
                       mode: SpinButtonPlacementMode.inline,
                       value: c.fileList[c.selectIndex.value].channel,
                       min: 1,
@@ -329,10 +395,12 @@ class _ConfigPanelState extends State<ConfigPanel> {
                   SizedBox(
                     width: 200,
                     child: c.fileList[c.selectIndex.value].subtitleLine==null ? const NumberBox(
+                      clearButton: false,
                       mode: SpinButtonPlacementMode.inline,
                       value: 0,
                       onChanged: null,
                     ) : NumberBox(
+                      clearButton: false,
                       mode: SpinButtonPlacementMode.inline,
                       value: c.fileList[c.selectIndex.value].subtitleLine,
                       min: 0,
