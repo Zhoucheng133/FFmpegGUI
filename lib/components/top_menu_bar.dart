@@ -37,12 +37,15 @@ class _TopMenuBarState extends State<TopMenuBar> {
       return;
     }
     FilePickerResult? result = await FilePicker.platform.pickFiles(
+      allowMultiple: true,
       type: FileType.custom,
       allowedExtensions: ['mp3', 'mp4', 'mkv', 'flv', 'acc', 'flac', 'wav']
     );
     if (result != null) {
-      final path=result.files.single.path!;
-      c.fileList.add(TaskItem(path: path));
+      List<File> files = result.paths.map((path) => File(path!)).toList();
+      for (var element in files) {
+        c.fileList.add(TaskItem(path: element.path));
+      }
     }
   }
 
