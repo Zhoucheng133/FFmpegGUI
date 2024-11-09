@@ -15,6 +15,7 @@ FFmpeg的图形化界面
 
 ### 0.2.3
 - 添加任务数量统计
+- 修复一个图标问题
 
 <details>
 <summary>过去的版本</summary>
