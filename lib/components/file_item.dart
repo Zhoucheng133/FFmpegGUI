@@ -58,7 +58,7 @@ class _FilePreviewState extends State<FilePreview> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Icon(
-                Icons.delete_rounded,
+                Icons.redo_rounded,
                 size: 18,
               ),
               const SizedBox(width: 5),
