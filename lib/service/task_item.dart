@@ -45,37 +45,40 @@ class TaskItem{
   late String path;
   late Encoders encoder;
   late Formats format;
-  // 声道数量
+  // 声道数量, 默认为2
   int channel=2;
   // 字幕轨道
-  late int? subtitleLine;
+  int? subtitleLine;
   // 文件类型
   late Types type;
-  // 视频轨道
+  // 视频轨道, 默认为0
   int videoTrack=0;
-  // 音频轨道
+  // 音频轨道, 默认为0
   int audioTrack=0;
   // 输出方式
   late Types outType;
+  // 状态, 默认为等待
   Status status=Status.wait;
+  // 分辨率宽度, 默认为null
+  int? width;
+  // 分辨率高度, 默认为null
+  int? height;
+
 
   TaskItem({required this.path}){
     type=getType(path);
     if(type==Types.video){
       encoder=Encoders.libx264;
       format=Formats.mp4;
-      subtitleLine=null;
       outType=Types.video;
     }else if(type==Types.audio){
       encoder=Encoders.libmp3lame;
       format=Formats.mp3;
-      subtitleLine=null;
       outType=Types.audio;
     }else{
       outType=Types.video;
       encoder=Encoders.libx264;
       format=Formats.mp4;
-      subtitleLine=null;
     }
   }
 }
