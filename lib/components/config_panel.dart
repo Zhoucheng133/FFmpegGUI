@@ -220,7 +220,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                 ],
               ),
               c.fileList[c.selectIndex.value].type==Types.video ? const SizedBox(height: 10,) : Container(),
-              Row(
+              c.fileList[c.selectIndex.value].type==Types.video ? Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(
@@ -280,7 +280,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                     ),
                   ),
                 ],
-              ),
+              ) : Container(),
               c.fileList[c.selectIndex.value].type==Types.video ? const SizedBox(height: 10,) : Container(),
               c.fileList[c.selectIndex.value].type==Types.video ? Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
