@@ -122,6 +122,14 @@ class Task {
     return encoder.toString().split('.').last;
   }
 
+  String scale(int? index){
+    TaskItem item=c.fileList[index??c.selectIndex.value];
+    if(item.width!=null && item.height!=null){
+      return ' -s ${item.width}x${item.height}';
+    }
+    return '';
+  }
+
   Future<void> mainService(int? index) async {
     TaskItem item=c.fileList[index??c.selectIndex.value];
     String outputPath='';
@@ -143,7 +151,7 @@ class Task {
     var cmd='';
     if(item.outType==Types.video){
       cmd='''
-ffmpeg -i "$fileName" -c:v ${convertEncoder(item.encoder)} -ac ${item.channel} -map 0:v:${item.videoTrack} -map 0:a:${item.audioTrack} ${subtitle(fileName)} "$output"
+ffmpeg -i "$fileName" -c:v ${convertEncoder(item.encoder)}${scale(index)} -ac ${item.channel} -map 0:v:${item.videoTrack} -map 0:a:${item.audioTrack} ${subtitle(fileName)} "$output"
 ''';
     }else if(item.outType==Types.audio){
       cmd='''
