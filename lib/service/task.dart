@@ -82,9 +82,7 @@ class Task {
                   itemCount: c.log.length,
                   itemBuilder: (context, index)=>Text(
                     c.log[index],
-                    style: GoogleFonts.notoSansSc(
-                      fontWeight: FontWeight.bold
-                    ),
+                    style: GoogleFonts.notoSansSc(),
                   ),
                 ),
               ),
@@ -165,7 +163,7 @@ ffmpeg -i "$fileName" -c:a ${item.encoder.toString().split('.').last} -ac ${item
 ffmpeg -i "$fileName" "$output"
 ''';
     }
-    // print(cmd);
+    print(cmd);
     try {
       c.running.value=true;
       controller.stream.listen((event){
