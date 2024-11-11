@@ -81,7 +81,10 @@ class Task {
                 child: ListView.builder(
                   itemCount: c.log.length,
                   itemBuilder: (context, index)=>Text(
-                    c.log[index]
+                    c.log[index],
+                    style: GoogleFonts.notoSansSc(
+                      fontWeight: FontWeight.bold
+                    ),
                   ),
                 ),
               ),
