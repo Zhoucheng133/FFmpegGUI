@@ -16,6 +16,44 @@ class ConfigPanel extends StatefulWidget {
 class _ConfigPanelState extends State<ConfigPanel> {
   
   final Controller c = Get.put(Controller());
+
+  void applyAll(BuildContext context){
+    showDialog(
+      context: context, 
+      builder: (context)=>ContentDialog(
+        title: Text('应用配置到所有任务?', style: GoogleFonts.notoSansSc(),),
+        content: Text('应用当前任务的配置到所有的任务? 注意仅限当前媒体的类型 !', style: GoogleFonts.notoSansSc(),),
+        actions: [
+          Button(
+            child: Text('取消', style: GoogleFonts.notoSansSc(),), 
+            onPressed: ()=>Navigator.pop(context)
+          ),
+          FilledButton(
+            onPressed: (){
+              final nowConfig=c.fileList[c.selectIndex.value];
+              c.fileList.value=c.fileList.map((item){
+                if(item.type==nowConfig.type){
+                  item.encoder=nowConfig.encoder;
+                  item.format=nowConfig.format;
+                  item.channel=nowConfig.channel;
+                  item.subtitleLine=nowConfig.subtitleLine;
+                  item.videoTrack=nowConfig.videoTrack;
+                  item.audioTrack=nowConfig.audioTrack;
+                  item.outType=nowConfig.outType;
+                  item.width=nowConfig.width;
+                  item.height=nowConfig.height;
+                }
+                return item;
+              }).toList();
+              c.fileList.refresh();
+              Navigator.pop(context);
+            },
+            child: Text('应用', style: GoogleFonts.notoSansSc(),)
+          ),
+        ],
+      )
+    );
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -414,8 +452,13 @@ class _ConfigPanelState extends State<ConfigPanel> {
                   )
                 ]
               ) : Container(),
+              Expanded(child: Container()),
+              Button(
+                onPressed: () => applyAll(context),
+                child: Text('应用配置到所有任务', style: GoogleFonts.notoSansSc(),),
+              )
             ],
-          ) : Container()
+          ) : Container(),
         ),
       ),
     );
