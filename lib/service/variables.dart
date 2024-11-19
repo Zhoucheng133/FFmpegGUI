@@ -10,5 +10,5 @@ class Controller extends GetxController{
   RxInt selectIndex=0.obs;
   RxString output=''.obs;
 
-  String version='0.2.4';
+  String version='0.2.5';
 }
