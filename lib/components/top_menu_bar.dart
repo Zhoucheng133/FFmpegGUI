@@ -6,6 +6,7 @@ import 'package:ffmpeg_gui/service/task_item.dart';
 import 'package:ffmpeg_gui/service/variables.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter/material.dart' show showLicensePage;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -152,6 +153,28 @@ class _TopMenuBarState extends State<TopMenuBar> {
                     const SizedBox(width: 5,),
                     Text(
                       '本项目地址',
+                      style:  GoogleFonts.notoSansSc(),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 10,),
+            GestureDetector(
+              onTap: () => showLicensePage(context: context),
+              child: MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const FaIcon(
+                      FontAwesomeIcons.certificate,
+                      size: 15,
+                    ),
+                    const SizedBox(width: 5,),
+                    Text(
+                      '许可证',
                       style:  GoogleFonts.notoSansSc(),
                     )
                   ],
