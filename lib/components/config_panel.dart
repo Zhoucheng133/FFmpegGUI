@@ -91,7 +91,8 @@ class _ConfigPanelState extends State<ConfigPanel> {
                   ),
                   Expanded(
                     child: Text(
-                      c.fileList[c.selectIndex.value].path
+                      c.fileList[c.selectIndex.value].path,
+                      style: GoogleFonts.notoSansSc(),
                     )
                   )
                 ],

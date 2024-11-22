@@ -57,7 +57,7 @@ class Task {
     showDialog(
       context: context, 
       builder: (context)=>ContentDialog(
-        title: const Text('日志'),
+        title: Text('日志', style: GoogleFonts.notoSansSc(),),
         content: SizedBox(
           height: 300,
           width: 500,
@@ -94,7 +94,7 @@ class Task {
             onPressed: (){
               Navigator.pop(context);
             }, 
-            child: const Text('完成')
+            child: Text('完成', style: GoogleFonts.notoSansSc(),)
           )
         ],
       )

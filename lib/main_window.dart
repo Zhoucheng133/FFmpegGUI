@@ -37,14 +37,14 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
         showDialog(
           context: context, 
           builder: (BuildContext context)=>ContentDialog(
-            title: const Text('没有找到FFmpeg'), 
-            content: const Text('没有找到FFmpeg的位置，请确定将其加入到系统环境变量'),
+            title: Text('没有找到FFmpeg', style: GoogleFonts.notoSansSc(),), 
+            content: Text('没有找到FFmpeg的位置，请确定将其加入到系统环境变量', style: GoogleFonts.notoSansSc(),),
             actions: [
               FilledButton(
                 onPressed: (){
                   windowManager.close();
                 },
-                child: const Text('好的')
+                child: Text('好的', style: GoogleFonts.notoSansSc(),)
               )
             ],
           )
