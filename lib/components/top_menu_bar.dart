@@ -197,6 +197,35 @@ class _TopMenuBarState extends State<TopMenuBar> {
 
   final menuController = FlyoutController();
 
+  void clearTask(BuildContext context){
+    showDialog(
+      context: context, 
+      builder: (context)=>ContentDialog(
+        title: Text('清空任务列表', style: GoogleFonts.notoSansSc(),),
+        content: Text('确定要清空任务列表吗？这个操作不能撤销！', style: GoogleFonts.notoSansSc(),),
+        actions: [
+          Button(
+            child: Text(
+              '取消', 
+              style: GoogleFonts.notoSansSc(),
+            ), 
+            onPressed: (){
+              Navigator.pop(context);
+            }
+          ),
+          FilledButton(
+            child: Text('确定', style: GoogleFonts.notoSansSc(),), 
+            onPressed: (){
+              Navigator.pop(context);
+              c.fileList.value=[];
+              c.fileList.refresh();
+            }
+          )
+        ],
+      )
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Obx(()=>
@@ -248,6 +277,7 @@ class _TopMenuBarState extends State<TopMenuBar> {
           TopMenuBarItem(title: '开始当前任务', icon: FontAwesomeIcons.play, func: ()=>task.singleRun(context), enable: !c.running.value && c.fileList.isNotEmpty),
           TopMenuBarItem(title: '开始所有任务', icon: FontAwesomeIcons.play, func: ()=>task.multiRun(context), enable: !c.running.value && c.fileList.isNotEmpty),
           TopMenuBarItem(title: '停止', icon: FontAwesomeIcons.stop, func: ()=>task.stop(), enable: c.running.value),
+          TopMenuBarItem(title: '清空任务', icon: FontAwesomeIcons.trash, func: ()=>clearTask(context), enable: true),
           TopMenuBarItem(title: '日志', icon: FontAwesomeIcons.clipboard, func: ()=>task.log(context), enable: true),
           Expanded(child: Container()),
           TopMenuBarItem(title: '关于', icon: FontAwesomeIcons.circleInfo, func: ()=>showAbout(context), enable: true),
