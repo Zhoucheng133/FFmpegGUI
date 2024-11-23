@@ -195,14 +195,56 @@ class _TopMenuBarState extends State<TopMenuBar> {
     );
   }
 
+  final menuController = FlyoutController();
+
   @override
   Widget build(BuildContext context) {
     return Obx(()=>
       Row(
         children: [
-          TopMenuBarItem(title: '来自网络', icon: FontAwesomeIcons.link, func: ()=>pickNetwork(context), enable: !c.running.value),
-          TopMenuBarItem(title: '添加文件', icon: FontAwesomeIcons.plus, func: ()=>pickFile(), enable: !c.running.value),
-          TopMenuBarItem(title: '添加目录', icon: FontAwesomeIcons.plus, func: ()=>pickDir(), enable: !c.running.value),
+          FlyoutTarget(
+            controller: menuController,
+            child: TopMenuBarItem(title: '添加', icon: FontAwesomeIcons.plus, func: (){
+              menuController.showFlyout(
+                autoModeConfiguration: FlyoutAutoConfiguration(
+                  preferredMode: FlyoutPlacementMode.bottomRight,
+                ),
+                barrierDismissible: true,
+                dismissOnPointerMoveAway: false,
+                dismissWithEsc: true,
+                builder: (context) {
+                  return MenuFlyout(
+                    items: [
+                      MenuFlyoutItem(
+                        leading: const FaIcon(FontAwesomeIcons.file),
+                        text: Text('来自文件', style: GoogleFonts.notoSansSc(),),
+                        onPressed: (){
+                          Flyout.of(context).close();
+                          pickFile();
+                        }
+                      ),
+                      MenuFlyoutItem(
+                        leading: const FaIcon(FontAwesomeIcons.folder),
+                        text: Text('来自目录', style: GoogleFonts.notoSansSc(),),
+                        onPressed: (){
+                          Flyout.of(context).close();
+                          pickDir();
+                        }
+                      ),
+                      MenuFlyoutItem(
+                        leading: const FaIcon(FontAwesomeIcons.link),
+                        text: Text('来自网络', style: GoogleFonts.notoSansSc(),),
+                        onPressed: (){
+                          Flyout.of(context).close();
+                          pickNetwork(context);
+                        }
+                      ),
+                    ]
+                  );
+                }
+              );
+            }, enable: !c.running.value),
+          ),
           TopMenuBarItem(title: '开始当前任务', icon: FontAwesomeIcons.play, func: ()=>task.singleRun(context), enable: !c.running.value && c.fileList.isNotEmpty),
           TopMenuBarItem(title: '开始所有任务', icon: FontAwesomeIcons.play, func: ()=>task.multiRun(context), enable: !c.running.value && c.fileList.isNotEmpty),
           TopMenuBarItem(title: '停止', icon: FontAwesomeIcons.stop, func: ()=>task.stop(), enable: c.running.value),
