@@ -258,6 +258,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                         if(val!=null){
                           int width=val as int;
                           c.fileList[c.selectIndex.value].width=width;
+                          c.fileList.refresh();
                         }
                       }
                     ),
@@ -276,6 +277,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                         if(val!=null){
                           int width=val as int;
                           c.fileList[c.selectIndex.value].height=width;
+                          c.fileList.refresh();
                         }
                       }
                     ),
