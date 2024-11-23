@@ -1,7 +1,7 @@
 name: ffmpeg_gui
 description: "FFmpeg GUI application"
 publish_to: 'none'
-version: 0.2.6
+version: 0.3.0
 
 environment:
   sdk: ^3.5.3
