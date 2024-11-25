@@ -46,6 +46,8 @@ class _TopMenuBarItemState extends State<TopMenuBarItem> {
             padding: const EdgeInsets.only(left: 8, right: 8, top: 5, bottom: 5),
             child: Row(
               mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
                   widget.icon, size: 12, 
