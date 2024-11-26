@@ -24,6 +24,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
   late SharedPreferences prefs;
 
   Future<void> init() async {
+    await windowManager.setPreventClose(true);
     var ffmpegExectutable = whichSync('ffmpeg');
     prefs = await SharedPreferences.getInstance();
     final prefOutput=prefs.getString('output');
@@ -50,6 +51,36 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
           )
         );
       });
+    }
+  }
+
+  @override
+  void onWindowClose() async{
+    bool isPreventClose = await windowManager.isPreventClose();
+    if (isPreventClose) {
+      if(c.running.value){
+        showDialog(
+          // ignore: use_build_context_synchronously
+          context: context,
+          builder: (_) {
+            return ContentDialog(
+              title: Text('任务正在进行中', style: GoogleFonts.notoSansSc(),),
+              content: Text('你需要等待任务完成或者停止任务才能退出', style: GoogleFonts.notoSansSc(),),
+              actions: [
+                FilledButton(
+                  child: Text('好的', style: GoogleFonts.notoSansSc(),),
+                  onPressed: (){
+                    Navigator.pop(context);
+                  }
+                )
+              ],
+            );
+          },
+        );
+      }else{
+        await windowManager.setPreventClose(false);
+        await windowManager.close();
+      }
     }
   }
 
