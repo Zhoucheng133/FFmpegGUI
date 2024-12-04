@@ -16,6 +16,12 @@ class Task {
   bool stopTask=false;
   int runIndex=-1;
 
+  void pause(BuildContext context){
+    if(!c.running.value){
+      return;
+    }
+  }
+
   void simpleDialog(String title, String content, BuildContext context){
     showDialog(
       context: context, 
