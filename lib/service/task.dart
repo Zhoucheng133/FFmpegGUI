@@ -20,6 +20,27 @@ class Task {
     if(!c.running.value){
       return;
     }
+    showDialog(
+      context: context, 
+      builder: (context)=>ContentDialog(
+        title: Text('暂停运行', style: GoogleFonts.notoSansSc(),),
+        content: Text('在当前正在执行的任务结束之后暂停任务的执行', style: GoogleFonts.notoSansSc(),),
+        actions: [
+          Button(
+            child: Text('取消', style: GoogleFonts.notoSansSc(),),
+            onPressed: (){
+              Navigator.pop(context);
+            }
+          ),
+          FilledButton(
+            child: Text('继续', style: GoogleFonts.notoSansSc(),),
+            onPressed: (){
+              Navigator.pop(context);
+            }
+          )
+        ],
+      )
+    );
   }
 
   void simpleDialog(String title, String content, BuildContext context){
