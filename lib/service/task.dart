@@ -36,6 +36,7 @@ class Task {
             child: Text('继续', style: GoogleFonts.notoSansSc(),),
             onPressed: (){
               Navigator.pop(context);
+              stopTask=true;
             }
           )
         ],
