@@ -17,7 +17,7 @@ class Task {
   int runIndex=-1;
 
   void pause(BuildContext context, setState){
-    if(!c.running.value){
+    if(!c.running.value || stopTask){
       return;
     }
     showDialog(
