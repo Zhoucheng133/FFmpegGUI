@@ -218,6 +218,7 @@ class _TopMenuBarState extends State<TopMenuBar> {
             onPressed: (){
               Navigator.pop(context);
               c.fileList.value=[];
+              c.selectIndex.value=0;
               c.fileList.refresh();
             }
           )
