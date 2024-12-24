@@ -182,15 +182,15 @@ class Task {
     var cmd='';
     if(item.outType==Types.video){
       cmd='''
-ffmpeg -i "$fileName" -c:v ${convertEncoder(item.encoder)}${scale(index)} -ac ${item.channel} -map 0:v:${item.videoTrack} -map 0:a:${item.audioTrack} ${subtitle(fileName)} "$output"
+"${c.ffmpeg.value}" -i "$fileName" -c:v ${convertEncoder(item.encoder)}${scale(index)} -ac ${item.channel} -map 0:v:${item.videoTrack} -map 0:a:${item.audioTrack} ${subtitle(fileName)} "$output"
 ''';
     }else if(item.outType==Types.audio){
       cmd='''
-ffmpeg -i "$fileName" -c:a ${item.encoder.toString().split('.').last} -ac ${item.channel} "$output"
+"${c.ffmpeg.value}" -i "$fileName" -c:a ${item.encoder.toString().split('.').last} -ac ${item.channel} "$output"
 ''';
     }else{
       cmd='''
-ffmpeg -i "$fileName" "$output"
+"${c.ffmpeg.value}" -i "$fileName" "$output"
 ''';
     }
     // print(cmd);

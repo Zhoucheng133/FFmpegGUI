@@ -11,4 +11,5 @@ class Controller extends GetxController{
   RxString output=''.obs;
 
   String version='0.3.4';
+  RxString ffmpeg="ffmpeg".obs;
 }

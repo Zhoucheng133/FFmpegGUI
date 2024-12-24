@@ -28,10 +28,15 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
     var ffmpegExectutable = whichSync('ffmpeg');
     prefs = await SharedPreferences.getInstance();
     final prefOutput=prefs.getString('output');
+    final ffmpeg=prefs.getString('ffmpeg');
     if(prefOutput!=null){
       output.text=prefOutput;
       c.output.value=prefOutput;
       c.output.refresh();
+    }
+    if(ffmpeg!=null){
+      c.ffmpeg.value=ffmpeg;
+      return;
     }
     if(ffmpegExectutable==null){
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -39,19 +44,40 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
           context: context, 
           builder: (BuildContext context)=>ContentDialog(
             title: Text('没有找到FFmpeg', style: GoogleFonts.notoSansSc(),), 
-            content: Text('没有找到FFmpeg的位置，请确定将其加入到系统环境变量', style: GoogleFonts.notoSansSc(),),
+            content: Text('没有找到FFmpeg的位置，你可以手动选择它', style: GoogleFonts.notoSansSc(),),
             actions: [
-              FilledButton(
+              Button(
+                child: Text('退出', style: GoogleFonts.notoSansSc(),), 
                 onPressed: (){
                   windowManager.close();
+                }
+              ),
+              FilledButton(
+                onPressed: () async {
+                  final path=await pickFile();
+                  if(path.isNotEmpty){
+                    c.ffmpeg.value=path;
+                    prefs.setString('ffmpeg', path);
+                    if(context.mounted){
+                      Navigator.pop(context);
+                    }
+                  }
                 },
-                child: Text('好的', style: GoogleFonts.notoSansSc(),)
+                child: Text('选择', style: GoogleFonts.notoSansSc(),)
               )
             ],
           )
         );
       });
     }
+  }
+
+  Future<String> pickFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    if (result != null) {
+      return result.files.single.path!;
+    }
+    return "";
   }
 
   @override
