@@ -196,6 +196,7 @@ class _TopMenuBarState extends State<TopMenuBar> {
   }
 
   final menuController = FlyoutController();
+  final runController=FlyoutController();
 
   void clearTask(BuildContext context){
     showDialog(
@@ -313,8 +314,49 @@ class _TopMenuBarState extends State<TopMenuBar> {
               );
             }, enable: !c.running.value),
           ),
-          TopMenuBarItem(title: '开始当前任务', icon: FontAwesomeIcons.play, func: ()=>task.singleRun(context), enable: !c.running.value && c.fileList.isNotEmpty),
-          TopMenuBarItem(title: '开始所有任务', icon: FontAwesomeIcons.play, func: ()=>task.multiRun(context), enable: !c.running.value && c.fileList.isNotEmpty),
+          FlyoutTarget(
+            controller: runController,
+            child: TopMenuBarItem(
+              title: '开始任务', 
+              icon: FontAwesomeIcons.play, 
+              func: (){
+                if(!c.running.value && c.fileList.isNotEmpty){
+                  runController.showFlyout(
+                    autoModeConfiguration: FlyoutAutoConfiguration(
+                      preferredMode: FlyoutPlacementMode.bottomLeft,
+                    ),
+                    barrierDismissible: true,
+                    dismissOnPointerMoveAway: false,
+                    dismissWithEsc: true,
+                    builder: (context) {
+                      return MenuFlyout(
+                        items: [
+                          MenuFlyoutItem(
+                            leading: const FaIcon(FontAwesomeIcons.play),
+                            text: Text('开始当前任务', style: GoogleFonts.notoSansSc(),),
+                            onPressed: (){
+                              Flyout.of(context).close();
+                              task.singleRun(context);
+                            }
+                          ),
+                          MenuFlyoutItem(
+                            leading: const FaIcon(FontAwesomeIcons.play),
+                            text: Text('开始所有任务', style: GoogleFonts.notoSansSc(),),
+                            onPressed: (){
+                              Flyout.of(context).close();
+                              task.multiRun(context);
+                            }
+                          ),
+                        ]
+                      );
+                    }
+                  );
+                }
+                
+              }, 
+              enable: !c.running.value && c.fileList.isNotEmpty
+            ),
+          ),
           TopMenuBarItem(title: '暂停', icon: FontAwesomeIcons.pause, func: ()=>task.pause(context, setState), enable: c.running.value && !task.stopTask),
           TopMenuBarItem(title: '停止', icon: FontAwesomeIcons.stop, func: ()=>task.stop(), enable: c.running.value),
           TopMenuBarItem(title: '清空任务', icon: FontAwesomeIcons.trash, func: ()=>clearTask(context), enable: true),
