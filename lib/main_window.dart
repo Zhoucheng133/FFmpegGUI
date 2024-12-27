@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:ffmpeg_gui/components/config_panel.dart';
 import 'package:ffmpeg_gui/components/file_list.dart';
 import 'package:ffmpeg_gui/components/top_menu_bar.dart';
+import 'package:ffmpeg_gui/service/funcs.dart';
 import 'package:ffmpeg_gui/service/variables.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -120,6 +122,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
   TextEditingController output=TextEditingController();
 
   final Controller c = Get.put(Controller());
+  final Funcs funcs=Funcs();
 
   Future<void> selectOutput() async {
     String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
@@ -197,7 +200,98 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                 )
               ],
             ),
-          )
+          ),
+          Platform.isMacOS ? PlatformMenuBar(
+            menus: [
+              PlatformMenu(
+                label: "FFmpeg GUI",
+                menus: [
+                  PlatformMenuItemGroup(
+                    members: [
+                      PlatformMenuItem(
+                        label: "关于 FFmpeg GUI",
+                        onSelected: (){
+                          funcs.showAbout(context);
+                        }
+                      )
+                    ]
+                  ),
+                  PlatformMenuItemGroup(
+                    members: [
+                      PlatformMenuItem(
+                        label: "环境变量设置...",
+                        shortcut: const SingleActivator(
+                          LogicalKeyboardKey.comma,
+                          meta: true,
+                        ),
+                        onSelected: (){
+                          funcs.showFFmpegSetting(context);
+                        }
+                      ),
+                    ]
+                  ),
+                  const PlatformMenuItemGroup(
+                    members: [
+                      PlatformProvidedMenuItem(
+                        enabled: true,
+                        type: PlatformProvidedMenuItemType.hide,
+                      ),
+                      PlatformProvidedMenuItem(
+                        enabled: true,
+                        type: PlatformProvidedMenuItemType.quit,
+                      ),
+                    ]
+                  ),
+                ]
+              ),
+              PlatformMenu(
+                label: "编辑",
+                menus: [
+                  PlatformMenuItem(
+                    label: "拷贝",
+                    shortcut: const SingleActivator(
+                      LogicalKeyboardKey.keyC,
+                      meta: true
+                    ),
+                    onSelected: (){}
+                  ),
+                  PlatformMenuItem(
+                    label: "粘贴",
+                    shortcut: const SingleActivator(
+                      LogicalKeyboardKey.keyV,
+                      meta: true
+                    ),
+                    onSelected: (){}
+                  ),
+                  PlatformMenuItem(
+                    label: "全选",
+                    shortcut: const SingleActivator(
+                      LogicalKeyboardKey.keyA,
+                      meta: true
+                    ),
+                    onSelected: (){}
+                  )
+                ]
+              ),
+              const PlatformMenu(
+                label: "窗口", 
+                menus: [
+                  PlatformMenuItemGroup(
+                    members: [
+                      PlatformProvidedMenuItem(
+                        enabled: true,
+                        type: PlatformProvidedMenuItemType.minimizeWindow,
+                      ),
+                      PlatformProvidedMenuItem(
+                        enabled: true,
+                        type: PlatformProvidedMenuItemType.toggleFullScreen,
+                      )
+                    ]
+                  )
+                ]
+              )
+            ]
+          ):Container()
         ],
       ),
     );
