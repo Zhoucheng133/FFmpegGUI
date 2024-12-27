@@ -10,6 +10,7 @@ import 'package:flutter/material.dart' show showLicensePage;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TopMenuBar extends StatefulWidget {
@@ -266,6 +267,60 @@ class _TopMenuBarState extends State<TopMenuBar> {
     );
   }
 
+  Future<void> showFFmpegSetting(BuildContext context) async {
+    TextEditingController controller=TextEditingController();
+    controller.text=c.ffmpeg.value;
+    await showDialog(
+      context: context, 
+      builder: (context)=>ContentDialog(
+        title: Text('设置FFmpeg的环境变量', style: GoogleFonts.notoSansSc(),),
+        content: StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Row(
+              children: [
+                Expanded(
+                  child: SizedBox(
+                    height: 30,
+                    child: TextBox(
+                      maxLines: 1,
+                      controller: controller,
+                    ),
+                  )
+                ),
+                const SizedBox(width: 10,),
+                Button(
+                  child: Text('选取', style: GoogleFonts.notoSansSc(),), 
+                  onPressed: () async {
+                    FilePickerResult? result = await FilePicker.platform.pickFiles();
+                    if (result != null) {
+                      // File file = File(result.files.single.path!);
+                      setState((){
+                        controller.text=result.files.single.path!;
+                      });
+                    }
+                  }
+                )
+              ],
+            );
+          }
+        ),
+        actions: [
+          FilledButton(
+            child: Text('完成', style: GoogleFonts.notoSansSc(),), 
+            onPressed: () async {
+              c.ffmpeg.value=controller.text;
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.setString('ffmpeg', controller.text);
+              if(context.mounted){
+                Navigator.pop(context);
+              }
+            }
+          )
+        ],
+      )
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Obx(()=>
@@ -362,7 +417,8 @@ class _TopMenuBarState extends State<TopMenuBar> {
           TopMenuBarItem(title: '清空任务', icon: FontAwesomeIcons.trash, func: ()=>clearTask(context), enable: true),
           TopMenuBarItem(title: '应用所有', icon: FontAwesomeIcons.sliders, func: ()=>applyAll(context), enable: true),
           TopMenuBarItem(title: '日志', icon: FontAwesomeIcons.clipboard, func: ()=>task.log(context), enable: true),
-          // Expanded(child: Container()),
+          Expanded(child: Container()),
+          TopMenuBarItem(title: '环境变量', icon: FontAwesomeIcons.gear, func: ()=>showFFmpegSetting(context), enable: true),
           TopMenuBarItem(title: '关于', icon: FontAwesomeIcons.circleInfo, func: ()=>showAbout(context), enable: true),
         ],
       ),
