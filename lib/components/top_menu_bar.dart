@@ -61,6 +61,7 @@ class _TopMenuBarState extends State<TopMenuBar> {
       List<String> files = allFiles.where((file) {
         return file is File && judgeFile(file.path);
       }).map((file)=>file.path).toList();
+      files.sort();
       for(var path in files){
         c.fileList.add(TaskItem(path: path));
       }
