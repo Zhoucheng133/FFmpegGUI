@@ -5,6 +5,7 @@ import 'package:flutter/material.dart' show showLicensePage;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -12,96 +13,99 @@ class Funcs {
 
   final Controller c = Get.put(Controller());
 
-  void showAbout(BuildContext context){
-    showDialog(
-      context: context, 
-      builder: (context)=>ContentDialog(
-        title: Text('关于FFmpeg GUI', style: GoogleFonts.notoSansSc(),),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Align(
-              alignment: Alignment.center,
-              child: SizedBox(
-                width: 100,
-                height: 100,
-                child: Image.asset('assets/icon.png')
-              ),
-            ),
-            Text(
-              'FFmpeg GUI', 
-              style: GoogleFonts.notoSansSc(
-                fontWeight: FontWeight.bold,
-                fontSize: 20
-              ),
-            ),
-            const SizedBox(height: 10,),
-            Text(
-              c.version,
-              style: GoogleFonts.notoSansSc(
-                color: Colors.grey[80],
-              ),
-            ),
-            const SizedBox(height: 15,),
-            GestureDetector(
-              onTap: () async {
-                final Uri url = Uri.parse('https://github.com/Zhoucheng133/FFmpegGUI');
-                await launchUrl(url);
-              },
-              child: MouseRegion(
-                cursor: SystemMouseCursors.click,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const FaIcon(
-                      FontAwesomeIcons.github,
-                      size: 15,
-                    ),
-                    const SizedBox(width: 5,),
-                    Text(
-                      '本项目地址',
-                      style:  GoogleFonts.notoSansSc(),
-                    )
-                  ],
+  Future<void> showAbout(BuildContext context) async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    if(context.mounted){
+      showDialog(
+        context: context, 
+        builder: (context)=>ContentDialog(
+          title: Text('关于FFmpeg GUI', style: GoogleFonts.notoSansSc(),),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: SizedBox(
+                  width: 100,
+                  height: 100,
+                  child: Image.asset('assets/icon.png')
                 ),
               ),
-            ),
-            const SizedBox(height: 10,),
-            GestureDetector(
-              onTap: () => showLicensePage(context: context),
-              child: MouseRegion(
-                cursor: SystemMouseCursors.click,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const FaIcon(
-                      FontAwesomeIcons.certificate,
-                      size: 15,
-                    ),
-                    const SizedBox(width: 5,),
-                    Text(
-                      '许可证',
-                      style:  GoogleFonts.notoSansSc(),
-                    )
-                  ],
+              Text(
+                'FFmpeg GUI', 
+                style: GoogleFonts.notoSansSc(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20
                 ),
               ),
+              const SizedBox(height: 10,),
+              Text(
+                "v${packageInfo.version}",
+                style: GoogleFonts.notoSansSc(
+                  color: Colors.grey[80],
+                ),
+              ),
+              const SizedBox(height: 15,),
+              GestureDetector(
+                onTap: () async {
+                  final Uri url = Uri.parse('https://github.com/Zhoucheng133/FFmpegGUI');
+                  await launchUrl(url);
+                },
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const FaIcon(
+                        FontAwesomeIcons.github,
+                        size: 15,
+                      ),
+                      const SizedBox(width: 5,),
+                      Text(
+                        '本项目地址',
+                        style:  GoogleFonts.notoSansSc(),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10,),
+              GestureDetector(
+                onTap: () => showLicensePage(context: context),
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const FaIcon(
+                        FontAwesomeIcons.certificate,
+                        size: 15,
+                      ),
+                      const SizedBox(width: 5,),
+                      Text(
+                        '许可证',
+                        style:  GoogleFonts.notoSansSc(),
+                      )
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+          actions: [
+            FilledButton(
+              child: Text('好的', style: GoogleFonts.notoSansSc(),), 
+              onPressed: (){
+                Navigator.pop(context);
+              }
             )
           ],
-        ),
-        actions: [
-          FilledButton(
-            child: Text('好的', style: GoogleFonts.notoSansSc(),), 
-            onPressed: (){
-              Navigator.pop(context);
-            }
-          )
-        ],
-      )
-    );
+        )
+      );
+    }
   }
 
   Future<void> showFFmpegSetting(BuildContext context) async {

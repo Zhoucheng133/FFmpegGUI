@@ -17,6 +17,7 @@ dependencies:
   font_awesome_flutter: ^10.8.0
   get: ^4.6.6
   google_fonts: ^6.2.1
+  package_info_plus: ^8.3.0
   path: ^1.9.0
   process_run: ^1.2.2
   shared_preferences: ^2.3.2

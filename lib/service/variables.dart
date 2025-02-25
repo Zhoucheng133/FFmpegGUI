@@ -10,6 +10,5 @@ class Controller extends GetxController{
   RxInt selectIndex=0.obs;
   RxString output=''.obs;
 
-  String version='0.3.6';
   RxString ffmpeg="ffmpeg".obs;
 }
