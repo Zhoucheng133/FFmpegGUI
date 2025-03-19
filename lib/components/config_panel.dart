@@ -447,6 +447,9 @@ class _ConfigPanelState extends State<ConfigPanel> {
                   Expanded(
                     child: TextBox(
                       controller: nameController,
+                      onChanged: (val){
+                        c.fileList[c.selectIndex.value].outputName=val;
+                      },
                     )
                   ),
                   const SizedBox(width: 2,),

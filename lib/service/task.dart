@@ -167,12 +167,11 @@ class Task {
     String fileName='';
     String workDirectory='';
     controller=ShellLinesController(encoding: utf8);
+    outputPath=p.join(c.output.value, '${item.outputName}.${item.format.name}');
     if(item.path.startsWith('http')){
-      outputPath = p.join(c.output.value, 'index${index ?? c.selectIndex.value}.${item.format.toString().split('.').last}');
       fileName=item.path;
       shell=Shell(stdout: controller.sink, stderr: controller.sink);
     }else{
-      outputPath = p.join(c.output.value, '${removeExtension(p.basename(item.path))}.${item.format.toString().split('.').last}');
       fileName=p.basename(item.path);
       workDirectory=p.dirname(item.path);
       shell=Shell(stdout: controller.sink, stderr: controller.sink, workingDirectory: workDirectory);
@@ -222,7 +221,8 @@ class Task {
     }
     c.log.value=[];
     for(int index=0; index<c.fileList.length; index++){
-      String outputPath = p.join(c.output.value, '${removeExtension(p.basename(c.fileList[index].path))}.${c.fileList[index].format.toString().split('.').last}');
+      // String outputPath = p.join(c.output.value, '${removeExtension(p.basename(c.fileList[index].path))}.${c.fileList[index].format.toString().split('.').last}');
+      String outputPath=p.join(c.output.value, '${c.fileList[index].outputName}.${c.fileList[index].format.name}');
       File file = File(outputPath);
       if(c.fileList[index].status==Status.finished){
         continue;
@@ -252,7 +252,8 @@ class Task {
       simpleDialog('启动失败', '当前任务已完成', context);
       return;
     }
-    String outputPath = p.join(c.output.value, '${removeExtension(p.basename(c.fileList[c.selectIndex.value].path))}.${c.fileList[c.selectIndex.value].format.toString().split('.').last}');
+    String outputPath=p.join(c.output.value, '${c.fileList[c.selectIndex.value].outputName}.${c.fileList[c.selectIndex.value].format.name}');
+    // String outputPath = p.join(c.output.value, '${removeExtension(p.basename(c.fileList[c.selectIndex.value].path))}.${c.fileList[c.selectIndex.value].format.toString().split('.').last}');
     File file = File(outputPath);
     if(file.existsSync()){
       simpleDialog('启动失败', '输出目录下存在相同文件', context);
