@@ -1,3 +1,7 @@
+import 'package:ffmpeg_gui/service/variables.dart';
+import 'package:get/get.dart';
+import 'package:path/path.dart' as p;
+
 enum Types{
   audio,
   video,
@@ -41,6 +45,7 @@ Types getType(String path){
 }
 
 class TaskItem{
+  final Controller c = Get.put(Controller());
 
   late String path;
   late Encoders encoder;
@@ -63,6 +68,16 @@ class TaskItem{
   int? width;
   // 分辨率高度, 默认为null
   int? height;
+  // 输出名
+  String? outputName;
+
+  String removeExtension(String fileName){
+    int lastDotIndex = fileName.lastIndexOf('.');
+    if (lastDotIndex == -1) {
+      return fileName;
+    }
+    return fileName.substring(0, lastDotIndex);
+  }
 
 
   TaskItem({required this.path}){
@@ -80,5 +95,6 @@ class TaskItem{
       encoder=Encoders.libx264;
       format=Formats.mp4;
     }
+    outputName=removeExtension(p.basename(path));
   }
 }
