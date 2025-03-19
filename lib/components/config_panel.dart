@@ -16,7 +16,23 @@ class ConfigPanel extends StatefulWidget {
 class _ConfigPanelState extends State<ConfigPanel> {
   
   final Controller c = Get.put(Controller());
-  
+  final nameController=TextEditingController();
+
+  void setName(){
+    if(c.fileList.isNotEmpty){
+      setState(() {
+        nameController.text=c.fileList[c.selectIndex.value].outputName!;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    ever(c.fileList, (_)=>setName());
+    ever(c.selectIndex, (_)=>setName());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -417,6 +433,26 @@ class _ConfigPanelState extends State<ConfigPanel> {
                   )
                 ]
               ) : Container(),
+              const SizedBox(height: 10,),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 90,
+                    child: Text(
+                      '输出名称',
+                      style: GoogleFonts.notoSansSc(),
+                    ),
+                  ),
+                  Expanded(
+                    child: TextBox(
+                      controller: nameController,
+                    )
+                  ),
+                  const SizedBox(width: 2,),
+                  Text(".${c.fileList[c.selectIndex.value].format.name}")
+                ]
+              ),
               Expanded(child: Container()),
             ],
           ) : Container(),
