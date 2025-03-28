@@ -161,6 +161,14 @@ class Task {
     return '';
   }
 
+  String audioVolume(int? index){
+    TaskItem item=c.fileList[index??c.selectIndex.value];
+    if(item.audioVolume!=null){
+      return ' -af "volume=${item.audioVolume}"';
+    }
+    return "";
+  }
+
   Future<void> mainService(int? index) async {
     TaskItem item=c.fileList[index??c.selectIndex.value];
     String outputPath='';
@@ -181,7 +189,7 @@ class Task {
     var cmd='';
     if(item.outType==Types.video){
       cmd='''
-"${c.ffmpeg.value}" -i "$fileName" -c:v ${convertEncoder(item.encoder)}${scale(index)} -ac ${item.channel} -map 0:v:${item.videoTrack} -map 0:a:${item.audioTrack} ${subtitle(fileName)} "$output"
+"${c.ffmpeg.value}" -i "$fileName" -c:v ${convertEncoder(item.encoder)}${scale(index)}${audioVolume(index)} -ac ${item.channel} -map 0:v:${item.videoTrack} -map 0:a:${item.audioTrack} ${subtitle(fileName)} "$output"
 ''';
     }else if(item.outType==Types.audio){
       cmd='''
