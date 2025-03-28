@@ -36,7 +36,7 @@ enum Encoders{
 }
 
 Types getType(String path){
-  if(path.endsWith('.mp4') || path.endsWith('.mkv') || path.endsWith('.flv')){
+  if(path.endsWith('.mp4') || path.endsWith('.mkv') || path.endsWith('.flv') || path.endsWith('.mov')){
       return Types.video;
     }else if(path.endsWith('.mp3') || path.endsWith('acc') || path.endsWith('flac') || path.endsWith('wav')){
       return Types.audio;

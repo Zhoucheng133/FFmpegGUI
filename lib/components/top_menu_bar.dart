@@ -25,7 +25,7 @@ class _TopMenuBarState extends State<TopMenuBar> {
   final Funcs funcs=Funcs();
 
   bool judgeFile(String path){
-    if(path.endsWith('.mp4') || path.endsWith('.mkv') || path.endsWith('.flv')){
+    if(path.endsWith('.mp4') || path.endsWith('.mkv') || path.endsWith('.flv') || path.endsWith('.mov')){
       return true;
     }else if(path.endsWith('.mp3') || path.endsWith('acc') || path.endsWith('flac') || path.endsWith('wav')){
       return true;
@@ -40,7 +40,7 @@ class _TopMenuBarState extends State<TopMenuBar> {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       allowMultiple: true,
       type: FileType.custom,
-      allowedExtensions: ['mp3', 'mp4', 'mkv', 'flv', 'acc', 'flac', 'wav']
+      allowedExtensions: ['mp3', 'mp4', 'mkv', 'flv', 'mov', 'acc', 'flac', 'wav']
     );
     if (result != null) {
       List<File> files = result.paths.map((path) => File(path!)).toList();
