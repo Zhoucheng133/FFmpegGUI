@@ -68,6 +68,8 @@ class TaskItem{
   int? width;
   // 分辨率高度, 默认为null
   int? height;
+  // 音频增益，默认为null
+  int? audioVolume;
   // 输出名
   String? outputName;
 

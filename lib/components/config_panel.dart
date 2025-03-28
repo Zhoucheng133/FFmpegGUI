@@ -307,6 +307,49 @@ class _ConfigPanelState extends State<ConfigPanel> {
                   SizedBox(
                     width: 90,
                     child: Text(
+                      '音频',
+                      style: GoogleFonts.notoSansSc(),
+                    ),
+                  ),
+                  Checkbox(
+                    checked: c.fileList[c.selectIndex.value].audioVolume!=null, 
+                    onChanged: (val){
+                      if(val!=null){
+                        if(val==false){
+                          c.fileList[c.selectIndex.value].audioVolume=null;
+                        }else{
+                          c.fileList[c.selectIndex.value].audioVolume=1;
+                        }
+                        c.fileList.refresh();
+                      }
+                    },
+                    content: Text('指定增益', style: GoogleFonts.notoSansSc(),),
+                  ),
+                  const SizedBox(width: 10,),
+                  SizedBox(
+                    width: 130,
+                    child: NumberBox(
+                      value: c.fileList[c.selectIndex.value].audioVolume ?? 1, 
+                      mode: SpinButtonPlacementMode.inline,
+                      clearButton: false,
+                      onChanged: c.fileList[c.selectIndex.value].audioVolume==null ? null : (val){
+                        if(val!=null){
+                          int volume=val as int;
+                          c.fileList[c.selectIndex.value].audioVolume=volume;
+                          c.fileList.refresh();
+                        }
+                      }
+                    ),
+                  )
+                ],
+              ) : Container(),
+              c.fileList[c.selectIndex.value].type==Types.video && c.fileList[c.selectIndex.value].outType==Types.video ? const SizedBox(height: 10,) : Container(),
+              c.fileList[c.selectIndex.value].type==Types.video && c.fileList[c.selectIndex.value].outType==Types.video ? Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 90,
+                    child: Text(
                       '视频轨道',
                       style: GoogleFonts.notoSansSc(),
                     ),
