@@ -71,6 +71,8 @@ class _ConfigPanelState extends State<ConfigPanel> {
                     child: Text(
                       c.fileList[c.selectIndex.value].path,
                       style: GoogleFonts.notoSansSc(),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     )
                   )
                 ],

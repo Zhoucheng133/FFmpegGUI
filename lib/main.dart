@@ -8,10 +8,8 @@ Future<void> main() async {
   await windowManager.ensureInitialized();
 
   WindowOptions windowOptions = const WindowOptions(
-    size: Size(800, 650),
+    size: Size(800, 670),
     center: true,
-    maximumSize: Size(800, 650),
-    minimumSize: Size(800, 650),
     backgroundColor: Colors.transparent,
     skipTaskbar: false,
     titleBarStyle: TitleBarStyle.hidden,
