@@ -6,7 +6,6 @@ import 'package:window_manager/window_manager.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
-
   WindowOptions windowOptions = const WindowOptions(
     size: Size(800, 670),
     center: true,

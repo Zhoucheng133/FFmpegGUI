@@ -33,7 +33,7 @@ class _FilePreviewState extends State<FilePreview> {
       ancestor: Navigator.of(context).context.findRenderObject(),
     );
     contextController.showFlyout(
-      barrierColor: Colors.black.withOpacity(0.1),
+      barrierColor: Colors.black.withAlpha(2),
       position: position,
       builder: (context) {
         return MenuFlyout(
