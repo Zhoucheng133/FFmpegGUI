@@ -37,6 +37,7 @@ class _FilePreviewState extends State<FilePreview> {
       position: position,
       builder: (context) {
         return MenuFlyout(
+          shadowColor: Colors.transparent,
           items: [
             MenuFlyoutItem(
               leading: const FaIcon(FontAwesomeIcons.trash),

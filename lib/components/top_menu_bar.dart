@@ -192,6 +192,7 @@ class _TopMenuBarState extends State<TopMenuBar> {
                 dismissWithEsc: true,
                 builder: (context) {
                   return MenuFlyout(
+                    shadowColor: Colors.transparent,
                     items: [
                       MenuFlyoutItem(
                         leading: const FaIcon(FontAwesomeIcons.file),
@@ -239,6 +240,7 @@ class _TopMenuBarState extends State<TopMenuBar> {
                     dismissWithEsc: true,
                     builder: (context) {
                       return MenuFlyout(
+                        shadowColor: Colors.transparent,
                         items: [
                           MenuFlyoutItem(
                             leading: const FaIcon(FontAwesomeIcons.play),
