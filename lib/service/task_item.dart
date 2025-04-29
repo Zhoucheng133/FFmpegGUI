@@ -72,6 +72,8 @@ class TaskItem{
   int? audioVolume;
   // 输出名
   String? outputName;
+  // 不重新编码
+  bool copy=false;
 
   String removeExtension(String fileName){
     int lastDotIndex = fileName.lastIndexOf('.');

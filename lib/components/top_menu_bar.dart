@@ -153,6 +153,7 @@ class _TopMenuBarState extends State<TopMenuBar> {
               final nowConfig=c.fileList[c.selectIndex.value];
               c.fileList.value=c.fileList.map((item){
                 if(item.type==nowConfig.type){
+                  item.copy=nowConfig.copy;
                   item.encoder=nowConfig.encoder;
                   item.format=nowConfig.format;
                   item.channel=nowConfig.channel;

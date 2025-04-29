@@ -128,50 +128,64 @@ class _ConfigPanelState extends State<ConfigPanel> {
                       style: GoogleFonts.notoSansSc(),
                     ),
                   ),
-                  ComboBox(
-                    value: c.fileList[c.selectIndex.value].encoder,
-                    items: c.fileList[c.selectIndex.value].outType==Types.video ?  [
-                      ComboBoxItem(
-                        value: Encoders.libx264,
-                        child: Text('libx264', style: GoogleFonts.notoSansSc(),),
+                  Row(
+                    children: [
+                      ComboBox(
+                        value: c.fileList[c.selectIndex.value].encoder,
+                        items: c.fileList[c.selectIndex.value].outType==Types.video ?  [
+                          ComboBoxItem(
+                            value: Encoders.libx264,
+                            child: Text('libx264', style: GoogleFonts.notoSansSc(),),
+                          ),
+                          ComboBoxItem(
+                            value: Encoders.libx265,
+                            child: Text('libx265', style: GoogleFonts.notoSansSc(),),
+                          ),
+                          ComboBoxItem(
+                            value: Encoders.libaomav1,
+                            child: Text('libaom-av1', style: GoogleFonts.notoSansSc(),),
+                          ),
+                          ComboBoxItem(
+                            value: Encoders.libxvid,
+                            child: Text('libxvid', style: GoogleFonts.notoSansSc(),),
+                          ),
+                        ] : [
+                          ComboBoxItem(
+                            value: Encoders.aac,
+                            child: Text('aac', style: GoogleFonts.notoSansSc(),),
+                          ),
+                          ComboBoxItem(
+                            value: Encoders.libmp3lame,
+                            child: Text('libmp3lame', style: GoogleFonts.notoSansSc(),),
+                          ),
+                          ComboBoxItem(
+                            value: Encoders.flac,
+                            child: Text('flac', style: GoogleFonts.notoSansSc(),),
+                          )
+                        ],
+                        onChanged: c.fileList[c.selectIndex.value].copy ? null : (value){
+                          value=value as Encoders;
+                          c.fileList[c.selectIndex.value].encoder=value;
+                          if(c.fileList[c.selectIndex.value].encoder==Encoders.aac){
+                            c.fileList[c.selectIndex.value].format=Formats.m4a;
+                          }else if(c.fileList[c.selectIndex.value].encoder==Encoders.flac){
+                            c.fileList[c.selectIndex.value].format=Formats.flac;
+                          }
+                          c.fileList.refresh();
+                        },
                       ),
-                      ComboBoxItem(
-                        value: Encoders.libx265,
-                        child: Text('libx265', style: GoogleFonts.notoSansSc(),),
+                      const SizedBox(width: 10,),
+                      Checkbox(
+                        checked: c.fileList[c.selectIndex.value].copy, 
+                        onChanged: (val){
+                          if(val!=null){
+                            c.fileList[c.selectIndex.value].copy=val;
+                            c.fileList.refresh();
+                          }
+                        },
+                        content: Text('不重新编码', style: GoogleFonts.notoSansSc(),),
                       ),
-                      ComboBoxItem(
-                        value: Encoders.libaomav1,
-                        child: Text('libaom-av1', style: GoogleFonts.notoSansSc(),),
-                      ),
-                      ComboBoxItem(
-                        value: Encoders.libxvid,
-                        child: Text('libxvid', style: GoogleFonts.notoSansSc(),),
-                      ),
-                    ] : [
-                      ComboBoxItem(
-                        value: Encoders.aac,
-                        child: Text('aac', style: GoogleFonts.notoSansSc(),),
-                      ),
-                      ComboBoxItem(
-                        value: Encoders.libmp3lame,
-                        child: Text('libmp3lame', style: GoogleFonts.notoSansSc(),),
-                      ),
-                      ComboBoxItem(
-                        value: Encoders.flac,
-                        child: Text('flac', style: GoogleFonts.notoSansSc(),),
-                      )
                     ],
-                    onChanged: (value){
-                      if(value!=null){
-                        c.fileList[c.selectIndex.value].encoder=value;
-                        if(c.fileList[c.selectIndex.value].encoder==Encoders.aac){
-                          c.fileList[c.selectIndex.value].format=Formats.m4a;
-                        }else if(c.fileList[c.selectIndex.value].encoder==Encoders.flac){
-                          c.fileList[c.selectIndex.value].format=Formats.flac;
-                        }
-                        c.fileList.refresh();
-                      }
-                    },
                   ),
                 ],
               ),
@@ -250,8 +264,8 @@ class _ConfigPanelState extends State<ConfigPanel> {
                     ),
                   ),
                   Checkbox(
-                    checked: (c.fileList[c.selectIndex.value].width!=null || c.fileList[c.selectIndex.value].height!=null), 
-                    onChanged: (val){
+                    checked: (!c.fileList[c.selectIndex.value].copy && (c.fileList[c.selectIndex.value].width!=null || c.fileList[c.selectIndex.value].height!=null)), 
+                    onChanged: c.fileList[c.selectIndex.value].copy ? null : (val){
                       if(val!=null){
                         if(val==false){
                           c.fileList[c.selectIndex.value].height=null;
@@ -314,8 +328,8 @@ class _ConfigPanelState extends State<ConfigPanel> {
                     ),
                   ),
                   Checkbox(
-                    checked: c.fileList[c.selectIndex.value].audioVolume!=null, 
-                    onChanged: (val){
+                    checked: !c.fileList[c.selectIndex.value].copy && c.fileList[c.selectIndex.value].audioVolume!=null, 
+                    onChanged: c.fileList[c.selectIndex.value].copy ? null : (val){
                       if(val!=null){
                         if(val==false){
                           c.fileList[c.selectIndex.value].audioVolume=null;
@@ -363,8 +377,9 @@ class _ConfigPanelState extends State<ConfigPanel> {
                       min: 0,
                       mode: SpinButtonPlacementMode.inline,
                       value: c.fileList[c.selectIndex.value].videoTrack, 
-                      onChanged: (val){
-                        if(val!=null && val>=0){
+                      onChanged: c.fileList[c.selectIndex.value].copy ? null : (val){
+                        val=val as int;
+                        if(val>=0){
                           c.fileList[c.selectIndex.value].videoTrack=val;
                           c.fileList.refresh();
                         }
@@ -391,8 +406,9 @@ class _ConfigPanelState extends State<ConfigPanel> {
                       min: 0,
                       mode: SpinButtonPlacementMode.inline,
                       value: c.fileList[c.selectIndex.value].audioTrack, 
-                      onChanged: (val){
-                        if(val!=null && val>=0){
+                      onChanged: c.fileList[c.selectIndex.value].copy ? null : (val){
+                        val=val as int;
+                        if(val>=0){
                           c.fileList[c.selectIndex.value].audioTrack=val;
                           c.fileList.refresh();
                         }
@@ -420,11 +436,10 @@ class _ConfigPanelState extends State<ConfigPanel> {
                       value: c.fileList[c.selectIndex.value].channel,
                       min: 1,
                       max: 6,
-                      onChanged: (val){
-                        if(val!=null){
-                          c.fileList[c.selectIndex.value].channel=val;
-                          c.fileList.refresh();
-                        }
+                      onChanged: c.fileList[c.selectIndex.value].copy ? null : (val){
+                        val=val as int;
+                        c.fileList[c.selectIndex.value].channel=val;
+                        c.fileList.refresh();
                       }
                     ),
                   )
@@ -442,8 +457,8 @@ class _ConfigPanelState extends State<ConfigPanel> {
                     ),
                   ),
                   Checkbox(
-                    checked: c.fileList[c.selectIndex.value].subtitleLine!=null, 
-                    onChanged: (val){
+                    checked: !c.fileList[c.selectIndex.value].copy && c.fileList[c.selectIndex.value].subtitleLine!=null, 
+                    onChanged: c.fileList[c.selectIndex.value].copy ? null : (val){
                       if(val!=null){
                         if(val==false){
                           c.fileList[c.selectIndex.value].subtitleLine=null;
