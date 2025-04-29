@@ -73,7 +73,11 @@ class Funcs {
               ),
               const SizedBox(height: 10,),
               GestureDetector(
-                onTap: () => showLicensePage(context: context),
+                onTap: () => showLicensePage(
+                  applicationName: 'FFmpeg GUI',
+                  applicationVersion: 'v${packageInfo.version}',
+                  context: context
+                ),
                 child: MouseRegion(
                   cursor: SystemMouseCursors.click,
                   child: Row(
