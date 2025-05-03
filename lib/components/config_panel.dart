@@ -219,27 +219,22 @@ class _ConfigPanelState extends State<ConfigPanel> {
                     ] : [
                       ComboBoxItem(
                         value: Formats.mp3,
-                        enabled: c.fileList[c.selectIndex.value].encoder!=Encoders.aac && c.fileList[c.selectIndex.value].encoder!=Encoders.flac,
                         child: Text('mp3', style: GoogleFonts.notoSansSc(),),
                       ),
                       ComboBoxItem(
                         value: Formats.aac,
-                        enabled: c.fileList[c.selectIndex.value].encoder!=Encoders.flac && c.fileList[c.selectIndex.value].encoder!=Encoders.libmp3lame,
                         child: Text('aac', style: GoogleFonts.notoSansSc(),),
                       ),
                       ComboBoxItem(
                         value: Formats.wav,
-                        enabled: c.fileList[c.selectIndex.value].encoder!=Encoders.aac && c.fileList[c.selectIndex.value].encoder!=Encoders.flac,
                         child: Text('wav', style: GoogleFonts.notoSansSc(),),
                       ),
                       ComboBoxItem(
                         value: Formats.m4a,
-                        enabled: c.fileList[c.selectIndex.value].encoder!=Encoders.flac && c.fileList[c.selectIndex.value].encoder!=Encoders.libmp3lame,
                         child: Text('m4a', style: GoogleFonts.notoSansSc(),),
                       ),
                       ComboBoxItem(
                         value: Formats.flac,
-                        enabled: c.fileList[c.selectIndex.value].encoder==Encoders.flac,
                         child: Text('flac', style: GoogleFonts.notoSansSc(),),
                       ),
                     ],

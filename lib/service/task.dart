@@ -198,9 +198,15 @@ class Task {
 ''';
       }
     }else if(item.outType==Types.audio){
-      cmd='''
+      if(!item.copy){
+        cmd='''
 "${c.ffmpeg.value}" -i "$fileName" -c:a ${item.encoder.toString().split('.').last} -ac ${item.channel} "$output"
 ''';
+      }else{
+        cmd='''
+"${c.ffmpeg.value}" -i "$fileName" -vn -c:a copy "$output"
+''';
+      }
     }else{
       cmd='''
 "${c.ffmpeg.value}" -i "$fileName" "$output"
