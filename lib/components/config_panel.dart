@@ -106,10 +106,11 @@ class _ConfigPanelState extends State<ConfigPanel> {
                         c.fileList[c.selectIndex.value].outType=value;
                         if(c.fileList[c.selectIndex.value].outType==Types.video){
                           c.fileList[c.selectIndex.value].format=Formats.mp4;
-                          c.fileList[c.selectIndex.value].encoder=Encoders.libx264;
+                          c.fileList[c.selectIndex.value].videoEncoders=VideoEncoders.libx264;
+                          c.fileList[c.selectIndex.value].audioEncoders=AudioEncoders.aac;
                         }else if(c.fileList[c.selectIndex.value].outType==Types.audio){
                           c.fileList[c.selectIndex.value].format=Formats.mp3;
-                          c.fileList[c.selectIndex.value].encoder=Encoders.libmp3lame;
+                          c.fileList[c.selectIndex.value].audioEncoders=AudioEncoders.libmp3lame;
                         }
                         c.fileList.refresh();
                       }
@@ -130,48 +131,64 @@ class _ConfigPanelState extends State<ConfigPanel> {
                   ),
                   Row(
                     children: [
-                      ComboBox(
-                        value: c.fileList[c.selectIndex.value].encoder,
-                        items: c.fileList[c.selectIndex.value].outType==Types.video ?  [
+                      if(c.fileList[c.selectIndex.value].outType==Types.video) ComboBox(
+                        value: c.fileList[c.selectIndex.value].videoEncoders,
+                        items: [
                           ComboBoxItem(
-                            value: Encoders.libx264,
+                            value: VideoEncoders.libx264,
                             child: Text('libx264', style: GoogleFonts.notoSansSc(),),
                           ),
                           ComboBoxItem(
-                            value: Encoders.libx265,
+                            value: VideoEncoders.libx265,
                             child: Text('libx265', style: GoogleFonts.notoSansSc(),),
                           ),
                           ComboBoxItem(
-                            value: Encoders.libaomav1,
+                            value: VideoEncoders.libaomav1,
                             child: Text('libaom-av1', style: GoogleFonts.notoSansSc(),),
                           ),
                           ComboBoxItem(
-                            value: Encoders.libxvid,
+                            value: VideoEncoders.libxvid,
                             child: Text('libxvid', style: GoogleFonts.notoSansSc(),),
                           ),
-                        ] : [
+                        ],
+                        onChanged: c.fileList[c.selectIndex.value].copy ? null : (value){
+                          // value=value as Encoders;
+                          // c.fileList[c.selectIndex.value].encoder=value;
+                          // if(c.fileList[c.selectIndex.value].encoder==Encoders.aac){
+                          //   c.fileList[c.selectIndex.value].format=Formats.m4a;
+                          // }else if(c.fileList[c.selectIndex.value].encoder==Encoders.flac){
+                          //   c.fileList[c.selectIndex.value].format=Formats.flac;
+                          // }
+                          value=value as VideoEncoders;
+                          c.fileList[c.selectIndex.value].videoEncoders=value;
+                          c.fileList.refresh();
+                        },
+                      ),
+                      if(c.fileList[c.selectIndex.value].outType==Types.video) const SizedBox(width: 10,),
+                      ComboBox(
+                        value: c.fileList[c.selectIndex.value].audioEncoders,
+                        items: [
                           ComboBoxItem(
-                            value: Encoders.aac,
+                            value: AudioEncoders.aac,
                             child: Text('aac', style: GoogleFonts.notoSansSc(),),
                           ),
                           ComboBoxItem(
-                            value: Encoders.libmp3lame,
+                            value: AudioEncoders.libmp3lame,
                             child: Text('libmp3lame', style: GoogleFonts.notoSansSc(),),
                           ),
                           ComboBoxItem(
-                            value: Encoders.flac,
+                            value: AudioEncoders.flac,
                             child: Text('flac', style: GoogleFonts.notoSansSc(),),
                           )
                         ],
-                        onChanged: c.fileList[c.selectIndex.value].copy ? null : (value){
-                          value=value as Encoders;
-                          c.fileList[c.selectIndex.value].encoder=value;
-                          if(c.fileList[c.selectIndex.value].encoder==Encoders.aac){
+                        onChanged: c.fileList[c.selectIndex.value].copy ? null :  (value){
+                          value=value as AudioEncoders;
+                          c.fileList[c.selectIndex.value].audioEncoders=value;
+                          if(c.fileList[c.selectIndex.value].audioEncoders==AudioEncoders.aac){
                             c.fileList[c.selectIndex.value].format=Formats.m4a;
-                          }else if(c.fileList[c.selectIndex.value].encoder==Encoders.flac){
+                          }else if(c.fileList[c.selectIndex.value].audioEncoders==AudioEncoders.flac){
                             c.fileList[c.selectIndex.value].format=Formats.flac;
                           }
-                          c.fileList.refresh();
                         },
                       ),
                       const SizedBox(width: 10,),
@@ -213,7 +230,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                       ),
                       ComboBoxItem(
                         value: Formats.flv,
-                        enabled: c.fileList[c.selectIndex.value].encoder!=Encoders.libaomav1,
+                        enabled: c.fileList[c.selectIndex.value].videoEncoders!=VideoEncoders.libaomav1,
                         child: Text('flv', style: GoogleFonts.notoSansSc(),),
                       ),
                     ] : [

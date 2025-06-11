@@ -146,11 +146,11 @@ class Task {
     return '''-vf "subtitles='$fileName':si=${c.fileList[c.selectIndex.value].subtitleLine}"''';
   }
 
-  String convertEncoder(Encoders encoder){
-    if(encoder==Encoders.libaomav1){
+  String convertEncoder(VideoEncoders videoEncoder){
+    if(videoEncoder==VideoEncoders.libaomav1){
       return 'libaom-av1';
     }
-    return encoder.toString().split('.').last;
+    return videoEncoder.toString().split('.').last;
   }
 
   String scale(int? index){
@@ -190,7 +190,7 @@ class Task {
     if(item.outType==Types.video){
       if(!item.copy){
         cmd='''
-"${c.ffmpeg.value}" -i "$fileName" -c:v ${convertEncoder(item.encoder)}${scale(index)}${audioVolume(index)} -ac ${item.channel} -map 0:v:${item.videoTrack} -map 0:a:${item.audioTrack} ${subtitle(fileName)} "$output"
+"${c.ffmpeg.value}" -i "$fileName" -c:v ${convertEncoder(item.videoEncoders)}${scale(index)}${audioVolume(index)} -ac ${item.channel} -map 0:v:${item.videoTrack} -map 0:a:${item.audioTrack} ${subtitle(fileName)} "$output"
 ''';
       }else{
         cmd='''
@@ -200,7 +200,7 @@ class Task {
     }else if(item.outType==Types.audio){
       if(!item.copy){
         cmd='''
-"${c.ffmpeg.value}" -i "$fileName" -c:a ${item.encoder.toString().split('.').last} -ac ${item.channel} "$output"
+"${c.ffmpeg.value}" -i "$fileName" -c:a ${item.audioEncoders.toString().split('.').last} -ac ${item.channel} "$output"
 ''';
       }else{
         cmd='''

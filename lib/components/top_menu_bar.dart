@@ -154,7 +154,8 @@ class _TopMenuBarState extends State<TopMenuBar> {
               c.fileList.value=c.fileList.map((item){
                 if(item.type==nowConfig.type){
                   item.copy=nowConfig.copy;
-                  item.encoder=nowConfig.encoder;
+                  item.videoEncoders=nowConfig.videoEncoders;
+                  item.audioEncoders=nowConfig.audioEncoders;
                   item.format=nowConfig.format;
                   item.channel=nowConfig.channel;
                   item.subtitleLine=nowConfig.subtitleLine;

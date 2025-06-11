@@ -25,11 +25,17 @@ enum Formats{
   m4a
 }
 
-enum Encoders{
+enum VideoEncoders{
   libx264,
   libx265,
   libaomav1,
   libxvid,
+  // aac,
+  // libmp3lame,
+  // flac,
+}
+
+enum AudioEncoders{
   aac,
   libmp3lame,
   flac,
@@ -47,8 +53,13 @@ Types getType(String path){
 class TaskItem{
   final Controller c = Get.put(Controller());
 
+  // 源文件路径
   late String path;
-  late Encoders encoder;
+  // 视频编码 (音频为null)
+  late VideoEncoders videoEncoders;
+  // 音频编码
+  late AudioEncoders audioEncoders;
+  // 封装
   late Formats format;
   // 声道数量, 默认为2
   int channel=2;
@@ -87,16 +98,18 @@ class TaskItem{
   TaskItem({required this.path}){
     type=getType(path);
     if(type==Types.video){
-      encoder=Encoders.libx264;
+      videoEncoders=VideoEncoders.libx264;
+      audioEncoders=AudioEncoders.aac;
       format=Formats.mp4;
       outType=Types.video;
     }else if(type==Types.audio){
-      encoder=Encoders.libmp3lame;
+      audioEncoders=AudioEncoders.libmp3lame;
       format=Formats.mp3;
       outType=Types.audio;
     }else{
       outType=Types.video;
-      encoder=Encoders.libx264;
+      videoEncoders=VideoEncoders.libx264;
+      audioEncoders=AudioEncoders.aac;
       format=Formats.mp4;
     }
     outputName=removeExtension(p.basename(path));
