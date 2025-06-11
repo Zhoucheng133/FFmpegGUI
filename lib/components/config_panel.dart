@@ -184,11 +184,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                         onChanged: c.fileList[c.selectIndex.value].copy ? null :  (value){
                           value=value as AudioEncoders;
                           c.fileList[c.selectIndex.value].audioEncoders=value;
-                          if(c.fileList[c.selectIndex.value].audioEncoders==AudioEncoders.aac){
-                            c.fileList[c.selectIndex.value].format=Formats.m4a;
-                          }else if(c.fileList[c.selectIndex.value].audioEncoders==AudioEncoders.flac){
-                            c.fileList[c.selectIndex.value].format=Formats.flac;
-                          }
+                          c.fileList.refresh();
                         },
                       ),
                       const SizedBox(width: 10,),
