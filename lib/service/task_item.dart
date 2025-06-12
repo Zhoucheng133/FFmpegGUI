@@ -30,6 +30,7 @@ enum VideoEncoders{
   libx265,
   libaomav1,
   libxvid,
+  copy,
   // aac,
   // libmp3lame,
   // flac,
@@ -39,6 +40,7 @@ enum AudioEncoders{
   aac,
   libmp3lame,
   flac,
+  copy  
 }
 
 Types getType(String path){
@@ -83,8 +85,6 @@ class TaskItem{
   int? audioVolume;
   // 输出名
   String? outputName;
-  // 不重新编码
-  bool copy=false;
 
   String removeExtension(String fileName){
     int lastDotIndex = fileName.lastIndexOf('.');

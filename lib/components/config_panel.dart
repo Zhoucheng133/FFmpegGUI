@@ -150,8 +150,12 @@ class _ConfigPanelState extends State<ConfigPanel> {
                             value: VideoEncoders.libxvid,
                             child: Text('libxvid', style: GoogleFonts.notoSansSc(),),
                           ),
+                          ComboBoxItem(
+                            value: VideoEncoders.copy,
+                            child: Text('不编码', style: GoogleFonts.notoSansSc(),),
+                          ),
                         ],
-                        onChanged: c.fileList[c.selectIndex.value].copy ? null : (value){
+                        onChanged: (value){
                           // value=value as Encoders;
                           // c.fileList[c.selectIndex.value].encoder=value;
                           // if(c.fileList[c.selectIndex.value].encoder==Encoders.aac){
@@ -179,24 +183,17 @@ class _ConfigPanelState extends State<ConfigPanel> {
                           ComboBoxItem(
                             value: AudioEncoders.flac,
                             child: Text('flac', style: GoogleFonts.notoSansSc(),),
+                          ),
+                          ComboBoxItem(
+                            value: AudioEncoders.copy,
+                            child: Text('不编码', style: GoogleFonts.notoSansSc(),),
                           )
                         ],
-                        onChanged: c.fileList[c.selectIndex.value].copy ? null :  (value){
+                        onChanged: (value){
                           value=value as AudioEncoders;
                           c.fileList[c.selectIndex.value].audioEncoders=value;
                           c.fileList.refresh();
                         },
-                      ),
-                      const SizedBox(width: 10,),
-                      Checkbox(
-                        checked: c.fileList[c.selectIndex.value].copy, 
-                        onChanged: (val){
-                          if(val!=null){
-                            c.fileList[c.selectIndex.value].copy=val;
-                            c.fileList.refresh();
-                          }
-                        },
-                        content: Text('不重新编码', style: GoogleFonts.notoSansSc(),),
                       ),
                     ],
                   ),
@@ -272,8 +269,8 @@ class _ConfigPanelState extends State<ConfigPanel> {
                     ),
                   ),
                   Checkbox(
-                    checked: (!c.fileList[c.selectIndex.value].copy && (c.fileList[c.selectIndex.value].width!=null || c.fileList[c.selectIndex.value].height!=null)), 
-                    onChanged: c.fileList[c.selectIndex.value].copy ? null : (val){
+                    checked: (c.fileList[c.selectIndex.value].videoEncoders!=VideoEncoders.copy && (c.fileList[c.selectIndex.value].width!=null || c.fileList[c.selectIndex.value].height!=null)), 
+                    onChanged: c.fileList[c.selectIndex.value].videoEncoders==VideoEncoders.copy ? null : (val){
                       if(val!=null){
                         if(val==false){
                           c.fileList[c.selectIndex.value].height=null;
@@ -336,8 +333,8 @@ class _ConfigPanelState extends State<ConfigPanel> {
                     ),
                   ),
                   Checkbox(
-                    checked: !c.fileList[c.selectIndex.value].copy && c.fileList[c.selectIndex.value].audioVolume!=null, 
-                    onChanged: c.fileList[c.selectIndex.value].copy ? null : (val){
+                    checked: c.fileList[c.selectIndex.value].videoEncoders!=VideoEncoders.copy && c.fileList[c.selectIndex.value].audioVolume!=null, 
+                    onChanged: c.fileList[c.selectIndex.value].videoEncoders==VideoEncoders.copy ? null : (val){
                       if(val!=null){
                         if(val==false){
                           c.fileList[c.selectIndex.value].audioVolume=null;
@@ -385,7 +382,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                       min: 0,
                       mode: SpinButtonPlacementMode.inline,
                       value: c.fileList[c.selectIndex.value].videoTrack, 
-                      onChanged: c.fileList[c.selectIndex.value].copy ? null : (val){
+                      onChanged: c.fileList[c.selectIndex.value].videoEncoders==VideoEncoders.copy ? null : (val){
                         val=val as int;
                         if(val>=0){
                           c.fileList[c.selectIndex.value].videoTrack=val;
@@ -414,7 +411,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                       min: 0,
                       mode: SpinButtonPlacementMode.inline,
                       value: c.fileList[c.selectIndex.value].audioTrack, 
-                      onChanged: c.fileList[c.selectIndex.value].copy ? null : (val){
+                      onChanged: c.fileList[c.selectIndex.value].videoEncoders==VideoEncoders.copy ? null : (val){
                         val=val as int;
                         if(val>=0){
                           c.fileList[c.selectIndex.value].audioTrack=val;
@@ -444,7 +441,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                       value: c.fileList[c.selectIndex.value].channel,
                       min: 1,
                       max: 6,
-                      onChanged: c.fileList[c.selectIndex.value].copy ? null : (val){
+                      onChanged: c.fileList[c.selectIndex.value].audioEncoders==AudioEncoders.copy ? null : (val){
                         val=val as int;
                         c.fileList[c.selectIndex.value].channel=val;
                         c.fileList.refresh();
@@ -465,8 +462,8 @@ class _ConfigPanelState extends State<ConfigPanel> {
                     ),
                   ),
                   Checkbox(
-                    checked: !c.fileList[c.selectIndex.value].copy && c.fileList[c.selectIndex.value].subtitleLine!=null, 
-                    onChanged: c.fileList[c.selectIndex.value].copy ? null : (val){
+                    checked: c.fileList[c.selectIndex.value].videoEncoders!=VideoEncoders.copy && c.fileList[c.selectIndex.value].subtitleLine!=null, 
+                    onChanged: c.fileList[c.selectIndex.value].videoEncoders==VideoEncoders.copy ? null : (val){
                       if(val!=null){
                         if(val==false){
                           c.fileList[c.selectIndex.value].subtitleLine=null;
