@@ -190,7 +190,7 @@ class Task {
     if(item.outType==Types.video){
       if(!item.copy){
         cmd='''
-"${c.ffmpeg.value}" -i "$fileName" -c:v ${convertEncoder(item.videoEncoders)}${scale(index)}${audioVolume(index)} -ac ${item.channel} -map 0:v:${item.videoTrack} -map 0:a:${item.audioTrack} ${subtitle(fileName)} "$output"
+"${c.ffmpeg.value}" -i "$fileName" -c:v ${convertEncoder(item.videoEncoders)}${scale(index)}${audioVolume(index)} -c:a ${item.audioEncoders.toString().split('.').last} -ac ${item.channel} -map 0:v:${item.videoTrack} -map 0:a:${item.audioTrack} ${subtitle(fileName)} "$output"
 ''';
       }else{
         cmd='''
