@@ -9,7 +9,7 @@ environment:
 dependencies:
   dropdown_button2: ^2.3.9
   file_picker: 8.1.7
-  fluent_ui: 4.11.5
+  fluent_ui: ^4.12.0
   flutter:
     sdk: flutter
   flutter_localizations:
