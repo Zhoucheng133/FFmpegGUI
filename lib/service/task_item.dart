@@ -43,6 +43,12 @@ enum AudioEncoders{
   copy  
 }
 
+enum SubTitleType{
+  none,
+  file,
+  embed
+}
+
 Types getType(String path){
   if(path.endsWith('.mp4') || path.endsWith('.mkv') || path.endsWith('.flv') || path.endsWith('.mov')){
       return Types.video;
@@ -65,8 +71,12 @@ class TaskItem{
   late Formats format;
   // 声道数量, 默认为2
   int channel=2;
+  // 字幕类型
+  SubTitleType subTitleType=SubTitleType.none;
   // 字幕轨道
   int? subtitleLine;
+  // 字幕文件
+  String subTitleFile="";
   // 文件类型
   late Types type;
   // 视频轨道, 默认为0
