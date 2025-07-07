@@ -1,3 +1,4 @@
+import 'package:ffmpeg_gui/components/sub_dialog.dart';
 import 'package:ffmpeg_gui/service/task_item.dart';
 import 'package:ffmpeg_gui/service/variables.dart';
 import 'package:fluent_ui/fluent_ui.dart';
@@ -477,14 +478,38 @@ class _ConfigPanelState extends State<ConfigPanel> {
                         child: Text('外部字幕', style: GoogleFonts.notoSansSc(),),
                       )
                     ],
-                    onChanged: c.fileList[c.selectIndex.value].videoEncoders==VideoEncoders.copy ? null : (value){
-                      // TODO 选择字幕文件或者字幕轨道
+                    onChanged: c.fileList[c.selectIndex.value].videoEncoders==VideoEncoders.copy ? null : (value) async {
                       value=value as SubTitleType?;
+
+                      if(value==SubTitleType.embed){
+                        int? line=await showEmbedSubDialog(context);
+                        if(line==null){
+                          value=SubTitleType.none;
+                        }else{
+                          c.fileList[c.selectIndex.value].subtitleLine=line;
+                        }
+                      }else if(value==SubTitleType.file){
+                        String? path=await showSrtDialog(context);
+                        if(path==null){
+                          value=SubTitleType.none;
+                        }else{
+                          c.fileList[c.selectIndex.value].subTitleFile=path;
+                        }
+                      }
+
                       if(value!=null){
                         c.fileList[c.selectIndex.value].subTitleType=value;
                         c.fileList.refresh();
                       }
                     },
+                  ),
+                  const SizedBox(width: 10,),
+                  if(c.fileList[c.selectIndex.value].subTitleType!=SubTitleType.none) Expanded(
+                    child: Text(
+                      c.fileList[c.selectIndex.value].subTitleType==SubTitleType.embed ? "字幕轨道: ${c.fileList[c.selectIndex.value].subtitleLine.toString()}" 
+                      : "字幕文件: ${c.fileList[c.selectIndex.value].subTitleFile}",
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   )
                 ]
               ) : Container(),
