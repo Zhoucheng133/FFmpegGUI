@@ -509,6 +509,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                       c.fileList[c.selectIndex.value].subTitleType==SubTitleType.embed ? "字幕轨道: ${c.fileList[c.selectIndex.value].subtitleLine.toString()}" 
                       : "字幕文件: ${c.fileList[c.selectIndex.value].subTitleFile}",
                       overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.notoSansSc(),
                     ),
                   )
                 ]
