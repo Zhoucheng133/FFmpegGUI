@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 Future<String?> showSrtDialog(BuildContext context) async {
   FilePickerResult? result = await FilePicker.platform.pickFiles(
     type: FileType.custom,
-    allowedExtensions: ['srt', 'ass'],
+    allowedExtensions: ['ass'],
   );
   if (result != null) {
     return result.files.single.path!;
