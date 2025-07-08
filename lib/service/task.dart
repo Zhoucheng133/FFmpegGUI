@@ -139,11 +139,14 @@ class Task {
     return fileName.substring(0, lastDotIndex);
   }
 
-  String subtitle(String fileName){
-    if(c.fileList[c.selectIndex.value].subtitleLine==null){
+  String subtitle(String fileName, TaskItem item){
+    if(item.subTitleType==SubTitleType.none){
       return "";
+    }else if(item.subTitleType==SubTitleType.embed){
+      return '''-vf "subtitles='$fileName':si=${c.fileList[c.selectIndex.value].subtitleLine}"''';
+    }else{
+      return '''-vf "ass='${p.basename(item.subTitleFile)}'"''';
     }
-    return '''-vf "subtitles='$fileName':si=${c.fileList[c.selectIndex.value].subtitleLine}"''';
   }
 
   String convertEncoder(VideoEncoders videoEncoder){
@@ -182,22 +185,22 @@ class Task {
     }else{
       fileName=p.basename(item.path);
       workDirectory=p.dirname(item.path);
-      shell=Shell(stdout: controller.sink, stderr: controller.sink, workingDirectory: workDirectory);
+      shell=Shell(stdout: controller.sink, stderr: controller.sink, workingDirectory: item.subTitleType==SubTitleType.file ? p.dirname(item.subTitleFile) : workDirectory);
     }
     String output=outputPath.replaceAll('\\', '/');
     runIndex=index??-1;
     var cmd='';
     if(item.outType==Types.video){
       cmd='''
-"${c.ffmpeg.value}" -i "$fileName" -c:v ${convertEncoder(item.videoEncoders)}${scale(index)}${audioVolume(index)} -c:a ${item.audioEncoders.toString().split('.').last} -ac ${item.channel} -map 0:v:${item.videoTrack} -map 0:a:${item.audioTrack} ${subtitle(fileName)} "$output"
+${c.ffmpeg.value} -i "${item.subTitleType==SubTitleType.file ? item.path.replaceAll("\\", "/") : fileName}" -c:v ${convertEncoder(item.videoEncoders)}${scale(index)}${audioVolume(index)} -c:a ${item.audioEncoders.toString().split('.').last} -ac ${item.channel} -map 0:v:${item.videoTrack} -map 0:a:${item.audioTrack} ${subtitle(fileName, item)} "$output"
 ''';
     }else if(item.outType==Types.audio){
         cmd='''
-"${c.ffmpeg.value}" -i "$fileName" -c:a ${item.audioEncoders.toString().split('.').last} -ac ${item.channel} "$output"
+${c.ffmpeg.value} -i "$fileName" -c:a ${item.audioEncoders.toString().split('.').last} -ac ${item.channel} "$output"
 ''';
     }else{
       cmd='''
-"${c.ffmpeg.value}" -i "$fileName" "$output"
+${c.ffmpeg.value} -i "$fileName" "$output"
 ''';
     }
     // print(cmd);
