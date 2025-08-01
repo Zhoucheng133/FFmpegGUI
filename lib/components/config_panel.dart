@@ -334,8 +334,8 @@ class _ConfigPanelState extends State<ConfigPanel> {
                     ),
                   ),
                   Checkbox(
-                    checked: c.fileList[c.selectIndex.value].videoEncoders!=VideoEncoders.copy && c.fileList[c.selectIndex.value].audioVolume!=null, 
-                    onChanged: c.fileList[c.selectIndex.value].videoEncoders==VideoEncoders.copy ? null : (val){
+                    checked: c.fileList[c.selectIndex.value].audioEncoders!=AudioEncoders.copy && c.fileList[c.selectIndex.value].audioVolume!=null, 
+                    onChanged: c.fileList[c.selectIndex.value].audioEncoders==AudioEncoders.copy ? null : (val){
                       if(val!=null){
                         if(val==false){
                           c.fileList[c.selectIndex.value].audioVolume=null;
