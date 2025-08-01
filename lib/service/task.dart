@@ -143,7 +143,7 @@ class Task {
     if(item.subTitleType==SubTitleType.none){
       return "";
     }else if(item.subTitleType==SubTitleType.embed){
-      return '''-vf "subtitles='$fileName':si=${c.fileList[c.selectIndex.value].subtitleLine}"''';
+      return '''-vf "subtitles='$fileName':si=${c.fileList[c.selectIndex.value].subtitleTrack}"''';
     }else{
       return '''-vf "ass='${p.basename(item.subTitleFile)}'"''';
     }

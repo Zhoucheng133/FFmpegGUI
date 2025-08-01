@@ -486,7 +486,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                         if(line==null){
                           value=SubTitleType.none;
                         }else{
-                          c.fileList[c.selectIndex.value].subtitleLine=line;
+                          c.fileList[c.selectIndex.value].subtitleTrack=line;
                         }
                       }else if(value==SubTitleType.file){
                         String? path=await showSrtDialog(context);
@@ -506,7 +506,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                   const SizedBox(width: 10,),
                   if(c.fileList[c.selectIndex.value].subTitleType!=SubTitleType.none) Expanded(
                     child: Text(
-                      c.fileList[c.selectIndex.value].subTitleType==SubTitleType.embed ? "字幕轨道: ${c.fileList[c.selectIndex.value].subtitleLine.toString()}" 
+                      c.fileList[c.selectIndex.value].subTitleType==SubTitleType.embed ? "字幕轨道: ${c.fileList[c.selectIndex.value].subtitleTrack.toString()}" 
                       : "字幕文件: ${c.fileList[c.selectIndex.value].subTitleFile}",
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.notoSansSc(),

@@ -157,7 +157,7 @@ class _TopMenuBarState extends State<TopMenuBar> {
                   item.audioEncoders=nowConfig.audioEncoders;
                   item.format=nowConfig.format;
                   item.channel=nowConfig.channel;
-                  // item.subtitleLine=nowConfig.subtitleLine;
+                  // item.subtitleTrack=nowConfig.subtitleTrack;
                   item.videoTrack=nowConfig.videoTrack;
                   item.audioTrack=nowConfig.audioTrack;
                   item.outType=nowConfig.outType;

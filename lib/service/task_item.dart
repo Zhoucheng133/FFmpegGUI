@@ -74,7 +74,7 @@ class TaskItem{
   // 字幕类型
   SubTitleType subTitleType=SubTitleType.none;
   // 字幕轨道
-  int? subtitleLine;
+  int? subtitleTrack;
   // 字幕文件
   String subTitleFile="";
   // 文件类型
