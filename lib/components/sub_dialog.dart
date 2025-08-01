@@ -26,6 +26,7 @@ Future<int?> showEmbedSubDialog(BuildContext context) async {
             child: Row(
               children: [
                 Text('字幕轨道', style: GoogleFonts.notoSansSc(),),
+                const SizedBox(width: 10,),
                 Expanded(
                   child: NumberBox(
                     min: 0,
