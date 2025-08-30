@@ -129,6 +129,9 @@ class Funcs {
                     child: TextBox(
                       maxLines: 1,
                       controller: controller,
+                      style: GoogleFonts.notoSansSc(
+                        fontSize: 14
+                      ),
                     ),
                   )
                 ),
