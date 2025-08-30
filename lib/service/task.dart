@@ -9,6 +9,21 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:process_run/process_run.dart';
 import 'package:path/path.dart' as p;
 
+String convertEncoder(VideoEncoders videoEncoder){
+  if(videoEncoder==VideoEncoders.libaomav1){
+    return 'libaom-av1';
+  }else if(videoEncoder==VideoEncoders.h264nvenc){
+    return 'h264_nvenc';
+  }else if(videoEncoder==VideoEncoders.hevcnvenc){
+    return "hevc_nvenc";
+  }else if(videoEncoder==VideoEncoders.h264videotoolbox){
+    return "h264_videotoolbox";
+  }else if(videoEncoder==VideoEncoders.hevcvideotoolbox){
+    return "hevc_videotoolbox";
+  }
+  return videoEncoder.toString().split('.').last;
+}
+
 class Task {
   late Shell shell;
   final Controller c = Get.put(Controller());
@@ -147,13 +162,6 @@ class Task {
     }else{
       return '''-vf "ass='${p.basename(item.subTitleFile)}'"''';
     }
-  }
-
-  String convertEncoder(VideoEncoders videoEncoder){
-    if(videoEncoder==VideoEncoders.libaomav1){
-      return 'libaom-av1';
-    }
-    return videoEncoder.toString().split('.').last;
   }
 
   String scale(int? index){

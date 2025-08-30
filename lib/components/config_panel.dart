@@ -1,4 +1,5 @@
 import 'package:ffmpeg_gui/components/sub_dialog.dart';
+import 'package:ffmpeg_gui/service/task.dart';
 import 'package:ffmpeg_gui/service/task_item.dart';
 import 'package:ffmpeg_gui/service/variables.dart';
 import 'package:fluent_ui/fluent_ui.dart';
@@ -134,36 +135,14 @@ class _ConfigPanelState extends State<ConfigPanel> {
                     children: [
                       if(c.fileList[c.selectIndex.value].outType==Types.video) ComboBox(
                         value: c.fileList[c.selectIndex.value].videoEncoders,
-                        items: [
-                          ComboBoxItem(
-                            value: VideoEncoders.libx264,
-                            child: Text('libx264', style: GoogleFonts.notoSansSc(),),
-                          ),
-                          ComboBoxItem(
-                            value: VideoEncoders.libx265,
-                            child: Text('libx265', style: GoogleFonts.notoSansSc(),),
-                          ),
-                          ComboBoxItem(
-                            value: VideoEncoders.libaomav1,
-                            child: Text('libaom-av1', style: GoogleFonts.notoSansSc(),),
-                          ),
-                          ComboBoxItem(
-                            value: VideoEncoders.libxvid,
-                            child: Text('libxvid', style: GoogleFonts.notoSansSc(),),
-                          ),
-                          ComboBoxItem(
-                            value: VideoEncoders.copy,
-                            child: Text('不编码', style: GoogleFonts.notoSansSc(),),
-                          ),
-                        ],
+                        items: VideoEncoders.values.map((item)=>ComboBoxItem(
+                          value: item,
+                          child: Text(
+                            convertEncoder(item),
+                            style: GoogleFonts.notoSansSc()
+                          )
+                        )).toList(),
                         onChanged: (value){
-                          // value=value as Encoders;
-                          // c.fileList[c.selectIndex.value].encoder=value;
-                          // if(c.fileList[c.selectIndex.value].encoder==Encoders.aac){
-                          //   c.fileList[c.selectIndex.value].format=Formats.m4a;
-                          // }else if(c.fileList[c.selectIndex.value].encoder==Encoders.flac){
-                          //   c.fileList[c.selectIndex.value].format=Formats.flac;
-                          // }
                           value=value as VideoEncoders;
                           c.fileList[c.selectIndex.value].videoEncoders=value;
                           c.fileList.refresh();
@@ -531,10 +510,13 @@ class _ConfigPanelState extends State<ConfigPanel> {
                       onChanged: (val){
                         c.fileList[c.selectIndex.value].outputName=val;
                       },
+                      style: GoogleFonts.notoSansSc(
+                        fontSize: 14
+                      ),
                     )
                   ),
                   const SizedBox(width: 2,),
-                  Text(".${c.fileList[c.selectIndex.value].format.name}")
+                  Text(".${c.fileList[c.selectIndex.value].format.name}", style: GoogleFonts.notoSansSc())
                 ]
               ),
               Expanded(child: Container()),

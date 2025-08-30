@@ -31,9 +31,10 @@ enum VideoEncoders{
   libaomav1,
   libxvid,
   copy,
-  // aac,
-  // libmp3lame,
-  // flac,
+  h264nvenc,
+  hevcnvenc,
+  h264videotoolbox,
+  hevcvideotoolbox,
 }
 
 enum AudioEncoders{
