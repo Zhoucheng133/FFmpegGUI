@@ -180,6 +180,15 @@ class Task {
     return "";
   }
 
+  String decoder(VideoEncoders encoder){
+    if(encoder==VideoEncoders.h264nvenc || encoder==VideoEncoders.hevcnvenc){
+      return " -hwaccel cuda";
+    }else if(encoder==VideoEncoders.h264videotoolbox || encoder==VideoEncoders.hevcvideotoolbox){
+      return " -hwaccel videotoolbox";
+    }
+    return "";
+  }
+
   Future<void> mainService(int? index) async {
     TaskItem item=c.fileList[index??c.selectIndex.value];
     String outputPath='';
@@ -200,7 +209,7 @@ class Task {
     var cmd='';
     if(item.outType==Types.video){
       cmd='''
-${c.ffmpeg.value} -i "${item.subTitleType==SubTitleType.file ? item.path.replaceAll("\\", "/") : fileName}" -c:v ${convertEncoder(item.videoEncoders)}${scale(index)}${audioVolume(index)} -c:a ${item.audioEncoders.toString().split('.').last} -ac ${item.channel} -map 0:v:${item.videoTrack} -map 0:a:${item.audioTrack} ${subtitle(fileName, item)} "$output"
+${c.ffmpeg.value}${decoder(item.videoEncoders)} -i "${item.subTitleType==SubTitleType.file ? item.path.replaceAll("\\", "/") : fileName}" -c:v ${convertEncoder(item.videoEncoders)}${scale(index)}${audioVolume(index)} -c:a ${item.audioEncoders.toString().split('.').last} -ac ${item.channel} -map 0:v:${item.videoTrack} -map 0:a:${item.audioTrack} ${subtitle(fileName, item)} "$output"
 ''';
     }else if(item.outType==Types.audio){
         cmd='''
