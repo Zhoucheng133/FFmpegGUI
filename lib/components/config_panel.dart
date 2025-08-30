@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ffmpeg_gui/components/sub_dialog.dart';
 import 'package:ffmpeg_gui/service/task.dart';
 import 'package:ffmpeg_gui/service/task_item.dart';
@@ -135,7 +137,15 @@ class _ConfigPanelState extends State<ConfigPanel> {
                     children: [
                       if(c.fileList[c.selectIndex.value].outType==Types.video) ComboBox(
                         value: c.fileList[c.selectIndex.value].videoEncoders,
-                        items: VideoEncoders.values.map((item)=>ComboBoxItem(
+                        items: VideoEncoders.values
+                        .where((item){
+                          final excludedEncoders = Platform.isMacOS
+                          ? [VideoEncoders.h264nvenc, VideoEncoders.hevcnvenc]
+                          : [VideoEncoders.h264videotoolbox, VideoEncoders.hevcvideotoolbox];
+
+                          return !excludedEncoders.contains(item);
+                        })
+                        .map((item)=>ComboBoxItem(
                           value: item,
                           child: Text(
                             convertEncoder(item),
