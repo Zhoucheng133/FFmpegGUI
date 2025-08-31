@@ -33,6 +33,8 @@ enum VideoEncoders{
   copy,
   h264nvenc,
   hevcnvenc,
+  h264amf,
+  hevcamf,
   h264videotoolbox,
   hevcvideotoolbox,
 }

@@ -20,6 +20,10 @@ String convertEncoder(VideoEncoders videoEncoder){
     return "h264_videotoolbox";
   }else if(videoEncoder==VideoEncoders.hevcvideotoolbox){
     return "hevc_videotoolbox";
+  }else if(videoEncoder==VideoEncoders.h264amf){
+    return "h264_amf";
+  }else if(videoEncoder==VideoEncoders.hevcamf){
+    return "hevc_amf";
   }
   return videoEncoder.toString().split('.').last;
 }

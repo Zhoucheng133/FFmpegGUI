@@ -140,7 +140,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                         items: VideoEncoders.values
                         .where((item){
                           final excludedEncoders = Platform.isMacOS
-                          ? [VideoEncoders.h264nvenc, VideoEncoders.hevcnvenc]
+                          ? [VideoEncoders.h264nvenc, VideoEncoders.hevcnvenc, VideoEncoders.h264amf, VideoEncoders.hevcamf]
                           : [VideoEncoders.h264videotoolbox, VideoEncoders.hevcvideotoolbox];
 
                           return !excludedEncoders.contains(item);
