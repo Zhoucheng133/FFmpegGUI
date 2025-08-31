@@ -189,6 +189,8 @@ class Task {
       return " -hwaccel cuda";
     }else if(encoder==VideoEncoders.h264videotoolbox || encoder==VideoEncoders.hevcvideotoolbox){
       return " -hwaccel videotoolbox";
+    }else if(encoder==VideoEncoders.h264amf || encoder==VideoEncoders.hevcamf){
+      return " -hwaccel d3d11va";
     }
     return "";
   }
