@@ -162,6 +162,7 @@ class _TopMenuBarState extends State<TopMenuBar> {
                   item.outType=nowConfig.outType;
                   item.width=nowConfig.width;
                   item.height=nowConfig.height;
+                  item.audioVolume=nowConfig.audioVolume;
                   if(nowConfig.subTitleType==SubTitleType.embed){
                     item.subTitleType=SubTitleType.embed;
                     item.subtitleTrack=nowConfig.subtitleTrack;
