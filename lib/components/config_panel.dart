@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:ffmpeg_gui/components/sub_dialog.dart';
-import 'package:ffmpeg_gui/service/task.dart';
 import 'package:ffmpeg_gui/service/task_item.dart';
 import 'package:ffmpeg_gui/service/variables.dart';
 import 'package:fluent_ui/fluent_ui.dart';
@@ -35,6 +34,46 @@ class _ConfigPanelState extends State<ConfigPanel> {
     super.initState();
     ever(c.fileList, (_)=>setName());
     ever(c.selectIndex, (_)=>setName());
+  }
+
+  String videoEncoderToString(VideoEncoders encoder){
+    switch (encoder) {
+      case VideoEncoders.copy:
+        return "不编码";
+      case VideoEncoders.h264amf:
+        return "H264 (AMD GPU加速)";
+      case VideoEncoders.h264nvenc:
+        return "H264 (Nvidia GPU加速)";
+      case VideoEncoders.h264videotoolbox:
+        return "H264 (Apple 硬件加速)";
+      case VideoEncoders.hevcamf:
+        return "HEVC (AMD GPU加速)";
+      case VideoEncoders.hevcnvenc:
+        return "HEVC (Nvidia GPU加速)";
+      case VideoEncoders.hevcvideotoolbox:
+        return "HEVC (Apple 硬件加速)";
+      case VideoEncoders.libaomav1:
+        return "AV1 (CPU)";
+      case VideoEncoders.libx264:
+        return "H264 (CPU)";
+      case VideoEncoders.libx265:
+        return "HEVC (CPU)";
+      case VideoEncoders.libxvid:
+        return "XviD (CPU)";
+    }
+  }
+
+  String audioEncoderToString(AudioEncoders encoder){
+    switch (encoder) {
+      case AudioEncoders.aac:
+        return "AAC";
+      case AudioEncoders.copy:
+        return "不编码";
+      case AudioEncoders.flac:
+        return "FLAC";
+      case AudioEncoders.libmp3lame:
+        return "mp3";
+    }
   }
 
   @override
@@ -148,7 +187,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                         .map((item)=>ComboBoxItem(
                           value: item,
                           child: Text(
-                            convertEncoder(item),
+                            videoEncoderToString(item),
                             style: GoogleFonts.notoSansSc()
                           )
                         )).toList(),
@@ -161,24 +200,13 @@ class _ConfigPanelState extends State<ConfigPanel> {
                       if(c.fileList[c.selectIndex.value].outType==Types.video) const SizedBox(width: 10,),
                       ComboBox(
                         value: c.fileList[c.selectIndex.value].audioEncoders,
-                        items: [
-                          ComboBoxItem(
-                            value: AudioEncoders.aac,
-                            child: Text('aac', style: GoogleFonts.notoSansSc(),),
-                          ),
-                          ComboBoxItem(
-                            value: AudioEncoders.libmp3lame,
-                            child: Text('libmp3lame', style: GoogleFonts.notoSansSc(),),
-                          ),
-                          ComboBoxItem(
-                            value: AudioEncoders.flac,
-                            child: Text('flac', style: GoogleFonts.notoSansSc(),),
-                          ),
-                          ComboBoxItem(
-                            value: AudioEncoders.copy,
-                            child: Text('不编码', style: GoogleFonts.notoSansSc(),),
+                        items: AudioEncoders.values.map((item)=>ComboBoxItem(
+                          value: item,
+                          child: Text(
+                            audioEncoderToString(item),
+                            style: GoogleFonts.notoSansSc(),
                           )
-                        ],
+                        )).toList(),
                         onChanged: (value){
                           value=value as AudioEncoders;
                           c.fileList[c.selectIndex.value].audioEncoders=value;
