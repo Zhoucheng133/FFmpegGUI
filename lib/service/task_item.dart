@@ -53,9 +53,9 @@ enum SubTitleType{
 }
 
 Types getType(String path){
-  if(path.endsWith('.mp4') || path.endsWith('.mkv') || path.endsWith('.flv') || path.endsWith('.mov')){
+  if(path.toLowerCase().endsWith('.mp4') || path.toLowerCase().endsWith('.mkv') || path.toLowerCase().endsWith('.flv') || path.toLowerCase().endsWith('.mov')){
       return Types.video;
-    }else if(path.endsWith('.mp3') || path.endsWith('acc') || path.endsWith('flac') || path.endsWith('wav')){
+    }else if(path.toLowerCase().endsWith('.mp3') || path.toLowerCase().endsWith('.aac') || path.toLowerCase().endsWith('.flac') || path.toLowerCase().endsWith('.wav')){
       return Types.audio;
     }
     return Types.none;
