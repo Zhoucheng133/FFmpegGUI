@@ -204,7 +204,10 @@ class Task {
     return '';
   }
 
+  bool forceStop=false;
+
   Future<void> mainService(int? index) async {
+    forceStop=false;
     TaskItem item=c.fileList[index??c.selectIndex.value];
     String outputPath='';
     String fileName='';
@@ -252,6 +255,7 @@ ${c.ffmpeg.value} -i "$fileName" "$output"
     } on ShellException catch (_) {
       c.fileList[index??c.selectIndex.value].status=Status.wait;
       c.fileList.refresh();
+      forceStop=true;
     }
   }
 
@@ -298,7 +302,9 @@ ${c.ffmpeg.value} -i "$fileName" "$output"
     }
     c.running.value=false;
     stopTask=false;
-    showNotification();
+    if(!forceStop){
+      showNotification();
+    }
   }
 
   Future<void> singleRun(BuildContext context) async {
@@ -322,6 +328,8 @@ ${c.ffmpeg.value} -i "$fileName" "$output"
     await mainService(null);
     c.running.value=false;
     stopTask=false;
-    showNotification();
+    if(!forceStop){
+      showNotification();
+    }
   }
 }

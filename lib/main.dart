@@ -33,9 +33,6 @@ Future<void> main() async {
 
   await notifications.initialize(
     initSettings,
-    onDidReceiveNotificationResponse: (NotificationResponse response) async {
-      windowManager.focus();
-    },
   );
 
   runApp(const MainApp());
