@@ -1,7 +1,7 @@
 name: ffmpeg_gui
 description: "FFmpeg GUI application"
 publish_to: 'none'
-version: 0.4.3
+version: 0.4.4
 
 environment:
   sdk: ^3.5.3
@@ -22,7 +22,7 @@ dependencies:
   process_run: ^1.2.2
   shared_preferences: ^2.3.2
   url_launcher: ^6.3.1
-  window_manager: ^0.4.3
+  window_manager: ^0.5.1
 
 dev_dependencies:
   flutter_test:
