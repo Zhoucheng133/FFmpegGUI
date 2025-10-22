@@ -29,6 +29,12 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
     await windowManager.setPreventClose(true);
     var ffmpegExectutable = whichSync('ffmpeg');
     prefs = await SharedPreferences.getInstance();
+
+    bool? useNotification=prefs.getBool('useNotification');
+    if(useNotification!=null){
+      c.useNotification.value=useNotification;
+    }
+
     final prefOutput=prefs.getString('output');
     final ffmpeg=prefs.getString('ffmpeg');
     if(prefOutput!=null){
@@ -40,6 +46,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
       c.ffmpeg.value=ffmpeg;
       return;
     }
+
     if(ffmpegExectutable==null){
       WidgetsBinding.instance.addPostFrameCallback((_) {
         showDialog(

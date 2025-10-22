@@ -113,8 +113,10 @@ class Funcs {
   }
 
   Future<void> showFFmpegSetting(BuildContext context) async {
+
     TextEditingController controller=TextEditingController();
     controller.text=c.ffmpeg.value;
+
     await showDialog(
       context: context, 
       builder: (context)=>ContentDialog(
@@ -125,6 +127,17 @@ class Funcs {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Obx(() => Checkbox(
+                    checked: c.useNotification.value,
+                    onChanged: (bool? value) async {
+                      c.useNotification.value=value??false;
+                      final SharedPreferences prefs=await SharedPreferences.getInstance();
+                      prefs.setBool('useNotification', c.useNotification.value);
+                    },
+                    content: Text('启用通知', style: GoogleFonts.notoSansSc(),),
+                  ),
+                ),
+                const SizedBox(height: 10,),
                 Text("FFmpeg路径", style: GoogleFonts.notoSansSc(),),
                 const SizedBox(height: 5,),
                 Row(
@@ -147,7 +160,6 @@ class Funcs {
                       onPressed: () async {
                         FilePickerResult? result = await FilePicker.platform.pickFiles();
                         if (result != null) {
-                          // File file = File(result.files.single.path!);
                           setState((){
                             controller.text=result.files.single.path!;
                           });
