@@ -195,6 +195,13 @@ class Task {
     return "";
   }
 
+  String clip(bool enableClip, String? clipStart, String? clipEnd){
+    if(enableClip && clipStart != null && clipEnd != null){
+      return ' -ss $clipStart -to $clipEnd';
+    }
+    return '';
+  }
+
   Future<void> mainService(int? index) async {
     TaskItem item=c.fileList[index??c.selectIndex.value];
     String outputPath='';
@@ -215,11 +222,11 @@ class Task {
     var cmd='';
     if(item.outType==Types.video){
       cmd='''
-${c.ffmpeg.value}${decoder(item.videoEncoders)} -i "${item.subTitleType==SubTitleType.file ? item.path.replaceAll("\\", "/") : fileName}" -c:v ${convertEncoder(item.videoEncoders)}${scale(index)}${audioVolume(index)} -c:a ${item.audioEncoders.toString().split('.').last} -ac ${item.channel} -map 0:v:${item.videoTrack} -map 0:a:${item.audioTrack} ${subtitle(fileName, item)} "$output"
+${c.ffmpeg.value}${decoder(item.videoEncoders)}${clip(item.enableClip, item.clipStart, item.clipEnd)} -i "${item.subTitleType==SubTitleType.file ? item.path.replaceAll("\\", "/") : fileName}" -c:v ${convertEncoder(item.videoEncoders)}${scale(index)}${audioVolume(index)} -c:a ${item.audioEncoders.toString().split('.').last} -ac ${item.channel} -map 0:v:${item.videoTrack} -map 0:a:${item.audioTrack} ${subtitle(fileName, item)} "$output"
 ''';
     }else if(item.outType==Types.audio){
         cmd='''
-${c.ffmpeg.value} -i "$fileName" -c:a ${item.audioEncoders.toString().split('.').last} -ac ${item.channel} "$output"
+${c.ffmpeg.value}${clip(item.enableClip, item.clipStart, item.clipEnd)} -i "$fileName" -c:a ${item.audioEncoders.toString().split('.').last} -ac ${item.channel} "$output"
 ''';
     }else{
       cmd='''
@@ -255,7 +262,6 @@ ${c.ffmpeg.value} -i "$fileName" "$output"
     }
     c.log.value=[];
     for(int index=0; index<c.fileList.length; index++){
-      // String outputPath = p.join(c.output.value, '${removeExtension(p.basename(c.fileList[index].path))}.${c.fileList[index].format.toString().split('.').last}');
       String outputPath=p.join(c.output.value, '${c.fileList[index].outputName}.${c.fileList[index].format.name}');
       File file = File(outputPath);
       if(c.fileList[index].status==Status.finished){
