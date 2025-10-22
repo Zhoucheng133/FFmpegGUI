@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:ffmpeg_gui/main.dart';
 import 'package:ffmpeg_gui/service/task_item.dart';
 import 'package:ffmpeg_gui/service/variables.dart';
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:process_run/process_run.dart';
@@ -253,6 +255,22 @@ ${c.ffmpeg.value} -i "$fileName" "$output"
     }
   }
 
+  Future<void> showNotification() async {
+    if(c.useNotification.value) {
+      const NotificationDetails details = NotificationDetails(
+        macOS: DarwinNotificationDetails(),
+        windows: WindowsNotificationDetails(),
+      );
+
+      await notifications.show(
+        0,
+        'FFmpegGUI 任务完成',
+        '已经完成所有转换任务',
+        details,
+      );
+    }
+  }
+
   Future<void> multiRun(BuildContext context) async {
     if(c.running.value || c.fileList.isEmpty){
       return;
@@ -280,6 +298,7 @@ ${c.ffmpeg.value} -i "$fileName" "$output"
     }
     c.running.value=false;
     stopTask=false;
+    showNotification();
   }
 
   Future<void> singleRun(BuildContext context) async {
@@ -303,5 +322,6 @@ ${c.ffmpeg.value} -i "$fileName" "$output"
     await mainService(null);
     c.running.value=false;
     stopTask=false;
+    showNotification();
   }
 }
