@@ -98,6 +98,12 @@ class TaskItem{
   int? audioVolume;
   // 输出名
   String? outputName;
+  // 启用裁切
+  bool enableClip=false;
+  // 裁切开始时间，时间戳
+  String? clipStart;
+  // 裁切结束时间，时间戳
+  String? clipEnd;
 
   String removeExtension(String fileName){
     int lastDotIndex = fileName.lastIndexOf('.');

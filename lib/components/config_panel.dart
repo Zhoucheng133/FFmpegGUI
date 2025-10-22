@@ -275,6 +275,72 @@ class _ConfigPanelState extends State<ConfigPanel> {
                   ),
                 ],
               ),
+              const SizedBox(height: 10,),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 90,
+                    child: Text(
+                      '截取',
+                      style: GoogleFonts.notoSansSc(),
+                    ),
+                  ),
+                  Checkbox(
+                    checked: c.fileList[c.selectIndex.value].enableClip,
+                    onChanged: (value){
+                      c.fileList[c.selectIndex.value].enableClip = value ?? false;
+                      if(!c.fileList[c.selectIndex.value].enableClip){
+                        c.fileList[c.selectIndex.value].clipStart = null;
+                        c.fileList[c.selectIndex.value].clipEnd = null;
+                      }else{
+                        c.fileList[c.selectIndex.value].clipStart = "00:00:00";
+                        c.fileList[c.selectIndex.value].clipEnd = "00:00:10";
+                      }
+                      c.fileList.refresh();
+                    },
+                    content: Text('启用截取', style: GoogleFonts.notoSansSc(),),
+                  ),
+                  const SizedBox(width: 10,),
+                  SizedBox(
+                    width: 130,
+                    child: TextBox(
+                      controller: TextEditingController(text: c.fileList[c.selectIndex.value].clipStart ?? ""),
+                      enabled: c.fileList[c.selectIndex.value].enableClip,
+                      placeholder: "开始时间 (hh:mm:ss)",
+                      style: GoogleFonts.notoSansSc(
+                        fontSize: 14
+                      ),
+                      onChanged: (val){
+                        c.fileList[c.selectIndex.value].clipStart=val;
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5, right: 5),
+                    child: Text(
+                      "~",
+                      style: GoogleFonts.notoSansSc(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold
+                      ),
+                    )
+                  ),
+                  SizedBox(
+                    width: 130,
+                    child: TextBox(
+                      controller: TextEditingController(text: c.fileList[c.selectIndex.value].clipEnd ?? ""),
+                      enabled: c.fileList[c.selectIndex.value].enableClip,
+                      placeholder: "结束时间 (hh:mm:ss)",
+                      style: GoogleFonts.notoSansSc(
+                        fontSize: 14
+                      ),
+                      onChanged: (val){
+                        c.fileList[c.selectIndex.value].clipEnd=val;
+                      },
+                    ),
+                  ),
+                ],
+              ),
               c.fileList[c.selectIndex.value].type==Types.video && c.fileList[c.selectIndex.value].outType==Types.video ? const SizedBox(height: 10,) : Container(),
               c.fileList[c.selectIndex.value].type==Types.video && c.fileList[c.selectIndex.value].outType==Types.video ? Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
