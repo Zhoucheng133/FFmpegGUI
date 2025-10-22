@@ -11,4 +11,5 @@ class Controller extends GetxController{
   RxString output=''.obs;
 
   RxString ffmpeg="ffmpeg".obs;
+  RxBool useNotification=true.obs;
 }

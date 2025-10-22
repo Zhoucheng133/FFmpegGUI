@@ -279,7 +279,7 @@ class _TopMenuBarState extends State<TopMenuBar> {
           TopMenuBarItem(title: '应用所有', icon: FontAwesomeIcons.sliders, func: ()=>applyAll(context), enable: c.fileList.length>1),
           TopMenuBarItem(title: '日志', icon: FontAwesomeIcons.clipboard, func: ()=>task.log(context), enable: true),
           Expanded(child: Container()),
-          TopMenuBarItem(title: '环境变量', icon: FontAwesomeIcons.gear, func: ()=>funcs.showFFmpegSetting(context), enable: true),
+          TopMenuBarItem(title: '设置', icon: FontAwesomeIcons.gear, func: ()=>funcs.showFFmpegSetting(context), enable: true),
           TopMenuBarItem(title: '关于', icon: FontAwesomeIcons.circleInfo, func: ()=>funcs.showAbout(context), enable: true),
         ],
       ),

@@ -219,7 +219,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                   PlatformMenuItemGroup(
                     members: [
                       PlatformMenuItem(
-                        label: "环境变量设置...",
+                        label: "设置",
                         shortcut: const SingleActivator(
                           LogicalKeyboardKey.comma,
                           meta: true,

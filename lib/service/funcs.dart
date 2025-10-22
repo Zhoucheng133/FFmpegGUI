@@ -118,36 +118,44 @@ class Funcs {
     await showDialog(
       context: context, 
       builder: (context)=>ContentDialog(
-        title: Text('设置FFmpeg的环境变量', style: GoogleFonts.notoSansSc(),),
+        title: Text('设置', style: GoogleFonts.notoSansSc(),),
         content: StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
-            return Row(
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: SizedBox(
-                    height: 30,
-                    child: TextBox(
-                      maxLines: 1,
-                      controller: controller,
-                      style: GoogleFonts.notoSansSc(
-                        fontSize: 14
-                      ),
+                Text("FFmpeg路径", style: GoogleFonts.notoSansSc(),),
+                const SizedBox(height: 5,),
+                Row(
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        height: 30,
+                        child: TextBox(
+                          maxLines: 1,
+                          controller: controller,
+                          style: GoogleFonts.notoSansSc(
+                            fontSize: 14
+                          ),
+                        ),
+                      )
                     ),
-                  )
+                    const SizedBox(width: 10,),
+                    Button(
+                      child: Text('选取', style: GoogleFonts.notoSansSc(),), 
+                      onPressed: () async {
+                        FilePickerResult? result = await FilePicker.platform.pickFiles();
+                        if (result != null) {
+                          // File file = File(result.files.single.path!);
+                          setState((){
+                            controller.text=result.files.single.path!;
+                          });
+                        }
+                      }
+                    )
+                  ],
                 ),
-                const SizedBox(width: 10,),
-                Button(
-                  child: Text('选取', style: GoogleFonts.notoSansSc(),), 
-                  onPressed: () async {
-                    FilePickerResult? result = await FilePicker.platform.pickFiles();
-                    if (result != null) {
-                      // File file = File(result.files.single.path!);
-                      setState((){
-                        controller.text=result.files.single.path!;
-                      });
-                    }
-                  }
-                )
               ],
             );
           }
