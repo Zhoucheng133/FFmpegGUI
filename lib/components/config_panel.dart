@@ -87,8 +87,8 @@ class _ConfigPanelState extends State<ConfigPanel> {
         padding: const EdgeInsets.all(10),
         child: Obx(()=>
           c.fileList.isNotEmpty ? 
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          ListView(
+            // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 c.fileList[c.selectIndex.value].path.startsWith('http') ? c.fileList[c.selectIndex.value].path : p.basename(c.fileList[c.selectIndex.value].path),
