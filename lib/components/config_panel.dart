@@ -623,7 +623,6 @@ class _ConfigPanelState extends State<ConfigPanel> {
                   Text(".${c.fileList[c.selectIndex.value].format.name}", style: GoogleFonts.notoSansSc())
                 ]
               ),
-              Expanded(child: Container()),
             ],
           ) : Container(),
         ),
