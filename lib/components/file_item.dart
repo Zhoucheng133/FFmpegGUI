@@ -41,7 +41,7 @@ class _FilePreviewState extends State<FilePreview> {
           items: [
             MenuFlyoutItem(
               leading: const FaIcon(FontAwesomeIcons.trash),
-              text: Text('删除', style: GoogleFonts.notoSansSc(),),
+              text: const Text('删除'),
               onPressed: () {
                 Flyout.of(context).close();
                 if(c.selectIndex.value>=widget.index){
@@ -53,7 +53,7 @@ class _FilePreviewState extends State<FilePreview> {
             ),
             if(c.fileList[widget.index].status==Status.finished) MenuFlyoutItem(
               leading: const FaIcon(FontAwesomeIcons.rotateRight),
-              text: Text('重置状态', style: GoogleFonts.notoSansSc(),),
+              text: const Text('重置状态'),
               onPressed: () {
                 Flyout.of(context).close();
                 c.fileList[widget.index].status=Status.wait;

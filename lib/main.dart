@@ -2,6 +2,7 @@ import 'package:ffmpeg_gui/main_window.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:window_manager/window_manager.dart';
 final FlutterLocalNotificationsPlugin notifications =FlutterLocalNotificationsPlugin();
 
@@ -51,6 +52,7 @@ class MainApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate
       ],
       theme: FluentThemeData(
+        fontFamily: GoogleFonts.notoSansSc().fontFamily,
         accentColor: Colors.green,
       ),
       home: const MainWindow()

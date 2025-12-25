@@ -9,7 +9,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class TopMenuBar extends StatefulWidget {
   const TopMenuBar({super.key});
@@ -76,12 +75,12 @@ class _TopMenuBarState extends State<TopMenuBar> {
     showDialog(
       context: context, 
       builder: (context)=>ContentDialog(
-        title: Text('添加任务来自网络', style: GoogleFonts.notoSansSc(),),
+        title: const Text('添加任务来自网络'),
         content: SizedBox(
           height: 100,
           child: TextBox(
             controller: controller,
-            style: GoogleFonts.notoSansSc(),
+            
             placeholder: 'http(s)://',
             textAlignVertical: TextAlignVertical.top,
             maxLines: null,
@@ -89,11 +88,11 @@ class _TopMenuBarState extends State<TopMenuBar> {
         ),
         actions: [
           Button(
-            child: Text('取消', style: GoogleFonts.notoSansSc(),), 
+            child: const Text('取消'), 
             onPressed: ()=>Navigator.pop(context)
           ),
           FilledButton(
-            child: Text('添加', style: GoogleFonts.notoSansSc(),),
+            child: const Text('添加'),
             onPressed: (){
               c.fileList.add(TaskItem(path: controller.text));
               Navigator.pop(context);
@@ -111,20 +110,20 @@ class _TopMenuBarState extends State<TopMenuBar> {
     showDialog(
       context: context, 
       builder: (context)=>ContentDialog(
-        title: Text('清空任务列表', style: GoogleFonts.notoSansSc(),),
-        content: Text('确定要清空任务列表吗？这个操作不能撤销！', style: GoogleFonts.notoSansSc(),),
+        title: const Text('清空任务列表'),
+        content: const Text('确定要清空任务列表吗？这个操作不能撤销！'),
         actions: [
           Button(
-            child: Text(
+            child: const Text(
               '取消', 
-              style: GoogleFonts.notoSansSc(),
+              
             ), 
             onPressed: (){
               Navigator.pop(context);
             }
           ),
           FilledButton(
-            child: Text('确定', style: GoogleFonts.notoSansSc(),), 
+            child: const Text('确定'), 
             onPressed: (){
               Navigator.pop(context);
               c.fileList.value=[];
@@ -141,11 +140,11 @@ class _TopMenuBarState extends State<TopMenuBar> {
     showDialog(
       context: context, 
       builder: (context)=>ContentDialog(
-        title: Text('应用配置到所有任务?', style: GoogleFonts.notoSansSc(),),
-        content: Text('应用当前任务的配置到所有的任务? 注意仅限当前媒体的类型 !', style: GoogleFonts.notoSansSc(),),
+        title: const Text('应用配置到所有任务?'),
+        content: const Text('应用当前任务的配置到所有的任务? 注意仅限当前媒体的类型 !'),
         actions: [
           Button(
-            child: Text('取消', style: GoogleFonts.notoSansSc(),), 
+            child: const Text('取消'), 
             onPressed: ()=>Navigator.pop(context)
           ),
           FilledButton(
@@ -173,7 +172,7 @@ class _TopMenuBarState extends State<TopMenuBar> {
               c.fileList.refresh();
               Navigator.pop(context);
             },
-            child: Text('应用', style: GoogleFonts.notoSansSc(),)
+            child: const Text('应用')
           ),
         ],
       )
@@ -201,7 +200,7 @@ class _TopMenuBarState extends State<TopMenuBar> {
                     items: [
                       MenuFlyoutItem(
                         leading: const FaIcon(FontAwesomeIcons.file),
-                        text: Text('来自文件', style: GoogleFonts.notoSansSc(),),
+                        text: const Text('来自文件'),
                         onPressed: (){
                           Flyout.of(context).close();
                           pickFile();
@@ -209,7 +208,7 @@ class _TopMenuBarState extends State<TopMenuBar> {
                       ),
                       MenuFlyoutItem(
                         leading: const FaIcon(FontAwesomeIcons.folder),
-                        text: Text('来自目录', style: GoogleFonts.notoSansSc(),),
+                        text: const Text('来自目录'),
                         onPressed: (){
                           Flyout.of(context).close();
                           pickDir();
@@ -217,7 +216,7 @@ class _TopMenuBarState extends State<TopMenuBar> {
                       ),
                       MenuFlyoutItem(
                         leading: const FaIcon(FontAwesomeIcons.link),
-                        text: Text('来自网络', style: GoogleFonts.notoSansSc(),),
+                        text: const Text('来自网络'),
                         onPressed: (){
                           Flyout.of(context).close();
                           pickNetwork(context);
@@ -249,7 +248,7 @@ class _TopMenuBarState extends State<TopMenuBar> {
                         items: [
                           MenuFlyoutItem(
                             leading: const FaIcon(FontAwesomeIcons.play),
-                            text: Text('开始当前任务', style: GoogleFonts.notoSansSc(),),
+                            text: const Text('开始当前任务'),
                             onPressed: (){
                               Flyout.of(context).close();
                               task.singleRun(context);
@@ -257,7 +256,7 @@ class _TopMenuBarState extends State<TopMenuBar> {
                           ),
                           MenuFlyoutItem(
                             leading: const FaIcon(FontAwesomeIcons.play),
-                            text: Text('开始所有任务', style: GoogleFonts.notoSansSc(),),
+                            text: const Text('开始所有任务'),
                             onPressed: (){
                               Flyout.of(context).close();
                               task.multiRun(context);

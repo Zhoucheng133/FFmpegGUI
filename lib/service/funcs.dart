@@ -19,7 +19,7 @@ class Funcs {
       showDialog(
         context: context, 
         builder: (context)=>ContentDialog(
-          title: Text('关于FFmpeg GUI', style: GoogleFonts.notoSansSc(),),
+          title: const Text('关于FFmpeg GUI'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -101,7 +101,7 @@ class Funcs {
           ),
           actions: [
             FilledButton(
-              child: Text('好的', style: GoogleFonts.notoSansSc(),), 
+              child: const Text('好的'), 
               onPressed: (){
                 Navigator.pop(context);
               }
@@ -120,7 +120,7 @@ class Funcs {
     await showDialog(
       context: context, 
       builder: (context)=>ContentDialog(
-        title: Text('设置', style: GoogleFonts.notoSansSc(),),
+        title: const Text('设置'),
         content: StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return Column(
@@ -134,11 +134,11 @@ class Funcs {
                       final SharedPreferences prefs=await SharedPreferences.getInstance();
                       prefs.setBool('useNotification', c.useNotification.value);
                     },
-                    content: Text('启用通知', style: GoogleFonts.notoSansSc(),),
+                    content: const Text('启用通知'),
                   ),
                 ),
                 const SizedBox(height: 10,),
-                Text("FFmpeg路径", style: GoogleFonts.notoSansSc(),),
+                const Text("FFmpeg路径"),
                 const SizedBox(height: 5,),
                 Row(
                   children: [
@@ -156,7 +156,7 @@ class Funcs {
                     ),
                     const SizedBox(width: 10,),
                     Button(
-                      child: Text('选取', style: GoogleFonts.notoSansSc(),), 
+                      child: const Text('选取'), 
                       onPressed: () async {
                         FilePickerResult? result = await FilePicker.platform.pickFiles();
                         if (result != null) {
@@ -174,7 +174,7 @@ class Funcs {
         ),
         actions: [
           FilledButton(
-            child: Text('完成', style: GoogleFonts.notoSansSc(),), 
+            child: const Text('完成'), 
             onPressed: () async {
               c.ffmpeg.value=controller.text;
               SharedPreferences prefs = await SharedPreferences.getInstance();

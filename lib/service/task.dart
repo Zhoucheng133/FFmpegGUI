@@ -44,17 +44,17 @@ class Task {
     showDialog(
       context: context, 
       builder: (context)=>ContentDialog(
-        title: Text('暂停运行', style: GoogleFonts.notoSansSc(),),
-        content: Text('在当前正在执行的任务结束之后暂停任务的执行', style: GoogleFonts.notoSansSc(),),
+        title: const Text('暂停运行'),
+        content: const Text('在当前正在执行的任务结束之后暂停任务的执行'),
         actions: [
           Button(
-            child: Text('取消', style: GoogleFonts.notoSansSc(),),
+            child: const Text('取消'),
             onPressed: (){
               Navigator.pop(context);
             }
           ),
           FilledButton(
-            child: Text('继续', style: GoogleFonts.notoSansSc(),),
+            child: const Text('继续'),
             onPressed: (){
               Navigator.pop(context);
               setState((){
@@ -78,7 +78,7 @@ class Task {
             onPressed: (){
               Navigator.pop(context);
             }, 
-            child: Text('好的', style: GoogleFonts.notoSansSc(),)
+            child: const Text('好的')
           )
         ],
       )
@@ -108,7 +108,7 @@ class Task {
     showDialog(
       context: context, 
       builder: (context)=>ContentDialog(
-        title: Text('日志', style: GoogleFonts.notoSansSc(),),
+        title: const Text('日志'),
         content: SizedBox(
           height: 300,
           width: 500,
@@ -133,7 +133,7 @@ class Task {
                   itemCount: c.log.length,
                   itemBuilder: (context, index)=>Text(
                     c.log[index],
-                    style: GoogleFonts.notoSansSc(),
+                    
                   ),
                 ),
               ),
@@ -145,7 +145,7 @@ class Task {
             onPressed: (){
               Navigator.pop(context);
             }, 
-            child: Text('完成', style: GoogleFonts.notoSansSc(),)
+            child: const Text('完成')
           )
         ],
       )
