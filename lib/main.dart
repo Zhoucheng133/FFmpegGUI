@@ -1,7 +1,8 @@
 import 'package:ffmpeg_gui/main_window.dart';
-import 'package:fluent_ui/fluent_ui.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:window_manager/window_manager.dart';
 final FlutterLocalNotificationsPlugin notifications =FlutterLocalNotificationsPlugin();
@@ -10,7 +11,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await windowManager.ensureInitialized();
   WindowOptions windowOptions = const WindowOptions(
-    size: Size(800, 680),
+    size: Size(850, 680),
     center: true,
     backgroundColor: Colors.transparent,
     skipTaskbar: false,
@@ -39,23 +40,42 @@ Future<void> main() async {
   runApp(const MainApp());
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends StatefulWidget {
   const MainApp({super.key});
 
   @override
+  State<MainApp> createState() => _MainAppState();
+}
+
+class _MainAppState extends State<MainApp> {
+  @override
   Widget build(BuildContext context) {
-    return FluentApp(
+
+    final brightness = MediaQuery.of(context).platformBrightness;
+
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate
       ],
-      theme: FluentThemeData(
-        fontFamily: GoogleFonts.notoSansSc().fontFamily,
-        accentColor: Colors.green,
+      theme: brightness==Brightness.dark ? ThemeData.dark().copyWith(
+        textTheme: GoogleFonts.notoSansScTextTheme().apply(
+          bodyColor: Colors.white,
+          displayColor: Colors.white, 
+        ),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.green,
+          brightness: Brightness.dark,
+        ),
+      ) : ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+        textTheme: GoogleFonts.notoSansScTextTheme(),
       ),
-      home: const MainWindow()
+      home: Scaffold(
+        body: const MainWindow(),
+      )
     );
   }
 }
