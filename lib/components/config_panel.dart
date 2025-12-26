@@ -1,4 +1,3 @@
-import 'package:ffmpeg_gui/components/header_buttons.dart';
 import 'package:flutter/material.dart';
 
 class ConfigPanel extends StatefulWidget {
@@ -22,7 +21,6 @@ class _ConfigPanelState extends State<ConfigPanel> {
           padding: const EdgeInsets.all(15),
           child: Column(
             children: [
-              HeaderButtons()
             ],
           )
         ),

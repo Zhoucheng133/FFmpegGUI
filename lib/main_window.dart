@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:ffmpeg_gui/components/config_panel.dart';
+import 'package:ffmpeg_gui/components/header_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:window_manager/window_manager.dart';
@@ -71,6 +72,10 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
               ),
             ],
           ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: HeaderButtons(),
         ),
         Expanded(
           child: Row(
