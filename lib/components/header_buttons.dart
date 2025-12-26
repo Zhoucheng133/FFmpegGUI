@@ -1,4 +1,5 @@
 import 'package:ffmpeg_gui/components/header_button_item.dart';
+import 'package:ffmpeg_gui/dialogs/dialogs.dart';
 import 'package:flutter/material.dart';
 
 class HeaderButtons extends StatefulWidget {
@@ -22,7 +23,7 @@ class _HeaderButtonsState extends State<HeaderButtons> {
             HeaderButtonItem(buttonSide: ButtonSide.right, icon: Icons.paste_rounded, func: (){}, text: '日志',),
             Expanded(child: Container()),
             HeaderButtonItem(buttonSide: ButtonSide.left, icon: Icons.settings_rounded, func: (){}, text: '设置',),
-            HeaderButtonItem(buttonSide: ButtonSide.right, icon: Icons.info_rounded, func: (){}, text: '关于',),
+            HeaderButtonItem(buttonSide: ButtonSide.right, icon: Icons.info_rounded, func: ()=>showAbout(context), text: '关于',),
           ],
         ),
       ],
