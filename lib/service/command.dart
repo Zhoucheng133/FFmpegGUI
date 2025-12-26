@@ -42,7 +42,7 @@ class Task {
       return;
     }
 
-    final pause=await confirmDialog(context, "暂停运行", "在当前正在执行的任务结束之后暂停任务的执行", okText: "继续");
+    final pause=await confirmDialog(context, "pauseRun".tr, "pauseContent".tr, okText: "pause".tr);
 
     if(pause ?? false){
       setState((){
@@ -82,7 +82,7 @@ class Task {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '正在执行的任务: ${c.running.value ? runIndex==-1 ? convertName(c.selectIndex.value) : convertName(runIndex) : '/'}',
+              '${"nowTask".tr}: ${c.running.value ? runIndex==-1 ? convertName(c.selectIndex.value) : convertName(runIndex) : '/'}',
               style: TextStyle(
                 fontWeight: FontWeight.bold
               ),
@@ -222,8 +222,8 @@ ${c.ffmpeg.value} -i "$fileName" "$output"
 
       await notifications.show(
         0,
-        'FFmpegGUI 任务完成',
-        '已经完成所有转换任务',
+        'notificationTitle'.tr,
+        'notificationContent'.tr,
         details,
       );
     }
@@ -233,7 +233,7 @@ ${c.ffmpeg.value} -i "$fileName" "$output"
     if(c.running.value || c.fileList.isEmpty){
       return;
     }else if(c.output.isEmpty){
-      okDialog(context, '启动失败', '输出目录不能为空');
+      okDialog(context, 'runTaskFailed'.tr, 'outputPathEmpty'.tr);
       return;
     }
     c.log.value=[];
@@ -245,7 +245,7 @@ ${c.ffmpeg.value} -i "$fileName" "$output"
       }
       if(file.existsSync()){
         if(context.mounted){
-          okDialog(context, '启动失败', '输出目录下存在相同文件: $outputPath');
+          okDialog(context, 'runTaskFailed'.tr, '${"outputPathExist".tr}: $outputPath');
         }
         continue;
       }
@@ -265,17 +265,17 @@ ${c.ffmpeg.value} -i "$fileName" "$output"
     if(c.running.value || c.fileList.isEmpty){
       return;
     }else if(c.output.isEmpty){
-      okDialog(context, "启动失败", "输出目录不能为空");
+      okDialog(context, "runTaskFailed".tr, "outputPathEmpty".tr);
       return;
     }else if(c.fileList[c.selectIndex.value].status==Status.finished){
-      okDialog(context, "启动失败", "当前任务已完成");
+      okDialog(context, "runTaskFailed".tr, "taskAlreadyFinished".tr);
       return;
     }
     String outputPath=p.join(c.output.value, '${c.fileList[c.selectIndex.value].outputName}.${c.fileList[c.selectIndex.value].format.name}');
     // String outputPath = p.join(c.output.value, '${removeExtension(p.basename(c.fileList[c.selectIndex.value].path))}.${c.fileList[c.selectIndex.value].format.toString().split('.').last}');
     File file = File(outputPath);
     if(file.existsSync()){
-      okDialog(context, '启动失败', '输出目录下存在相同文件: $outputPath');
+      okDialog(context, 'runTaskFailed'.tr, '${"outputPathExist".tr}: $outputPath');
       return;
     }
     c.log.value=[];

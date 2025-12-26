@@ -1,3 +1,6 @@
+import 'package:ffmpeg_gui/controllers/controller.dart';
+import 'package:ffmpeg_gui/lang/en_us.dart';
+import 'package:ffmpeg_gui/lang/zh_cn.dart';
 import 'package:ffmpeg_gui/main_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -24,6 +27,9 @@ Future<void> main() async {
     await windowManager.setResizable(false);
   });
 
+  final controller=Get.put(Controller());
+  await controller.init();
+
   const initSettings = InitializationSettings(
     macOS: DarwinInitializationSettings(),
     windows: WindowsInitializationSettings(
@@ -47,13 +53,28 @@ class MainApp extends StatefulWidget {
   State<MainApp> createState() => _MainAppState();
 }
 
+class MainTranslations extends Translations {
+  @override
+  Map<String, Map<String, String>> get keys => {
+    'en_US': enUS,
+    'zh_CN': zhCN,
+  };
+}
+
 class _MainAppState extends State<MainApp> {
+
+  final controller=Get.find<Controller>();
+
   @override
   Widget build(BuildContext context) {
 
     final brightness = MediaQuery.of(context).platformBrightness;
 
     return GetMaterialApp(
+      supportedLocales: supportedLocales.map((item)=>item.locale).toList(),
+      fallbackLocale: Locale('en', 'US'),
+      translations: MainTranslations(),
+      locale: controller.lang.value.locale,
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
