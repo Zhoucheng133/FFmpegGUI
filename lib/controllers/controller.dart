@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:ffmpeg_gui/service/task_item.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -25,7 +26,7 @@ class Controller extends GetxController {
 
   RxList<TaskItem> fileList=RxList<TaskItem>([]);
   RxInt selectIndex=0.obs;
-  RxString output=''.obs;
+  TextEditingController output=TextEditingController();
   RxString ffmpeg=''.obs;
 
   RxBool useNotification=true.obs;

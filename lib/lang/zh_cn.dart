@@ -16,6 +16,7 @@ const Map<String, String> zhCN = {
   'notificationContent': '已经完成所有转换任务',
 
   'runTaskFailed': '启动失败',
+  'output': '输出目录',
   'outputPathExist': '输出目录下存在相同文件',
   'outputPathEmpty': '输出目录不能为空',
   'taskAlreadyFinished': '当前任务已完成',
@@ -26,4 +27,5 @@ const Map<String, String> zhCN = {
   'clearAll': '清空任务',
   'log': '日志',
   'settings': '设置',
+  'select': '选择',
 };

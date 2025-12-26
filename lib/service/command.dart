@@ -167,7 +167,7 @@ class Task {
     String fileName='';
     String workDirectory='';
     controller=ShellLinesController(encoding: utf8);
-    outputPath=p.join(c.output.value, '${item.outputName}.${item.format.name}');
+    outputPath=p.join(c.output.text, '${item.outputName}.${item.format.name}');
     if(item.path.startsWith('http')){
       fileName=item.path;
       shell=Shell(stdout: controller.sink, stderr: controller.sink);
@@ -232,13 +232,13 @@ ${c.ffmpeg.value} -i "$fileName" "$output"
   Future<void> multiRun(BuildContext context) async {
     if(c.running.value || c.fileList.isEmpty){
       return;
-    }else if(c.output.isEmpty){
+    }else if(c.output.text.isEmpty){
       okDialog(context, 'runTaskFailed'.tr, 'outputPathEmpty'.tr);
       return;
     }
     c.log.value=[];
     for(int index=0; index<c.fileList.length; index++){
-      String outputPath=p.join(c.output.value, '${c.fileList[index].outputName}.${c.fileList[index].format.name}');
+      String outputPath=p.join(c.output.text, '${c.fileList[index].outputName}.${c.fileList[index].format.name}');
       File file = File(outputPath);
       if(c.fileList[index].status==Status.finished){
         continue;
@@ -264,14 +264,14 @@ ${c.ffmpeg.value} -i "$fileName" "$output"
   Future<void> singleRun(BuildContext context) async {
     if(c.running.value || c.fileList.isEmpty){
       return;
-    }else if(c.output.isEmpty){
+    }else if(c.output.text.isEmpty){
       okDialog(context, "runTaskFailed".tr, "outputPathEmpty".tr);
       return;
     }else if(c.fileList[c.selectIndex.value].status==Status.finished){
       okDialog(context, "runTaskFailed".tr, "taskAlreadyFinished".tr);
       return;
     }
-    String outputPath=p.join(c.output.value, '${c.fileList[c.selectIndex.value].outputName}.${c.fileList[c.selectIndex.value].format.name}');
+    String outputPath=p.join(c.output.text, '${c.fileList[c.selectIndex.value].outputName}.${c.fileList[c.selectIndex.value].format.name}');
     // String outputPath = p.join(c.output.value, '${removeExtension(p.basename(c.fileList[c.selectIndex.value].path))}.${c.fileList[c.selectIndex.value].format.toString().split('.').last}');
     File file = File(outputPath);
     if(file.existsSync()){

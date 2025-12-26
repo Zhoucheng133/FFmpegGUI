@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:ffmpeg_gui/components/config_panel.dart';
 import 'package:ffmpeg_gui/components/header_buttons.dart';
+import 'package:ffmpeg_gui/controllers/controller.dart';
 import 'package:ffmpeg_gui/dialogs/dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:window_manager/window_manager.dart';
 
 class MainWindow extends StatefulWidget {
@@ -42,6 +44,8 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
       isMax=false;
     });
   }
+
+  final controller=Get.find<Controller>();
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +89,39 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
               Expanded(child: ConfigPanel()),
             ],
           )
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
+          child: Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: controller.output,
+                  decoration: InputDecoration(
+                    hint: Text(
+                      "output".tr,
+                      style: TextStyle(
+                        color: Colors.grey[400]
+                      ),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    isCollapsed: true,
+                    enabled: false,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 10),
+              FilledButton(
+                onPressed: (){
+                  // TODO 选择输出目录
+                }, 
+                child: Text('select'.tr)
+              )
+            ],
+          ),
         ),
         if(Platform.isMacOS) PlatformMenuBar(
           menus: [
