@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:ffmpeg_gui/components/config_panel.dart';
 import 'package:ffmpeg_gui/components/header_buttons.dart';
+import 'package:ffmpeg_gui/components/sidebar.dart';
 import 'package:ffmpeg_gui/controllers/controller.dart';
 import 'package:ffmpeg_gui/dialogs/dialogs.dart';
 import 'package:flutter/material.dart';
@@ -86,7 +87,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
         Expanded(
           child: Row(
             children: [
-              Container(width: 250,),
+              Container(width: 250, child: Sidebar(),),
               Expanded(child: ConfigPanel()),
             ],
           )

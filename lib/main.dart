@@ -1,4 +1,5 @@
 import 'package:ffmpeg_gui/controllers/controller.dart';
+import 'package:ffmpeg_gui/controllers/theme_controller.dart';
 import 'package:ffmpeg_gui/lang/en_us.dart';
 import 'package:ffmpeg_gui/lang/zh_cn.dart';
 import 'package:ffmpeg_gui/main_window.dart';
@@ -28,6 +29,7 @@ Future<void> main() async {
   });
 
   final controller=Get.put(Controller());
+  Get.put(ThemeController());
   await controller.init();
 
   const initSettings = InitializationSettings(
@@ -64,11 +66,13 @@ class MainTranslations extends Translations {
 class _MainAppState extends State<MainApp> {
 
   final controller=Get.find<Controller>();
+  final ThemeController themeController=Get.find();
 
   @override
   Widget build(BuildContext context) {
 
     final brightness = MediaQuery.of(context).platformBrightness;
+    themeController.darkModeHandler(brightness==Brightness.dark);
 
     return GetMaterialApp(
       supportedLocales: supportedLocales.map((item)=>item.locale).toList(),
