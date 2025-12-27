@@ -65,6 +65,30 @@ void customOkDialog(BuildContext context, String title, Widget content, {String 
   );
 }
 
+Future<bool?> customOkCancelDialog(BuildContext context, String title, Widget content, {String okText='ok', String cancelText='cancel'}) async {
+  return await showDialog(
+    context: context, 
+    builder: (context)=>AlertDialog(
+      title: Text(title),
+      content: content,
+      actions: [
+        TextButton(
+          onPressed: (){
+            Navigator.pop(context, false);
+          },
+          child: Text(cancelText.tr)
+        ),
+        ElevatedButton(
+          onPressed: (){
+            Navigator.pop(context, true);
+          }, 
+          child: Text(okText.tr)
+        )
+      ]
+    )
+  );
+}
+
 Future<void> showAbout(BuildContext context) async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     if(context.mounted){

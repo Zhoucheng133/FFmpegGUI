@@ -21,6 +21,7 @@ const Map<String, String> zhCN = {
   'outputPathEmpty': '输出目录不能为空',
   'taskAlreadyFinished': '当前任务已完成',
 
+  'add': '添加',
   'addTask': '添加任务',
   'runTask': '运行任务',
   'applyToAll': '应用到所有',
@@ -28,4 +29,11 @@ const Map<String, String> zhCN = {
   'log': '日志',
   'settings': '设置',
   'select': '选择',
+
+  'fromFile': '来自文件',
+  'fromDir': '来自目录',
+  'fromUrl': '来自URL',
+  'addFail': '添加失败',
+  'urlEmpty': 'URL不能为空',
+  'urlInvalid': 'URL无效'
 };

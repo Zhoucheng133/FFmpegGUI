@@ -1,5 +1,6 @@
 import 'package:ffmpeg_gui/components/header_button_item.dart';
 import 'package:ffmpeg_gui/dialogs/dialogs.dart';
+import 'package:ffmpeg_gui/service/task_adder.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -11,13 +12,16 @@ class HeaderButtons extends StatefulWidget {
 }
 
 class _HeaderButtonsState extends State<HeaderButtons> {
+
+  final TaskAdder taskAdder=TaskAdder();
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Row(
           children: [
-            HeaderButtonItem(buttonSide: ButtonSide.left, icon: Icons.add_rounded, func: (){}, text: 'addTask'.tr,),
+            HeaderButtonItem(buttonSide: ButtonSide.left, icon: Icons.add_rounded, func: ()=>taskAdder.showAddMenu(context), text: 'addTask'.tr,),
             HeaderButtonItem(buttonSide: ButtonSide.mid, icon: Icons.play_arrow_rounded, func: (){}, text: 'runTask'.tr,),
             HeaderButtonItem(buttonSide: ButtonSide.mid, icon: Icons.tune_rounded, func: (){}, text: 'applyToAll'.tr,),
             HeaderButtonItem(buttonSide: ButtonSide.mid, icon: Icons.delete_rounded, func: (){}, text: 'clearAll'.tr,),
