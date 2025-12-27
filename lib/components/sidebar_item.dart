@@ -35,6 +35,7 @@ class _SidebarItemState extends State<SidebarItem> {
         clipBehavior: Clip.antiAlias,
         child: ListTile(
           contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+          hoverColor: themeController.buttonColor(context, true, controller.selectIndex.value==widget.index),
           title: Row(
             children: [
               widget.item.status==Status.wait ? const FaIcon(
