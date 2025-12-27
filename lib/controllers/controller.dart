@@ -34,13 +34,35 @@ class Controller extends GetxController {
   Rx<LanguageType> lang=Rx(supportedLocales[0]);
   late SharedPreferences prefs;
 
+  initPrefs(){
+    bool? prefNotification=prefs.getBool('useNotification');
+    final prefOutput=prefs.getString('output');
+    final prefFFmpeg=prefs.getString('ffmpeg');
+    if(prefNotification!=null){
+      useNotification.value=prefNotification;
+    }
+    if(prefOutput!=null){
+      output.text=prefOutput;
+      output.text=prefOutput;
+    }
+
+    if(prefFFmpeg!=null){
+      ffmpeg.value=prefFFmpeg;
+      return;
+    }
+
+    // TODO 如果没有获取到FFmpeg ?
+  }
+
   Future<void> init() async {
     prefs=await SharedPreferences.getInstance();
+
+    initPrefs();
 
     int? langIndex=prefs.getInt("langIndex");
 
     if(langIndex==null){
-      final deviceLocale=PlatformDispatcher.instance.locale;  // 获取设备语言
+      final deviceLocale=PlatformDispatcher.instance.locale;
       final local=Locale(deviceLocale.languageCode, deviceLocale.countryCode);
       int index=supportedLocales.indexWhere((element) => element.locale==local);
       if(index!=-1){
