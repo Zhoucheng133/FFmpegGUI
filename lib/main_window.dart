@@ -8,7 +8,6 @@ import 'package:ffmpeg_gui/dialogs/dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:window_manager/window_manager.dart';
 
 class MainWindow extends StatefulWidget {
@@ -99,13 +98,13 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
               Expanded(
                 child: TextField(
                   controller: controller.output,
-                  style: GoogleFonts.notoSansSc(
+                  style: TextStyle(
                     fontSize: 14
                   ),
                   decoration: InputDecoration(
                     hint: Text(
                       "output".tr,
-                      style: GoogleFonts.notoSansSc(
+                      style: TextStyle(
                         color: Colors.grey[400],
                       ),
                     ),

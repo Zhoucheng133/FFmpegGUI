@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:window_manager/window_manager.dart';
 final FlutterLocalNotificationsPlugin notifications =FlutterLocalNotificationsPlugin();
 
@@ -86,18 +85,20 @@ class _MainAppState extends State<MainApp> {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate
         ],
-        theme: themeController.darkMode.value ? ThemeData.dark().copyWith(
-          textTheme: GoogleFonts.notoSansScTextTheme().apply(
-            bodyColor: Colors.white,
-            displayColor: Colors.white, 
-          ),
+        theme: ThemeData(
+          brightness: brightness,
+          fontFamily: 'Noto', 
           colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.green,
-            brightness: Brightness.dark,
+              seedColor: Colors.green,
+              brightness: brightness,
           ),
-        ) : ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
-          textTheme: GoogleFonts.notoSansScTextTheme(),
+          textTheme: brightness==Brightness.dark ? ThemeData.dark().textTheme.apply(
+              fontFamily: 'Noto',
+              bodyColor: Colors.white,
+              displayColor: Colors.white,
+          ) : ThemeData.light().textTheme.apply(
+              fontFamily: 'Noto',
+          ),
         ),
         home: Scaffold(
           body: const MainWindow(),

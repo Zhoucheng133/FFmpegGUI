@@ -16,7 +16,6 @@ dependencies:
     sdk: flutter
   font_awesome_flutter: ^10.8.0
   get: ^4.6.6
-  google_fonts: ^6.2.1
   package_info_plus: ^8.3.0
   path: ^1.9.0
   process_run: ^1.2.2
@@ -31,5 +30,9 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  fonts:
+    - family: "Noto"
+      fonts:
+        - asset: fonts/NotoSansSC-Regular.ttf
   assets:
     - assets/

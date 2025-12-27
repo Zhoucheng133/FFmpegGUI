@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -107,15 +106,14 @@ Future<void> showAbout(BuildContext context) async {
               const SizedBox(height: 10,),
               Text(
                 'FFmpeg GUI',
-                style: GoogleFonts.notoSansSc(
-                  fontWeight: FontWeight.bold,
+                style: TextStyle(
                   fontSize: 18,
                 ),
               ),
               const SizedBox(height: 3,),
               Text(
                 'v${packageInfo.version}',
-                style: GoogleFonts.notoSansSc(
+                style: TextStyle(
                   fontSize: 13,
                   color: Colors.grey[400]
                 ),
@@ -141,7 +139,7 @@ Future<void> showAbout(BuildContext context) async {
                         padding: const EdgeInsets.only(bottom: 2),
                         child: Text(
                           'projectURL'.tr,
-                          style: GoogleFonts.notoSansSc(
+                          style: TextStyle(
                             fontSize: 13,
                           ),
                         ),
@@ -172,7 +170,7 @@ Future<void> showAbout(BuildContext context) async {
                         padding: const EdgeInsets.only(bottom: 2),
                         child: Text(
                           'license'.tr,
-                          style: GoogleFonts.notoSansSc(
+                          style: TextStyle(
                             fontSize: 13,
                           ),
                         ),

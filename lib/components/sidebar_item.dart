@@ -4,7 +4,6 @@ import 'package:ffmpeg_gui/service/task_item.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:path/path.dart' as p;
 
 class SidebarItem extends StatefulWidget {
@@ -53,7 +52,7 @@ class _SidebarItemState extends State<SidebarItem> {
                 child: Text(
                   p.basename(widget.item.path,),
                   maxLines: 2,
-                  style: GoogleFonts.notoSansSc(
+                  style: TextStyle(
                     fontSize: 13,
                   ),
                   overflow: TextOverflow.ellipsis,
