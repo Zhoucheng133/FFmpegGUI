@@ -7,7 +7,6 @@ import 'package:ffmpeg_gui/service/variables.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:process_run/process_run.dart';
 import 'package:path/path.dart' as p;
 
@@ -44,17 +43,17 @@ class Task {
     showDialog(
       context: context, 
       builder: (context)=>ContentDialog(
-        title: Text('暂停运行', style: GoogleFonts.notoSansSc(),),
-        content: Text('在当前正在执行的任务结束之后暂停任务的执行', style: GoogleFonts.notoSansSc(),),
+        title: Text('暂停运行'),
+        content: Text('在当前正在执行的任务结束之后暂停任务的执行'),
         actions: [
           Button(
-            child: Text('取消', style: GoogleFonts.notoSansSc(),),
+            child: Text('取消'),
             onPressed: (){
               Navigator.pop(context);
             }
           ),
           FilledButton(
-            child: Text('继续', style: GoogleFonts.notoSansSc(),),
+            child: Text('继续'),
             onPressed: (){
               Navigator.pop(context);
               setState((){
@@ -71,14 +70,14 @@ class Task {
     showDialog(
       context: context, 
       builder: (context)=>ContentDialog(
-        title: Text(title, style: GoogleFonts.notoSansSc()),
-        content: Text(content, style: GoogleFonts.notoSansSc()),
+        title: Text(title, style: TextStyle()),
+        content: Text(content, style: TextStyle()),
         actions: [
           FilledButton(
             onPressed: (){
               Navigator.pop(context);
             }, 
-            child: Text('好的', style: GoogleFonts.notoSansSc(),)
+            child: Text('好的')
           )
         ],
       )
@@ -108,7 +107,7 @@ class Task {
     showDialog(
       context: context, 
       builder: (context)=>ContentDialog(
-        title: Text('日志', style: GoogleFonts.notoSansSc(),),
+        title: Text('日志'),
         content: SizedBox(
           height: 300,
           width: 500,
@@ -117,7 +116,7 @@ class Task {
             children: [
               Text(
                 '正在执行的任务: ${c.running.value ? runIndex==-1 ? convertName(c.selectIndex.value) : convertName(runIndex) : '/'}',
-                style: GoogleFonts.notoSansSc(
+                style: TextStyle(
                   fontWeight: FontWeight.bold
                 ),
                 textAlign: TextAlign.left,
@@ -133,7 +132,7 @@ class Task {
                   itemCount: c.log.length,
                   itemBuilder: (context, index)=>Text(
                     c.log[index],
-                    style: GoogleFonts.notoSansSc(),
+                    
                   ),
                 ),
               ),
@@ -145,7 +144,7 @@ class Task {
             onPressed: (){
               Navigator.pop(context);
             }, 
-            child: Text('完成', style: GoogleFonts.notoSansSc(),)
+            child: Text('完成')
           )
         ],
       )

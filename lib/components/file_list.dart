@@ -3,7 +3,6 @@ import 'package:ffmpeg_gui/service/task_item.dart';
 import 'package:ffmpeg_gui/service/variables.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class FileList extends StatefulWidget {
   const FileList({super.key});
@@ -35,7 +34,7 @@ class _FileListState extends State<FileList> {
           Obx(()=>
             Text(
               '任务${c.fileList.length}个, 已完成${finishedCount()}个',
-              style: GoogleFonts.notoSansSc(),
+              
               textAlign: TextAlign.left,
             ),
           ),

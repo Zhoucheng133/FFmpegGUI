@@ -6,7 +6,6 @@ import 'package:ffmpeg_gui/service/variables.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:path/path.dart' as p;
 
 class ConfigPanel extends StatefulWidget {
@@ -93,7 +92,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
               Text(
                 c.fileList[c.selectIndex.value].path.startsWith('http') ? c.fileList[c.selectIndex.value].path : p.basename(c.fileList[c.selectIndex.value].path),
                 maxLines: 2,
-                style: GoogleFonts.notoSansSc(
+                style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold
                 ),
@@ -107,13 +106,13 @@ class _ConfigPanelState extends State<ConfigPanel> {
                     width: 90,
                     child: Text(
                       '完整路径',
-                      style: GoogleFonts.notoSansSc(),
+                      
                     ),
                   ),
                   Expanded(
                     child: Text(
                       c.fileList[c.selectIndex.value].path,
-                      style: GoogleFonts.notoSansSc(),
+                      
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     )
@@ -128,7 +127,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                     width: 90,
                     child: Text(
                       '输出',
-                      style: GoogleFonts.notoSansSc(),
+                      
                     ),
                   ),
                   ComboBox(
@@ -137,11 +136,11 @@ class _ConfigPanelState extends State<ConfigPanel> {
                       ComboBoxItem(
                         value: Types.video,
                         enabled: c.fileList[c.selectIndex.value].type==Types.video,
-                        child: Text('视频', style: GoogleFonts.notoSansSc(),),
+                        child: Text('视频'),
                       ),
                       ComboBoxItem(
                         value: Types.audio,
-                        child: Text('音频', style: GoogleFonts.notoSansSc(),),
+                        child: Text('音频'),
                       ),
                     ],
                     onChanged: (value){
@@ -169,7 +168,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                     width: 90,
                     child: Text(
                       '编码',
-                      style: GoogleFonts.notoSansSc(),
+                      
                     ),
                   ),
                   Row(
@@ -188,7 +187,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                           value: item,
                           child: Text(
                             videoEncoderToString(item),
-                            style: GoogleFonts.notoSansSc()
+                            style: TextStyle()
                           )
                         )).toList(),
                         onChanged: (value){
@@ -204,7 +203,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                           value: item,
                           child: Text(
                             audioEncoderToString(item),
-                            style: GoogleFonts.notoSansSc(),
+                            
                           )
                         )).toList(),
                         onChanged: (value){
@@ -225,7 +224,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                     width: 90,
                     child: Text(
                       '格式',
-                      style: GoogleFonts.notoSansSc(),
+                      
                     ),
                   ),
                   ComboBox(
@@ -233,37 +232,37 @@ class _ConfigPanelState extends State<ConfigPanel> {
                     items: c.fileList[c.selectIndex.value].outType==Types.video ? [
                       ComboBoxItem(
                         value: Formats.mp4,
-                        child: Text('mp4', style: GoogleFonts.notoSansSc(),),
+                        child: Text('mp4'),
                       ),
                       ComboBoxItem(
                         value: Formats.mkv,
-                        child: Text('mkv', style: GoogleFonts.notoSansSc(),),
+                        child: Text('mkv'),
                       ),
                       ComboBoxItem(
                         value: Formats.flv,
                         enabled: c.fileList[c.selectIndex.value].videoEncoders!=VideoEncoders.libaomav1,
-                        child: Text('flv', style: GoogleFonts.notoSansSc(),),
+                        child: Text('flv'),
                       ),
                     ] : [
                       ComboBoxItem(
                         value: Formats.mp3,
-                        child: Text('mp3', style: GoogleFonts.notoSansSc(),),
+                        child: Text('mp3'),
                       ),
                       ComboBoxItem(
                         value: Formats.aac,
-                        child: Text('aac', style: GoogleFonts.notoSansSc(),),
+                        child: Text('aac'),
                       ),
                       ComboBoxItem(
                         value: Formats.wav,
-                        child: Text('wav', style: GoogleFonts.notoSansSc(),),
+                        child: Text('wav'),
                       ),
                       ComboBoxItem(
                         value: Formats.m4a,
-                        child: Text('m4a', style: GoogleFonts.notoSansSc(),),
+                        child: Text('m4a'),
                       ),
                       ComboBoxItem(
                         value: Formats.flac,
-                        child: Text('flac', style: GoogleFonts.notoSansSc(),),
+                        child: Text('flac'),
                       ),
                     ],
                     onChanged: (value){
@@ -282,7 +281,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                     width: 90,
                     child: Text(
                       '截取',
-                      style: GoogleFonts.notoSansSc(),
+                      
                     ),
                   ),
                   Checkbox(
@@ -298,7 +297,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                       }
                       c.fileList.refresh();
                     },
-                    content: Text('启用截取', style: GoogleFonts.notoSansSc(),),
+                    content: Text('启用截取'),
                   ),
                   const SizedBox(width: 10,),
                   SizedBox(
@@ -307,7 +306,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                       controller: TextEditingController(text: c.fileList[c.selectIndex.value].clipStart ?? ""),
                       enabled: c.fileList[c.selectIndex.value].enableClip,
                       placeholder: "开始时间 (hh:mm:ss)",
-                      style: GoogleFonts.notoSansSc(
+                      style: TextStyle(
                         fontSize: 14
                       ),
                       onChanged: (val){
@@ -319,7 +318,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                     padding: const EdgeInsets.only(left: 5, right: 5),
                     child: Text(
                       "~",
-                      style: GoogleFonts.notoSansSc(
+                      style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold
                       ),
@@ -331,7 +330,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                       controller: TextEditingController(text: c.fileList[c.selectIndex.value].clipEnd ?? ""),
                       enabled: c.fileList[c.selectIndex.value].enableClip,
                       placeholder: "结束时间 (hh:mm:ss)",
-                      style: GoogleFonts.notoSansSc(
+                      style: TextStyle(
                         fontSize: 14
                       ),
                       onChanged: (val){
@@ -349,7 +348,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                     width: 90,
                     child: Text(
                       '大小',
-                      style: GoogleFonts.notoSansSc(),
+                      
                     ),
                   ),
                   Checkbox(
@@ -366,7 +365,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                         c.fileList.refresh();
                       }
                     },
-                    content: Text('指定大小', style: GoogleFonts.notoSansSc(),),
+                    content: Text('指定大小'),
                   ),
                   const SizedBox(width: 10,),
                   SizedBox(
@@ -413,7 +412,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                     width: 90,
                     child: Text(
                       '音频',
-                      style: GoogleFonts.notoSansSc(),
+                      
                     ),
                   ),
                   Checkbox(
@@ -428,7 +427,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                         c.fileList.refresh();
                       }
                     },
-                    content: Text('指定增益', style: GoogleFonts.notoSansSc(),),
+                    content: Text('指定增益'),
                   ),
                   const SizedBox(width: 10,),
                   SizedBox(
@@ -456,7 +455,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                     width: 90,
                     child: Text(
                       '视频轨道',
-                      style: GoogleFonts.notoSansSc(),
+                      
                     ),
                   ),
                   SizedBox(
@@ -485,7 +484,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                     width: 90,
                     child: Text(
                       '音频轨道',
-                      style: GoogleFonts.notoSansSc(),
+                      
                     ),
                   ),
                   SizedBox(
@@ -514,7 +513,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                     width: 90,
                     child: Text(
                       '声道',
-                      style: GoogleFonts.notoSansSc(),
+                      
                     ),
                   ),
                   SizedBox(
@@ -542,7 +541,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                     width: 90,
                     child: Text(
                       '字幕',
-                      style: GoogleFonts.notoSansSc(),
+                      
                     ),
                   ),
                   ComboBox(
@@ -550,15 +549,15 @@ class _ConfigPanelState extends State<ConfigPanel> {
                     items: [
                       ComboBoxItem(
                         value: SubTitleType.none,
-                        child: Text('无', style: GoogleFonts.notoSansSc(),),
+                        child: Text('无'),
                       ),
                       ComboBoxItem(
                         value: SubTitleType.embed,
-                        child: Text('内嵌字幕', style: GoogleFonts.notoSansSc(),),
+                        child: Text('内嵌字幕'),
                       ),
                       ComboBoxItem(
                         value: SubTitleType.file,
-                        child: Text('外部字幕', style: GoogleFonts.notoSansSc(),),
+                        child: Text('外部字幕'),
                       )
                     ],
                     onChanged: c.fileList[c.selectIndex.value].videoEncoders==VideoEncoders.copy ? null : (value) async {
@@ -592,7 +591,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                       c.fileList[c.selectIndex.value].subTitleType==SubTitleType.embed ? "字幕轨道: ${c.fileList[c.selectIndex.value].subtitleTrack.toString()}" 
                       : "字幕文件: ${c.fileList[c.selectIndex.value].subTitleFile}",
                       overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.notoSansSc(),
+                      
                     ),
                   )
                 ]
@@ -605,7 +604,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                     width: 90,
                     child: Text(
                       '输出名称',
-                      style: GoogleFonts.notoSansSc(),
+                      
                     ),
                   ),
                   Expanded(
@@ -614,13 +613,13 @@ class _ConfigPanelState extends State<ConfigPanel> {
                       onChanged: (val){
                         c.fileList[c.selectIndex.value].outputName=val;
                       },
-                      style: GoogleFonts.notoSansSc(
+                      style: TextStyle(
                         fontSize: 14
                       ),
                     )
                   ),
                   const SizedBox(width: 2,),
-                  Text(".${c.fileList[c.selectIndex.value].format.name}", style: GoogleFonts.notoSansSc())
+                  Text(".${c.fileList[c.selectIndex.value].format.name}", style: TextStyle())
                 ]
               ),
             ],

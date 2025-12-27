@@ -3,7 +3,6 @@ import 'package:ffmpeg_gui/service/variables.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:path/path.dart' as p;
 
 class FilePreview extends StatefulWidget {
@@ -41,7 +40,7 @@ class _FilePreviewState extends State<FilePreview> {
           items: [
             MenuFlyoutItem(
               leading: const FaIcon(FontAwesomeIcons.trash),
-              text: Text('删除', style: GoogleFonts.notoSansSc(),),
+              text: Text('删除'),
               onPressed: () {
                 Flyout.of(context).close();
                 if(c.selectIndex.value>=widget.index){
@@ -53,7 +52,7 @@ class _FilePreviewState extends State<FilePreview> {
             ),
             if(c.fileList[widget.index].status==Status.finished) MenuFlyoutItem(
               leading: const FaIcon(FontAwesomeIcons.rotateRight),
-              text: Text('重置状态', style: GoogleFonts.notoSansSc(),),
+              text: Text('重置状态'),
               onPressed: () {
                 Flyout.of(context).close();
                 c.fileList[widget.index].status=Status.wait;
@@ -105,7 +104,7 @@ class _FilePreviewState extends State<FilePreview> {
                       Expanded(
                         child: Text(
                           p.basename(widget.item.path),
-                          style: GoogleFonts.notoSansSc(
+                          style: TextStyle(
                             fontSize: 13,
                           ),
                           maxLines: 2,

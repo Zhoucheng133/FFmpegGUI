@@ -9,7 +9,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:process_run/which.dart';
@@ -52,11 +51,11 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
         showDialog(
           context: context, 
           builder: (BuildContext context)=>ContentDialog(
-            title: Text('没有找到FFmpeg', style: GoogleFonts.notoSansSc(),), 
-            content: Text('没有找到FFmpeg的位置，你可以手动选择它', style: GoogleFonts.notoSansSc(),),
+            title: Text('没有找到FFmpeg'), 
+            content: Text('没有找到FFmpeg的位置，你可以手动选择它'),
             actions: [
               Button(
-                child: Text('退出', style: GoogleFonts.notoSansSc(),), 
+                child: Text('退出'), 
                 onPressed: (){
                   windowManager.close();
                 }
@@ -72,7 +71,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                     }
                   }
                 },
-                child: Text('选择', style: GoogleFonts.notoSansSc(),)
+                child: Text('选择')
               )
             ],
           )
@@ -99,11 +98,11 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
           context: context,
           builder: (_) {
             return ContentDialog(
-              title: Text('任务正在进行中', style: GoogleFonts.notoSansSc(),),
-              content: Text('你需要等待任务完成或者停止任务才能退出', style: GoogleFonts.notoSansSc(),),
+              title: Text('任务正在进行中'),
+              content: Text('你需要等待任务完成或者停止任务才能退出'),
               actions: [
                 FilledButton(
-                  child: Text('好的', style: GoogleFonts.notoSansSc(),),
+                  child: Text('好的'),
                   onPressed: (){
                     Navigator.pop(context);
                   }
@@ -190,7 +189,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                   child: TextBox(
                     controller: output,
                     enabled: false,
-                    style: GoogleFonts.notoSansSc(
+                    style: TextStyle(
                       fontSize: 14
                     ),
                     autocorrect: false,
@@ -202,7 +201,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                   onPressed: ()=>selectOutput(), 
                   child: Text(
                     '选取', 
-                    style: GoogleFonts.notoSansSc(),
+                    
                   )
                 )
               ],

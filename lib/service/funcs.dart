@@ -4,7 +4,6 @@ import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart' show showLicensePage;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -19,7 +18,7 @@ class Funcs {
       showDialog(
         context: context, 
         builder: (context)=>ContentDialog(
-          title: Text('关于FFmpeg GUI', style: GoogleFonts.notoSansSc(),),
+          title: Text('关于FFmpeg GUI'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -34,7 +33,7 @@ class Funcs {
               ),
               Text(
                 'FFmpeg GUI', 
-                style: GoogleFonts.notoSansSc(
+                style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 20
                 ),
@@ -42,7 +41,7 @@ class Funcs {
               const SizedBox(height: 10,),
               Text(
                 "v${packageInfo.version}",
-                style: GoogleFonts.notoSansSc(
+                style: TextStyle(
                   color: Colors.grey[80],
                 ),
               ),
@@ -65,7 +64,7 @@ class Funcs {
                       const SizedBox(width: 5,),
                       Text(
                         '本项目地址',
-                        style:  GoogleFonts.notoSansSc(),
+                        style:  TextStyle(),
                       )
                     ],
                   ),
@@ -91,7 +90,7 @@ class Funcs {
                       const SizedBox(width: 5,),
                       Text(
                         '许可证',
-                        style:  GoogleFonts.notoSansSc(),
+                        style:  TextStyle(),
                       )
                     ],
                   ),
@@ -101,7 +100,7 @@ class Funcs {
           ),
           actions: [
             FilledButton(
-              child: Text('好的', style: GoogleFonts.notoSansSc(),), 
+              child: Text('好的'), 
               onPressed: (){
                 Navigator.pop(context);
               }
@@ -120,7 +119,7 @@ class Funcs {
     await showDialog(
       context: context, 
       builder: (context)=>ContentDialog(
-        title: Text('设置', style: GoogleFonts.notoSansSc(),),
+        title: Text('设置'),
         content: StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return Column(
@@ -134,11 +133,11 @@ class Funcs {
                       final SharedPreferences prefs=await SharedPreferences.getInstance();
                       prefs.setBool('useNotification', c.useNotification.value);
                     },
-                    content: Text('启用通知', style: GoogleFonts.notoSansSc(),),
+                    content: Text('启用通知'),
                   ),
                 ),
                 const SizedBox(height: 10,),
-                Text("FFmpeg路径", style: GoogleFonts.notoSansSc(),),
+                Text("FFmpeg路径"),
                 const SizedBox(height: 5,),
                 Row(
                   children: [
@@ -148,7 +147,7 @@ class Funcs {
                         child: TextBox(
                           maxLines: 1,
                           controller: controller,
-                          style: GoogleFonts.notoSansSc(
+                          style: TextStyle(
                             fontSize: 14
                           ),
                         ),
@@ -156,7 +155,7 @@ class Funcs {
                     ),
                     const SizedBox(width: 10,),
                     Button(
-                      child: Text('选取', style: GoogleFonts.notoSansSc(),), 
+                      child: Text('选取'), 
                       onPressed: () async {
                         FilePickerResult? result = await FilePicker.platform.pickFiles();
                         if (result != null) {
@@ -174,7 +173,7 @@ class Funcs {
         ),
         actions: [
           FilledButton(
-            child: Text('完成', style: GoogleFonts.notoSansSc(),), 
+            child: Text('完成'), 
             onPressed: () async {
               c.ffmpeg.value=controller.text;
               SharedPreferences prefs = await SharedPreferences.getInstance();

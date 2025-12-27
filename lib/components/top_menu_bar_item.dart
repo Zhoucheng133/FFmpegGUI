@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class TopMenuBarItem extends StatefulWidget {
 
@@ -56,7 +55,7 @@ class _TopMenuBarItemState extends State<TopMenuBarItem> {
                 widget.title.isNotEmpty ? const SizedBox(width: 8,) : Container(),
                 widget.title.isNotEmpty ? Text(
                   widget.title, 
-                  style: GoogleFonts.notoSansSc(
+                  style: TextStyle(
                     color: widget.enable ? Colors.grey[800] : Colors.grey[400]
                   ),
                 ) : Container(),
