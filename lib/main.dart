@@ -74,33 +74,35 @@ class _MainAppState extends State<MainApp> {
     final brightness = MediaQuery.of(context).platformBrightness;
     themeController.darkModeHandler(brightness==Brightness.dark);
 
-    return GetMaterialApp(
-      supportedLocales: supportedLocales.map((item)=>item.locale).toList(),
-      fallbackLocale: Locale('en', 'US'),
-      translations: MainTranslations(),
-      locale: controller.lang.value.locale,
-      debugShowCheckedModeBanner: false,
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate
-      ],
-      theme: brightness==Brightness.dark ? ThemeData.dark().copyWith(
-        textTheme: GoogleFonts.notoSansScTextTheme().apply(
-          bodyColor: Colors.white,
-          displayColor: Colors.white, 
+    return Obx(
+      () => GetMaterialApp(
+        supportedLocales: supportedLocales.map((item)=>item.locale).toList(),
+        fallbackLocale: Locale('en', 'US'),
+        translations: MainTranslations(),
+        locale: controller.lang.value.locale,
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate
+        ],
+        theme: themeController.darkMode.value ? ThemeData.dark().copyWith(
+          textTheme: GoogleFonts.notoSansScTextTheme().apply(
+            bodyColor: Colors.white,
+            displayColor: Colors.white, 
+          ),
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.green,
+            brightness: Brightness.dark,
+          ),
+        ) : ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+          textTheme: GoogleFonts.notoSansScTextTheme(),
         ),
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.green,
-          brightness: Brightness.dark,
-        ),
-      ) : ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
-        textTheme: GoogleFonts.notoSansScTextTheme(),
+        home: Scaffold(
+          body: const MainWindow(),
+        )
       ),
-      home: Scaffold(
-        body: const MainWindow(),
-      )
     );
   }
 }
