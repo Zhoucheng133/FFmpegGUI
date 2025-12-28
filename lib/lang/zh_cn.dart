@@ -40,5 +40,12 @@ const Map<String, String> zhCN = {
   'ffmpegPath': 'FFmpeg路径',
   'pickFFmpeg': '选择FFmpeg',
   'pathInvalid': '路径无效',
-  'setFailed': '设置失败'
+  'setFailed': '设置失败',
+
+  'fullPath': '完整路径',
+  'outputStyle': '输出',
+  'video': '视频',
+  'audio': '音频',
+  'format': '格式',
+  'codec': '编码',
 };

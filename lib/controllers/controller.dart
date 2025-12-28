@@ -36,6 +36,10 @@ class Controller extends GetxController {
   Rx<LanguageType> lang=Rx(supportedLocales[0]);
   late SharedPreferences prefs;
 
+  TaskItem get selectedTask{
+    return fileList[selectIndex.value];
+  }
+
   initPrefs(){
     bool? prefNotification=prefs.getBool('useNotification');
     final prefOutput=prefs.getString('output');
