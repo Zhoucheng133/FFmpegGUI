@@ -30,22 +30,6 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
     super.dispose();
   }
 
-  bool isMax=false;
-
-  @override
-  void onWindowMaximize(){
-    setState(() {
-      isMax=true;
-    });
-  }
-  
-  @override
-  void onWindowUnmaximize(){
-    setState(() {
-      isMax=false;
-    });
-  }
-
   final controller=Get.find<Controller>();
 
   @override
@@ -63,13 +47,6 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                     brightness: Theme.of(context).brightness,
                     onPressed: ()=>windowManager.minimize()
                   ),
-                  isMax ? WindowCaptionButton.unmaximize(
-                    brightness: Theme.of(context).brightness,
-                    onPressed: ()=>windowManager.unmaximize()
-                  ) : WindowCaptionButton.maximize(
-                    brightness: Theme.of(context).brightness,
-                    onPressed: ()=>windowManager.maximize()
-                  ),  
                   WindowCaptionButton.close(
                     brightness: Theme.of(context).brightness,
                     onPressed: ()=>windowManager.close()
