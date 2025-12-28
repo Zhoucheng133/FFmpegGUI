@@ -31,8 +31,8 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   fonts:
-    - family: "Noto"
+    - family: "PuHui"
       fonts:
-        - asset: fonts/NotoSansSC-Regular.ttf
+        - asset: fonts/AlibabaPuHuiTi-3-Regular.ttf
   assets:
     - assets/
