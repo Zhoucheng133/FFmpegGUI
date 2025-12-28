@@ -52,7 +52,7 @@ class MainApp extends StatelessWidget {
       ],
       theme: FluentThemeData(
         accentColor: Colors.green,
-        fontFamily: 'Noto'
+        fontFamily: 'PuHui'
       ),
       home: const MainWindow()
     );

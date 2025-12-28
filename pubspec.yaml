@@ -34,7 +34,6 @@ flutter:
   assets:
     - assets/
   fonts:
-    - family: "Noto"
+    - family: "PuHui"
       fonts:
-        - asset: fonts/NotoSansSC-Bold.ttf
-        - asset: fonts/NotoSansSC-Regular.ttf
+        - asset: fonts/AlibabaPuHuiTi-3-Regular
