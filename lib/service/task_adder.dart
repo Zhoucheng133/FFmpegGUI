@@ -113,7 +113,7 @@ class TaskAdder {
       items: [
         PopupMenuItem(
           value: 'file',
-          height: 40, 
+          height: 35, 
           child: Row(
             children: [
               SizedBox(
@@ -126,7 +126,7 @@ class TaskAdder {
         ),
         PopupMenuItem(
           value: 'dir',
-          height: 40, 
+          height: 35, 
           child: Row(
             children: [
               SizedBox(
@@ -139,7 +139,7 @@ class TaskAdder {
         ),
         PopupMenuItem(
           value: 'network',
-          height: 40, 
+          height: 35, 
           child: Row(
             children: [
               SizedBox(
