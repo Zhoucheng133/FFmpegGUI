@@ -35,5 +35,10 @@ const Map<String, String> zhCN = {
   'fromUrl': '来自URL',
   'addFail': '添加失败',
   'urlEmpty': 'URL不能为空',
-  'urlInvalid': 'URL无效'
+  'urlInvalid': 'URL无效',
+
+  'ffmpegPath': 'FFmpeg路径',
+  'pickFFmpeg': '选择FFmpeg',
+  'pathInvalid': '路径无效',
+  'setFailed': '设置失败'
 };

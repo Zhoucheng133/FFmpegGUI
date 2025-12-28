@@ -4,6 +4,7 @@ import 'package:ffmpeg_gui/service/task_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:process_run/process_run.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LanguageType{
@@ -51,8 +52,10 @@ class Controller extends GetxController {
       ffmpeg.value=prefFFmpeg;
       return;
     }
-
-    // TODO 如果没有获取到FFmpeg ?
+    var ffmpegExectutable = whichSync('ffmpegg');
+    if(ffmpegExectutable!=null){
+      ffmpeg.value=ffmpegExectutable;
+    }
   }
 
   Future<void> init() async {
@@ -73,6 +76,11 @@ class Controller extends GetxController {
     }else{
       lang.value=supportedLocales[langIndex];
     }
+  }
+
+  void setFFmpegPath(String path){
+    ffmpeg.value=path;
+    prefs.setString('ffmpeg', path);
   }
 
   void changeLanguage(int index){

@@ -4,6 +4,7 @@ import 'package:ffmpeg_gui/components/config_panel.dart';
 import 'package:ffmpeg_gui/components/header_buttons.dart';
 import 'package:ffmpeg_gui/components/sidebar.dart';
 import 'package:ffmpeg_gui/controllers/controller.dart';
+import 'package:ffmpeg_gui/dialogs/app_dialogs.dart';
 import 'package:ffmpeg_gui/dialogs/dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,10 +19,18 @@ class MainWindow extends StatefulWidget {
 }
 
 class _MainWindowState extends State<MainWindow> with WindowListener {
+
+  final controller=Get.find<Controller>();
+
   @override
   void initState() {
     super.initState();
     windowManager.addListener(this);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if(controller.ffmpeg.value.isEmpty){
+        showPickFFmpegDialog(context);
+      }
+    });
   }
 
  @override
@@ -29,8 +38,6 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
     windowManager.removeListener(this);
     super.dispose();
   }
-
-  final controller=Get.find<Controller>();
 
   @override
   Widget build(BuildContext context) {
