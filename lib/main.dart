@@ -87,17 +87,17 @@ class _MainAppState extends State<MainApp> {
         ],
         theme: ThemeData(
           brightness: brightness,
-          fontFamily: 'Noto', 
+          fontFamily: 'PuHui', 
           colorScheme: ColorScheme.fromSeed(
               seedColor: Colors.green,
               brightness: brightness,
           ),
           textTheme: brightness==Brightness.dark ? ThemeData.dark().textTheme.apply(
-              fontFamily: 'Noto',
+              fontFamily: 'PuHui',
               bodyColor: Colors.white,
               displayColor: Colors.white,
           ) : ThemeData.light().textTheme.apply(
-              fontFamily: 'Noto',
+              fontFamily: 'PuHui',
           ),
         ),
         home: Scaffold(
