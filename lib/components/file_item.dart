@@ -40,7 +40,7 @@ class _FilePreviewState extends State<FilePreview> {
           items: [
             MenuFlyoutItem(
               leading: const FaIcon(FontAwesomeIcons.trash),
-              text: Text('删除'),
+              text: const Text('删除'),
               onPressed: () {
                 Flyout.of(context).close();
                 if(c.selectIndex.value>=widget.index){
@@ -52,7 +52,7 @@ class _FilePreviewState extends State<FilePreview> {
             ),
             if(c.fileList[widget.index].status==Status.finished) MenuFlyoutItem(
               leading: const FaIcon(FontAwesomeIcons.rotateRight),
-              text: Text('重置状态'),
+              text: const Text('重置状态'),
               onPressed: () {
                 Flyout.of(context).close();
                 c.fileList[widget.index].status=Status.wait;
@@ -104,7 +104,7 @@ class _FilePreviewState extends State<FilePreview> {
                       Expanded(
                         child: Text(
                           p.basename(widget.item.path),
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 13,
                           ),
                           maxLines: 2,

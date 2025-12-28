@@ -51,11 +51,11 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
         showDialog(
           context: context, 
           builder: (BuildContext context)=>ContentDialog(
-            title: Text('没有找到FFmpeg'), 
-            content: Text('没有找到FFmpeg的位置，你可以手动选择它'),
+            title: const Text('没有找到FFmpeg'), 
+            content: const Text('没有找到FFmpeg的位置，你可以手动选择它'),
             actions: [
               Button(
-                child: Text('退出'), 
+                child: const Text('退出'), 
                 onPressed: (){
                   windowManager.close();
                 }
@@ -71,7 +71,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                     }
                   }
                 },
-                child: Text('选择')
+                child: const Text('选择')
               )
             ],
           )
@@ -98,11 +98,11 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
           context: context,
           builder: (_) {
             return ContentDialog(
-              title: Text('任务正在进行中'),
-              content: Text('你需要等待任务完成或者停止任务才能退出'),
+              title: const Text('任务正在进行中'),
+              content: const Text('你需要等待任务完成或者停止任务才能退出'),
               actions: [
                 FilledButton(
-                  child: Text('好的'),
+                  child: const Text('好的'),
                   onPressed: (){
                     Navigator.pop(context);
                   }
@@ -189,7 +189,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                   child: TextBox(
                     controller: output,
                     enabled: false,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14
                     ),
                     autocorrect: false,
@@ -199,10 +199,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                 const SizedBox(width: 5,),
                 FilledButton(
                   onPressed: ()=>selectOutput(), 
-                  child: Text(
-                    '选取', 
-                    
-                  )
+                  child: const Text('选取')
                 )
               ],
             ),

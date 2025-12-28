@@ -92,7 +92,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
               Text(
                 c.fileList[c.selectIndex.value].path.startsWith('http') ? c.fileList[c.selectIndex.value].path : p.basename(c.fileList[c.selectIndex.value].path),
                 maxLines: 2,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold
                 ),
@@ -102,12 +102,9 @@ class _ConfigPanelState extends State<ConfigPanel> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 90,
-                    child: Text(
-                      '完整路径',
-                      
-                    ),
+                    child: Text('完整路径'),
                   ),
                   Expanded(
                     child: Text(
@@ -123,12 +120,9 @@ class _ConfigPanelState extends State<ConfigPanel> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 90,
-                    child: Text(
-                      '输出',
-                      
-                    ),
+                    child: Text('输出'),
                   ),
                   ComboBox(
                     value: c.fileList[c.selectIndex.value].outType,
@@ -136,9 +130,9 @@ class _ConfigPanelState extends State<ConfigPanel> {
                       ComboBoxItem(
                         value: Types.video,
                         enabled: c.fileList[c.selectIndex.value].type==Types.video,
-                        child: Text('视频'),
+                        child: const Text('视频'),
                       ),
-                      ComboBoxItem(
+                      const ComboBoxItem(
                         value: Types.audio,
                         child: Text('音频'),
                       ),
@@ -164,12 +158,9 @@ class _ConfigPanelState extends State<ConfigPanel> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 90,
-                    child: Text(
-                      '编码',
-                      
-                    ),
+                    child: Text('编码'),
                   ),
                   Row(
                     children: [
@@ -187,7 +178,6 @@ class _ConfigPanelState extends State<ConfigPanel> {
                           value: item,
                           child: Text(
                             videoEncoderToString(item),
-                            style: TextStyle()
                           )
                         )).toList(),
                         onChanged: (value){
@@ -220,47 +210,44 @@ class _ConfigPanelState extends State<ConfigPanel> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 90,
-                    child: Text(
-                      '格式',
-                      
-                    ),
+                    child: Text('格式'),
                   ),
                   ComboBox(
                     value: c.fileList[c.selectIndex.value].format,
                     items: c.fileList[c.selectIndex.value].outType==Types.video ? [
-                      ComboBoxItem(
+                      const ComboBoxItem(
                         value: Formats.mp4,
                         child: Text('mp4'),
                       ),
-                      ComboBoxItem(
+                      const ComboBoxItem(
                         value: Formats.mkv,
                         child: Text('mkv'),
                       ),
                       ComboBoxItem(
                         value: Formats.flv,
                         enabled: c.fileList[c.selectIndex.value].videoEncoders!=VideoEncoders.libaomav1,
-                        child: Text('flv'),
+                        child: const Text('flv'),
                       ),
                     ] : [
-                      ComboBoxItem(
+                      const ComboBoxItem(
                         value: Formats.mp3,
                         child: Text('mp3'),
                       ),
-                      ComboBoxItem(
+                      const ComboBoxItem(
                         value: Formats.aac,
                         child: Text('aac'),
                       ),
-                      ComboBoxItem(
+                      const ComboBoxItem(
                         value: Formats.wav,
                         child: Text('wav'),
                       ),
-                      ComboBoxItem(
+                      const ComboBoxItem(
                         value: Formats.m4a,
                         child: Text('m4a'),
                       ),
-                      ComboBoxItem(
+                      const ComboBoxItem(
                         value: Formats.flac,
                         child: Text('flac'),
                       ),
@@ -277,12 +264,9 @@ class _ConfigPanelState extends State<ConfigPanel> {
               const SizedBox(height: 10,),
               Row(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 90,
-                    child: Text(
-                      '截取',
-                      
-                    ),
+                    child: Text('截取'),
                   ),
                   Checkbox(
                     checked: c.fileList[c.selectIndex.value].enableClip,
@@ -297,7 +281,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                       }
                       c.fileList.refresh();
                     },
-                    content: Text('启用截取'),
+                    content: const Text('启用截取'),
                   ),
                   const SizedBox(width: 10,),
                   SizedBox(
@@ -306,7 +290,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                       controller: TextEditingController(text: c.fileList[c.selectIndex.value].clipStart ?? ""),
                       enabled: c.fileList[c.selectIndex.value].enableClip,
                       placeholder: "开始时间 (hh:mm:ss)",
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14
                       ),
                       onChanged: (val){
@@ -314,8 +298,8 @@ class _ConfigPanelState extends State<ConfigPanel> {
                       },
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5, right: 5),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 5, right: 5),
                     child: Text(
                       "~",
                       style: TextStyle(
@@ -330,7 +314,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                       controller: TextEditingController(text: c.fileList[c.selectIndex.value].clipEnd ?? ""),
                       enabled: c.fileList[c.selectIndex.value].enableClip,
                       placeholder: "结束时间 (hh:mm:ss)",
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14
                       ),
                       onChanged: (val){
@@ -344,12 +328,9 @@ class _ConfigPanelState extends State<ConfigPanel> {
               c.fileList[c.selectIndex.value].type==Types.video && c.fileList[c.selectIndex.value].outType==Types.video ? Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 90,
-                    child: Text(
-                      '大小',
-                      
-                    ),
+                    child: Text('大小'),
                   ),
                   Checkbox(
                     checked: (c.fileList[c.selectIndex.value].videoEncoders!=VideoEncoders.copy && (c.fileList[c.selectIndex.value].width!=null || c.fileList[c.selectIndex.value].height!=null)), 
@@ -365,7 +346,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                         c.fileList.refresh();
                       }
                     },
-                    content: Text('指定大小'),
+                    content: const Text('指定大小'),
                   ),
                   const SizedBox(width: 10,),
                   SizedBox(
@@ -408,12 +389,9 @@ class _ConfigPanelState extends State<ConfigPanel> {
               c.fileList[c.selectIndex.value].type==Types.video && c.fileList[c.selectIndex.value].outType==Types.video ? Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 90,
-                    child: Text(
-                      '音频',
-                      
-                    ),
+                    child: Text('音频'),
                   ),
                   Checkbox(
                     checked: c.fileList[c.selectIndex.value].audioEncoders!=AudioEncoders.copy && c.fileList[c.selectIndex.value].audioVolume!=null, 
@@ -427,7 +405,7 @@ class _ConfigPanelState extends State<ConfigPanel> {
                         c.fileList.refresh();
                       }
                     },
-                    content: Text('指定增益'),
+                    content: const Text('指定增益'),
                   ),
                   const SizedBox(width: 10,),
                   SizedBox(
@@ -451,12 +429,9 @@ class _ConfigPanelState extends State<ConfigPanel> {
               c.fileList[c.selectIndex.value].type==Types.video && c.fileList[c.selectIndex.value].outType==Types.video ? Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 90,
-                    child: Text(
-                      '视频轨道',
-                      
-                    ),
+                    child: Text('视频轨道'),
                   ),
                   SizedBox(
                     width: 200,
@@ -480,12 +455,9 @@ class _ConfigPanelState extends State<ConfigPanel> {
               c.fileList[c.selectIndex.value].type==Types.video && c.fileList[c.selectIndex.value].outType==Types.video ? Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 90,
-                    child: Text(
-                      '音频轨道',
-                      
-                    ),
+                    child: Text('音频轨道'),
                   ),
                   SizedBox(
                     width: 200,
@@ -509,12 +481,9 @@ class _ConfigPanelState extends State<ConfigPanel> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 90,
-                    child: Text(
-                      '声道',
-                      
-                    ),
+                    child: Text('声道'),
                   ),
                   SizedBox(
                     width: 200,
@@ -537,16 +506,13 @@ class _ConfigPanelState extends State<ConfigPanel> {
               c.fileList[c.selectIndex.value].type==Types.video  && c.fileList[c.selectIndex.value].outType==Types.video ? Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 90,
-                    child: Text(
-                      '字幕',
-                      
-                    ),
+                    child: Text('字幕',),
                   ),
                   ComboBox(
                     value: c.fileList[c.selectIndex.value].subTitleType,
-                    items: [
+                    items: const [
                       ComboBoxItem(
                         value: SubTitleType.none,
                         child: Text('无'),
@@ -591,7 +557,6 @@ class _ConfigPanelState extends State<ConfigPanel> {
                       c.fileList[c.selectIndex.value].subTitleType==SubTitleType.embed ? "字幕轨道: ${c.fileList[c.selectIndex.value].subtitleTrack.toString()}" 
                       : "字幕文件: ${c.fileList[c.selectIndex.value].subTitleFile}",
                       overflow: TextOverflow.ellipsis,
-                      
                     ),
                   )
                 ]
@@ -600,12 +565,9 @@ class _ConfigPanelState extends State<ConfigPanel> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     width: 90,
-                    child: Text(
-                      '输出名称',
-                      
-                    ),
+                    child: Text('输出名称'),
                   ),
                   Expanded(
                     child: TextBox(
@@ -613,13 +575,13 @@ class _ConfigPanelState extends State<ConfigPanel> {
                       onChanged: (val){
                         c.fileList[c.selectIndex.value].outputName=val;
                       },
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14
                       ),
                     )
                   ),
                   const SizedBox(width: 2,),
-                  Text(".${c.fileList[c.selectIndex.value].format.name}", style: TextStyle())
+                  Text(".${c.fileList[c.selectIndex.value].format.name}")
                 ]
               ),
             ],

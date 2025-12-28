@@ -43,17 +43,17 @@ class Task {
     showDialog(
       context: context, 
       builder: (context)=>ContentDialog(
-        title: Text('暂停运行'),
-        content: Text('在当前正在执行的任务结束之后暂停任务的执行'),
+        title: const Text('暂停运行'),
+        content: const Text('在当前正在执行的任务结束之后暂停任务的执行'),
         actions: [
           Button(
-            child: Text('取消'),
+            child: const Text('取消'),
             onPressed: (){
               Navigator.pop(context);
             }
           ),
           FilledButton(
-            child: Text('继续'),
+            child: const Text('继续'),
             onPressed: (){
               Navigator.pop(context);
               setState((){
@@ -70,14 +70,14 @@ class Task {
     showDialog(
       context: context, 
       builder: (context)=>ContentDialog(
-        title: Text(title, style: TextStyle()),
-        content: Text(content, style: TextStyle()),
+        title: Text(title, style: const TextStyle()),
+        content: Text(content, style: const TextStyle()),
         actions: [
           FilledButton(
             onPressed: (){
               Navigator.pop(context);
             }, 
-            child: Text('好的')
+            child: const Text('好的')
           )
         ],
       )
@@ -107,7 +107,7 @@ class Task {
     showDialog(
       context: context, 
       builder: (context)=>ContentDialog(
-        title: Text('日志'),
+        title: const Text('日志'),
         content: SizedBox(
           height: 300,
           width: 500,
@@ -116,7 +116,7 @@ class Task {
             children: [
               Text(
                 '正在执行的任务: ${c.running.value ? runIndex==-1 ? convertName(c.selectIndex.value) : convertName(runIndex) : '/'}',
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.bold
                 ),
                 textAlign: TextAlign.left,
@@ -144,7 +144,7 @@ class Task {
             onPressed: (){
               Navigator.pop(context);
             }, 
-            child: Text('完成')
+            child: const Text('完成')
           )
         ],
       )

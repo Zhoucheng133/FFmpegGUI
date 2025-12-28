@@ -18,7 +18,7 @@ class Funcs {
       showDialog(
         context: context, 
         builder: (context)=>ContentDialog(
-          title: Text('关于FFmpeg GUI'),
+          title: const Text('关于FFmpeg GUI'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -31,7 +31,7 @@ class Funcs {
                   child: Image.asset('assets/icon.png')
                 ),
               ),
-              Text(
+              const Text(
                 'FFmpeg GUI', 
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -51,21 +51,18 @@ class Funcs {
                   final Uri url = Uri.parse('https://github.com/Zhoucheng133/FFmpegGUI');
                   await launchUrl(url);
                 },
-                child: MouseRegion(
+                child: const MouseRegion(
                   cursor: SystemMouseCursors.click,
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const FaIcon(
+                      FaIcon(
                         FontAwesomeIcons.github,
                         size: 15,
                       ),
-                      const SizedBox(width: 5,),
-                      Text(
-                        '本项目地址',
-                        style:  TextStyle(),
-                      )
+                      SizedBox(width: 5,),
+                      Text('本项目地址')
                     ],
                   ),
                 ),
@@ -77,21 +74,18 @@ class Funcs {
                   applicationVersion: 'v${packageInfo.version}',
                   context: context
                 ),
-                child: MouseRegion(
+                child: const MouseRegion(
                   cursor: SystemMouseCursors.click,
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const FaIcon(
+                      FaIcon(
                         FontAwesomeIcons.certificate,
                         size: 15,
                       ),
-                      const SizedBox(width: 5,),
-                      Text(
-                        '许可证',
-                        style:  TextStyle(),
-                      )
+                      SizedBox(width: 5,),
+                      Text('许可证')
                     ],
                   ),
                 ),
@@ -100,7 +94,7 @@ class Funcs {
           ),
           actions: [
             FilledButton(
-              child: Text('好的'), 
+              child: const Text('好的'), 
               onPressed: (){
                 Navigator.pop(context);
               }
@@ -119,7 +113,7 @@ class Funcs {
     await showDialog(
       context: context, 
       builder: (context)=>ContentDialog(
-        title: Text('设置'),
+        title: const Text('设置'),
         content: StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return Column(
@@ -133,11 +127,11 @@ class Funcs {
                       final SharedPreferences prefs=await SharedPreferences.getInstance();
                       prefs.setBool('useNotification', c.useNotification.value);
                     },
-                    content: Text('启用通知'),
+                    content: const Text('启用通知'),
                   ),
                 ),
                 const SizedBox(height: 10,),
-                Text("FFmpeg路径"),
+                const Text("FFmpeg路径"),
                 const SizedBox(height: 5,),
                 Row(
                   children: [
@@ -147,7 +141,7 @@ class Funcs {
                         child: TextBox(
                           maxLines: 1,
                           controller: controller,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 14
                           ),
                         ),
@@ -155,7 +149,7 @@ class Funcs {
                     ),
                     const SizedBox(width: 10,),
                     Button(
-                      child: Text('选取'), 
+                      child: const Text('选取'), 
                       onPressed: () async {
                         FilePickerResult? result = await FilePicker.platform.pickFiles();
                         if (result != null) {
@@ -173,7 +167,7 @@ class Funcs {
         ),
         actions: [
           FilledButton(
-            child: Text('完成'), 
+            child: const Text('完成'), 
             onPressed: () async {
               c.ffmpeg.value=controller.text;
               SharedPreferences prefs = await SharedPreferences.getInstance();

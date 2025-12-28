@@ -75,7 +75,7 @@ class _TopMenuBarState extends State<TopMenuBar> {
     showDialog(
       context: context, 
       builder: (context)=>ContentDialog(
-        title: Text('添加任务来自网络'),
+        title: const Text('添加任务来自网络'),
         content: SizedBox(
           height: 100,
           child: TextBox(
@@ -88,11 +88,11 @@ class _TopMenuBarState extends State<TopMenuBar> {
         ),
         actions: [
           Button(
-            child: Text('取消'), 
+            child: const Text('取消'), 
             onPressed: ()=>Navigator.pop(context)
           ),
           FilledButton(
-            child: Text('添加'),
+            child: const Text('添加'),
             onPressed: (){
               c.fileList.add(TaskItem(path: controller.text));
               Navigator.pop(context);
@@ -110,20 +110,17 @@ class _TopMenuBarState extends State<TopMenuBar> {
     showDialog(
       context: context, 
       builder: (context)=>ContentDialog(
-        title: Text('清空任务列表'),
-        content: Text('确定要清空任务列表吗？这个操作不能撤销！'),
+        title: const Text('清空任务列表'),
+        content: const Text('确定要清空任务列表吗？这个操作不能撤销！'),
         actions: [
           Button(
-            child: Text(
-              '取消', 
-              
-            ), 
+            child: const Text('取消'), 
             onPressed: (){
               Navigator.pop(context);
             }
           ),
           FilledButton(
-            child: Text('确定'), 
+            child: const Text('确定'), 
             onPressed: (){
               Navigator.pop(context);
               c.fileList.value=[];
@@ -140,11 +137,11 @@ class _TopMenuBarState extends State<TopMenuBar> {
     showDialog(
       context: context, 
       builder: (context)=>ContentDialog(
-        title: Text('应用配置到所有任务?'),
-        content: Text('应用当前任务的配置到所有的任务? 注意仅限当前媒体的类型 !'),
+        title: const Text('应用配置到所有任务?'),
+        content: const Text('应用当前任务的配置到所有的任务? 注意仅限当前媒体的类型 !'),
         actions: [
           Button(
-            child: Text('取消'), 
+            child: const Text('取消'), 
             onPressed: ()=>Navigator.pop(context)
           ),
           FilledButton(
@@ -172,7 +169,7 @@ class _TopMenuBarState extends State<TopMenuBar> {
               c.fileList.refresh();
               Navigator.pop(context);
             },
-            child: Text('应用')
+            child: const Text('应用')
           ),
         ],
       )
@@ -200,7 +197,7 @@ class _TopMenuBarState extends State<TopMenuBar> {
                     items: [
                       MenuFlyoutItem(
                         leading: const FaIcon(FontAwesomeIcons.file),
-                        text: Text('来自文件'),
+                        text: const Text('来自文件'),
                         onPressed: (){
                           Flyout.of(context).close();
                           pickFile();
@@ -208,7 +205,7 @@ class _TopMenuBarState extends State<TopMenuBar> {
                       ),
                       MenuFlyoutItem(
                         leading: const FaIcon(FontAwesomeIcons.folder),
-                        text: Text('来自目录'),
+                        text: const Text('来自目录'),
                         onPressed: (){
                           Flyout.of(context).close();
                           pickDir();
@@ -216,7 +213,7 @@ class _TopMenuBarState extends State<TopMenuBar> {
                       ),
                       MenuFlyoutItem(
                         leading: const FaIcon(FontAwesomeIcons.link),
-                        text: Text('来自网络'),
+                        text: const Text('来自网络'),
                         onPressed: (){
                           Flyout.of(context).close();
                           pickNetwork(context);
@@ -248,7 +245,7 @@ class _TopMenuBarState extends State<TopMenuBar> {
                         items: [
                           MenuFlyoutItem(
                             leading: const FaIcon(FontAwesomeIcons.play),
-                            text: Text('开始当前任务'),
+                            text: const Text('开始当前任务'),
                             onPressed: (){
                               Flyout.of(context).close();
                               task.singleRun(context);
@@ -256,7 +253,7 @@ class _TopMenuBarState extends State<TopMenuBar> {
                           ),
                           MenuFlyoutItem(
                             leading: const FaIcon(FontAwesomeIcons.play),
-                            text: Text('开始所有任务'),
+                            text: const Text('开始所有任务'),
                             onPressed: (){
                               Flyout.of(context).close();
                               task.multiRun(context);
