@@ -6,6 +6,7 @@ import 'package:ffmpeg_gui/components/sidebar.dart';
 import 'package:ffmpeg_gui/controllers/controller.dart';
 import 'package:ffmpeg_gui/dialogs/app_dialogs.dart';
 import 'package:ffmpeg_gui/dialogs/dialogs.dart';
+import 'package:ffmpeg_gui/dialogs/settings.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -124,7 +125,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                 PlatformMenuItemGroup(
                   members: [
                     PlatformMenuItem(
-                      label: "关于 FFmpeg GUI",
+                      label: "${'about'.tr} FFmpeg GUI",
                       onSelected: ()=>showAbout(context)
                     )
                   ]
@@ -132,14 +133,12 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                 PlatformMenuItemGroup(
                   members: [
                     PlatformMenuItem(
-                      label: "设置",
+                      label: "settings".tr,
                       shortcut: const SingleActivator(
                         LogicalKeyboardKey.comma,
                         meta: true,
                       ),
-                      onSelected: (){
-                        // TODO 设置
-                      }
+                      onSelected: ()=>showSettings(context),
                     ),
                   ]
                 ),
@@ -158,10 +157,10 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
               ]
             ),
             PlatformMenu(
-              label: "编辑",
+              label: "edit".tr,
               menus: [
                 PlatformMenuItem(
-                  label: "拷贝",
+                  label: "copy".tr,
                   onSelected: (){
                     final focusedContext = FocusManager.instance.primaryFocus?.context;
                     if (focusedContext != null) {
@@ -170,7 +169,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                   }
                 ),
                 PlatformMenuItem(
-                  label: "粘贴",
+                  label: "paste".tr,
                   onSelected: (){
                     final focusedContext = FocusManager.instance.primaryFocus?.context;
                     if (focusedContext != null) {
@@ -179,7 +178,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                   },
                 ),
                 PlatformMenuItem(
-                  label: "全选",
+                  label: "selectAll".tr,
                   onSelected: (){
                     final focusedContext = FocusManager.instance.primaryFocus?.context;
                     if (focusedContext != null) {
@@ -189,8 +188,8 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                 )
               ]
             ),
-            const PlatformMenu(
-              label: "窗口", 
+            PlatformMenu(
+              label: "window".tr, 
               menus: [
                 PlatformMenuItemGroup(
                   members: [

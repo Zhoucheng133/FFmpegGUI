@@ -75,4 +75,10 @@ const Map<String, String> zhCN = {
   'H265_CPU': 'H265 (CPU)',
   'AV1': 'AV1 (CPU)',
   'XviD': 'XviD (CPU)',
+
+  'edit': '编辑',
+  'copy': '复制',
+  'paste': '粘贴',
+  'selectAll': '全选',
+  'window': '窗口',
 };
