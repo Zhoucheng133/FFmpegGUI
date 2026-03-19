@@ -26,6 +26,10 @@ class _DropdownState extends State<Dropdown> {
       color: Theme.brightnessOf(context)==Brightness.dark ? Colors.grey[850]:Colors.white,
       child: DropdownButtonHideUnderline(
         child: DropdownButton(
+          icon: Padding(
+            padding: .only(left: 5),
+            child: Icon(Icons.arrow_drop_down),
+          ),
           focusColor: Colors.transparent,
           isDense: true,
           dropdownColor: Theme.of(context).brightness==Brightness.dark ? Colors.grey[850]:Colors.white,
