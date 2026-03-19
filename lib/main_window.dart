@@ -6,9 +6,11 @@ import 'package:ffmpeg_gui/components/sidebar.dart';
 import 'package:ffmpeg_gui/controllers/controller.dart';
 import 'package:ffmpeg_gui/dialogs/app_dialogs.dart';
 import 'package:ffmpeg_gui/dialogs/dialogs.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:window_manager/window_manager.dart';
 
 class MainWindow extends StatefulWidget {
@@ -85,6 +87,7 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                   style: TextStyle(
                     fontSize: 14
                   ),
+                  readOnly: true,
                   decoration: InputDecoration(
                     hint: Text(
                       "output".tr,
@@ -92,19 +95,21 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
                         color: Colors.grey[400],
                       ),
                     ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+                    border: OutlineInputBorder(),
                     isCollapsed: true,
-                    enabled: false,
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                    contentPadding: .symmetric(horizontal: 5, vertical: 10),
                   ),
                 ),
               ),
               const SizedBox(width: 10),
               FilledButton(
-                onPressed: (){
-                  // TODO 选择输出目录
+                onPressed: () async {
+                  String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+                  if (selectedDirectory != null) {
+                    controller.output.text=selectedDirectory;
+                    SharedPreferences prefs=await SharedPreferences.getInstance();
+                    prefs.setString('output', selectedDirectory);
+                  }
                 }, 
                 child: Text('select'.tr)
               )
