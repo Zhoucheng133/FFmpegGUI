@@ -2,6 +2,7 @@ import 'package:ffmpeg_gui/controllers/controller.dart';
 import 'package:ffmpeg_gui/controllers/theme_controller.dart';
 import 'package:ffmpeg_gui/lang/en_us.dart';
 import 'package:ffmpeg_gui/lang/zh_cn.dart';
+import 'package:ffmpeg_gui/lang/zh_tw.dart';
 import 'package:ffmpeg_gui/main_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -59,6 +60,7 @@ class MainTranslations extends Translations {
   Map<String, Map<String, String>> get keys => {
     'en_US': enUS,
     'zh_CN': zhCN,
+    'zh_TW': zhTW,
   };
 }
 
