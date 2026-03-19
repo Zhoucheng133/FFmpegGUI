@@ -1,4 +1,3 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 
 class DropdownListItem {
@@ -23,21 +22,25 @@ class Dropdown extends StatefulWidget {
 class _DropdownState extends State<Dropdown> {
   @override
   Widget build(BuildContext context) {
-    return DropdownButtonHideUnderline(
-      child: DropdownButton2(
-        menuItemStyleData: MenuItemStyleData(
-          height: 35,
+    return Material(
+      color: Theme.brightnessOf(context)==Brightness.dark ? Colors.grey[850]:Colors.white,
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton(
+          focusColor: Colors.transparent,
+          isDense: true,
+          dropdownColor: Theme.of(context).brightness==Brightness.dark ? Colors.grey[850]:Colors.white,
+          padding: .symmetric(horizontal: 10, vertical: 8),
+          style: TextStyle(
+            fontSize: 14,
+            color: Theme.of(context).brightness==Brightness.dark ? Colors.white : Colors.black
+          ),
+          value: widget.value,
+          items: widget.items.map((item)=>DropdownMenuItem(
+            value: item.value,
+            child: Text(item.label)
+          )).toList(),
+          onChanged: widget.onChanged,
         ),
-        style: TextStyle(
-          fontSize: 14,
-          color: Theme.of(context).brightness==Brightness.dark ? Colors.white : Colors.black
-        ),
-        value: widget.value,
-        items: widget.items.map((item)=>DropdownMenuItem(
-          value: item.value,
-          child: Text(item.label)
-        )).toList(),
-        onChanged: widget.onChanged,
       ),
     );
   }

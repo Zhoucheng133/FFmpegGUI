@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:ffmpeg_gui/components/dropdown.dart';
 import 'package:ffmpeg_gui/controllers/controller.dart';
 import 'package:ffmpeg_gui/service/codec_handler.dart';
@@ -120,27 +119,18 @@ class _ConfigPanelState extends State<ConfigPanel> {
                             )).toList(),
                         ),
                         if(controller.selectedTask.outType==Types.video) const SizedBox(width: 10,),
-                        DropdownButtonHideUnderline(
-                          child: DropdownButton2(
-                            menuItemStyleData: MenuItemStyleData(
-                              height: 35,
-                            ),
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Theme.of(context).brightness==Brightness.dark ? Colors.white : Colors.black
-                            ),
-                            value: controller.selectedTask.audioEncoders,
-                            items: AudioEncoders.values.map((item)=>DropdownMenuItem(
-                              value: item,
-                              child: Text(audioEncoderToString(item))
-                            )).toList(),
-                            onChanged: (value){
-                              value=value as AudioEncoders;
-                              controller.fileList[controller.selectIndex.value].audioEncoders=value;
-                              controller.fileList.refresh();
-                            },
-                          ),
-                        ),
+                        Dropdown(
+                          value: controller.selectedTask.audioEncoders, 
+                          onChanged: (value){
+                            value=value as AudioEncoders;
+                            controller.fileList[controller.selectIndex.value].audioEncoders=value;
+                            controller.fileList.refresh();
+                          },
+                          items:  AudioEncoders.values.map((item)=>DropdownListItem(
+                            value: item,
+                            label: audioEncoderToString(item)
+                          )).toList(),
+                        )
                       ],
                     ),
                   ],
