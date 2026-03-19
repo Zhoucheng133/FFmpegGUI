@@ -28,7 +28,6 @@ class _SidebarItemState extends State<SidebarItem> {
       ()=> Padding(
         padding: const EdgeInsets.only(top: 5),
         child: Material(
-          elevation: 0,
           color: themeController.buttonColor(context, false, controller.selectIndex.value==widget.index),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
@@ -36,32 +35,35 @@ class _SidebarItemState extends State<SidebarItem> {
           clipBehavior: Clip.antiAlias,
           child: InkWell(
             hoverColor: themeController.buttonColor(context, true, controller.selectIndex.value==widget.index),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 10),
-              child: Row(
-                children: [
-                  widget.item.status==Status.wait ? const FaIcon(
-                    FontAwesomeIcons.clock,
-                    size: 13,
-                  ) : widget.item.status==Status.finished ? const FaIcon(
-                    FontAwesomeIcons.circleCheck,
-                    size: 13,
-                  ) : const FaIcon(
-                    FontAwesomeIcons.hourglassHalf,
-                    size: 13,
-                  ),
-                  const SizedBox(width: 7,),
-                  Expanded(
-                    child: Text(
-                      p.basename(widget.item.path,),
-                      maxLines: 2,
-                      style: TextStyle(
-                        fontSize: 13,
-                      ),
-                      overflow: TextOverflow.ellipsis,
+            child: SizedBox(
+              height: 50,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Row(
+                  children: [
+                    widget.item.status==Status.wait ? const FaIcon(
+                      FontAwesomeIcons.clock,
+                      size: 13,
+                    ) : widget.item.status==Status.finished ? const FaIcon(
+                      FontAwesomeIcons.circleCheck,
+                      size: 13,
+                    ) : const FaIcon(
+                      FontAwesomeIcons.hourglassHalf,
+                      size: 13,
                     ),
-                  ),
-                ],
+                    const SizedBox(width: 7,),
+                    Expanded(
+                      child: Text(
+                        p.basename(widget.item.path,),
+                        maxLines: 2,
+                        style: TextStyle(
+                          fontSize: 13,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             onTap: (){
