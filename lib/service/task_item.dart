@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:path/path.dart' as p;
 
 enum Types{
@@ -77,6 +78,8 @@ class TaskItem{
   late Types outType;
   // 状态, 默认为等待
   Status status=Status.wait;
+  // 自定义分辨率
+  bool customSize=false;
   // 分辨率宽度, 默认为null
   int? width;
   // 分辨率高度, 默认为null
@@ -127,5 +130,42 @@ class TaskItem{
       format=Formats.mp4;
     }
     outputName=removeExtension(p.basename(path));
+  }
+
+  String sizeSelected(){
+    if(customSize){
+      return 'custom'.tr;
+    }else if(width==1920 && height==1080){
+      return '1080p';
+    }else if(width==1280 && height==720){
+      return '720p';
+    }
+    return 'noScale'.tr;
+  }
+
+  Map toJson(){
+    return {
+      "path": path,
+      "videoEncoders": videoEncoders.name,
+      "audioEncoders": audioEncoders.name,
+      "format": format.name,
+      "channel": channel,
+      "subTitleType": subTitleType.name,
+      "subtitleTrack": subtitleTrack,
+      "subTitleFile": subTitleFile,
+      "type": type.name,
+      "videoTrack": videoTrack,
+      "audioTrack": audioTrack,
+      "outType": outType.name,
+      "status": status.name,
+      "customSize": customSize,
+      "width": width,
+      "height": height,
+      "audioVolume": audioVolume,
+      "outputName": outputName,
+      "enableClip": enableClip,
+      "clipStart": clipStart,
+      "clipEnd": clipEnd
+    };
   }
 }

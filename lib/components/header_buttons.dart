@@ -1,4 +1,5 @@
 import 'package:ffmpeg_gui/components/header_button_item.dart';
+import 'package:ffmpeg_gui/controllers/controller.dart';
 import 'package:ffmpeg_gui/dialogs/dialogs.dart';
 import 'package:ffmpeg_gui/service/task_adder.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,12 @@ class HeaderButtons extends StatefulWidget {
 class _HeaderButtonsState extends State<HeaderButtons> {
 
   final TaskAdder taskAdder=TaskAdder();
+  final Controller controller=Get.find();
+
+  // TODO 测试
+  void test(){
+    print(controller.fileList[controller.selectIndex.value].toJson());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +29,7 @@ class _HeaderButtonsState extends State<HeaderButtons> {
         Row(
           children: [
             HeaderButtonItem(buttonSide: ButtonSide.left, icon: Icons.add_rounded, func: ()=>taskAdder.showAddMenu(context), text: 'addTask'.tr,),
-            HeaderButtonItem(buttonSide: ButtonSide.mid, icon: Icons.play_arrow_rounded, func: (){}, text: 'runTask'.tr,),
+            HeaderButtonItem(buttonSide: ButtonSide.mid, icon: Icons.play_arrow_rounded, func: test, text: 'runTask'.tr,),
             HeaderButtonItem(buttonSide: ButtonSide.mid, icon: Icons.tune_rounded, func: (){}, text: 'applyToAll'.tr,),
             HeaderButtonItem(buttonSide: ButtonSide.mid, icon: Icons.delete_rounded, func: (){}, text: 'clearAll'.tr,),
             HeaderButtonItem(buttonSide: ButtonSide.right, icon: Icons.paste_rounded, func: (){}, text: 'log'.tr,),
