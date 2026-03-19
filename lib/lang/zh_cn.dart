@@ -63,4 +63,16 @@ const Map<String, String> zhCN = {
   'none': '无',
   'subtitleTrack': '字幕轨道',
   'rename': '重命名',
+
+  'noCoding': '不编码',
+  'H264_AMD': 'H264 (AMD GPU加速)',
+  'H264_NVIDIA': 'H264 (NVIDIA GPU加速)',
+  'H264_Apple': 'H264 (Apple 硬件加速)',
+  'H264_CPU': 'H264 (CPU)',
+  'H265_AMD': 'H265 (AMD GPU加速)',
+  'H265_NVIDIA': 'H265 (NVIDIA GPU加速)',
+  'H265_Apple': 'H265 (Apple 硬件加速)',
+  'H265_CPU': 'H265 (CPU)',
+  'AV1': 'AV1 (CPU)',
+  'XviD': 'XviD (CPU)',
 };

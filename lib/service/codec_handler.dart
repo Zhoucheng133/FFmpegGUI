@@ -1,31 +1,30 @@
 import 'package:ffmpeg_gui/service/task_item.dart';
-
-// TODO 需要翻译
+import 'package:get/get.dart';
 
 String videoEncoderToString(VideoEncoders encoder){
   switch (encoder) {
     case VideoEncoders.copy:
-      return "不编码";
-    case VideoEncoders.h264amf:
-      return "H264 (AMD GPU加速)";
-    case VideoEncoders.h264nvenc:
-      return "H264 (Nvidia GPU加速)";
-    case VideoEncoders.h264videotoolbox:
-      return "H264 (Apple 硬件加速)";
-    case VideoEncoders.hevcamf:
-      return "HEVC (AMD GPU加速)";
-    case VideoEncoders.hevcnvenc:
-      return "HEVC (Nvidia GPU加速)";
-    case VideoEncoders.hevcvideotoolbox:
-      return "HEVC (Apple 硬件加速)";
-    case VideoEncoders.libaomav1:
-      return "AV1 (CPU)";
+      return "noCoding".tr;
     case VideoEncoders.libx264:
-      return "H264 (CPU)";
+      return "H264_CPU".tr;
+    case VideoEncoders.h264amf:
+      return "H264_AMD".tr;
+    case VideoEncoders.h264nvenc:
+      return "H264_NVIDIA".tr;
+    case VideoEncoders.h264videotoolbox:
+      return "H264_Apple".tr;
     case VideoEncoders.libx265:
-      return "HEVC (CPU)";
+      return "H265_CPU".tr;
+    case VideoEncoders.hevcamf:
+      return "H265_AMD".tr;
+    case VideoEncoders.hevcnvenc:
+      return "H265_NVIDIA".tr;
+    case VideoEncoders.hevcvideotoolbox:
+      return "H265_Apple".tr;
+    case VideoEncoders.libaomav1:
+      return "AV1".tr;
     case VideoEncoders.libxvid:
-      return "XviD (CPU)";
+      return "XviD".tr;
   }
 }
 
@@ -34,7 +33,7 @@ String audioEncoderToString(AudioEncoders encoder){
     case AudioEncoders.aac:
       return "AAC";
     case AudioEncoders.copy:
-      return "不编码";
+      return "noCoding".tr;
     case AudioEncoders.flac:
       return "FLAC";
     case AudioEncoders.libmp3lame:
