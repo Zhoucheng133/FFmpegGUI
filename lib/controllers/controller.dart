@@ -56,7 +56,7 @@ class Controller extends GetxController {
       ffmpeg.value=prefFFmpeg;
       return;
     }
-    var ffmpegExectutable = whichSync('ffmpegg');
+    var ffmpegExectutable = whichSync('ffmpeg');
     if(ffmpegExectutable!=null){
       ffmpeg.value=ffmpegExectutable;
     }

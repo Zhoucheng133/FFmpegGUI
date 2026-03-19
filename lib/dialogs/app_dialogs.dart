@@ -48,7 +48,7 @@ void showPickFFmpegDialog(BuildContext context){
           onPressed: (){
             if(controller.text.isEmpty || !controller.text.endsWith("ffmpeg")){
               okDialog(context, "setFailed".tr, "pathInvalid".tr);
-            }else{
+            }else{  
               Get.find<Controller>().setFFmpegPath(controller.text);
               Navigator.pop(context);
             }

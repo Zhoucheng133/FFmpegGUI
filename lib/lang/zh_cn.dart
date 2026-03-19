@@ -81,4 +81,7 @@ const Map<String, String> zhCN = {
   'paste': '粘贴',
   'selectAll': '全选',
   'window': '窗口',
+
+  'useNotification': '使用通知',
+  'language': '语言',
 };
