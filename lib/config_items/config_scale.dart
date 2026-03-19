@@ -1,5 +1,6 @@
 import 'package:ffmpeg_gui/components/dropdown.dart';
 import 'package:ffmpeg_gui/controllers/controller.dart';
+import 'package:ffmpeg_gui/service/task_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -40,6 +41,7 @@ class _ConfigScaleState extends State<ConfigScale> {
               child: Text('scale'.tr),
             ),
             Dropdown(
+              enable: controller.selectedTask.videoEncoders!=VideoEncoders.copy,
               value: controller.selectedTask.sizeSelected(), 
               onChanged: (val){
                 if(val=='noScale'.tr){

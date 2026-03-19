@@ -1,4 +1,5 @@
 import 'package:ffmpeg_gui/controllers/controller.dart';
+import 'package:ffmpeg_gui/service/task_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -28,6 +29,7 @@ class _ConfigTrackState extends State<ConfigTrack> {
             child: SizedBox(
               width: 100,
               child: TextField(
+                enabled: controller.selectedTask.videoEncoders!=VideoEncoders.copy,
                 controller: TextEditingController(text: controller.fileList[controller.selectIndex.value].videoTrack.toString()),
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
@@ -51,6 +53,7 @@ class _ConfigTrackState extends State<ConfigTrack> {
             child: SizedBox(
               width: 100,
               child: TextField(
+                enabled: controller.selectedTask.audioEncoders!=AudioEncoders.copy,
                 controller: TextEditingController(text: controller.fileList[controller.selectIndex.value].audioTrack.toString()),
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,

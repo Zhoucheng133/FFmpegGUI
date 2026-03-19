@@ -12,8 +12,9 @@ class Dropdown extends StatefulWidget {
   final dynamic value;
   final ValueChanged onChanged;
   final List<DropdownListItem> items;
+  final bool enable;
 
-  const Dropdown({super.key, required this.value, required this.onChanged, required this.items});
+  const Dropdown({super.key, required this.value, required this.onChanged, required this.items, this.enable=true});
 
   @override
   State<Dropdown> createState() => _DropdownState();
@@ -44,7 +45,7 @@ class _DropdownState extends State<Dropdown> {
             value: item.value,
             child: Text(item.label)
           )).toList(),
-          onChanged: widget.onChanged,
+          onChanged: widget.enable ? widget.onChanged : null,
         ),
       ),
     );

@@ -38,6 +38,7 @@ class _ConfigSubtitleState extends State<ConfigSubtitle> {
             child: Text('track'.tr),
           ),
           Dropdown(
+            enable: controller.selectedTask.videoEncoders!=VideoEncoders.copy,
             value: controller.selectedTask.subTitleType, 
             onChanged: (val) async {
               val = val as SubTitleType?;
