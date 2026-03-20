@@ -100,13 +100,16 @@ class TaskAdder {
   Future<void> showAddMenu(BuildContext context) async {
     final RenderBox button = context.findRenderObject() as RenderBox;
     final RenderBox overlay = Navigator.of(context).overlay!.context.findRenderObject() as RenderBox;
+    Offset topLeft = button.localToGlobal(Offset.zero, ancestor: overlay);
     final RelativeRect position = RelativeRect.fromRect(
-      Rect.fromPoints(
-        button.localToGlobal(Offset.zero, ancestor: overlay),
-        button.localToGlobal(button.size.bottomRight(Offset.zero), ancestor: overlay),
+      Rect.fromLTWH(
+        topLeft.dx,
+        topLeft.dy + 32,
+        0, 
+        0,
       ),
       Offset.zero & overlay.size,
-    ).shift(const Offset(0, 32));
+    );
     final key=await showMenu(
       context: context,
       position: position,
@@ -137,19 +140,6 @@ class TaskAdder {
             ],
           ),
         ),
-        // PopupMenuItem(
-        //   value: 'network',
-        //   height: 35, 
-        //   child: Row(
-        //     children: [
-        //       SizedBox(
-        //         width: 25,
-        //         child: FaIcon(FontAwesomeIcons.link, size: 13,)
-        //       ),
-        //       Text("fromUrl".tr),
-        //     ],
-        //   ),
-        // ),
       ],
     );
 

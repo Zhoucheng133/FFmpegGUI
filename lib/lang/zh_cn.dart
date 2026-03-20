@@ -84,4 +84,7 @@ const Map<String, String> zhCN = {
 
   'useNotification': '使用通知',
   'language': '语言',
+
+  'runSingleTask': '运行当前任务',
+  'runAllTask': '运行所有任务',
 };

@@ -24,51 +24,56 @@ class _SidebarItemState extends State<SidebarItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      ()=> Padding(
-        padding: const EdgeInsets.only(top: 5),
-        child: Material(
-          color: themeController.buttonColor(context, false, controller.selectIndex.value==widget.index),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          clipBehavior: Clip.antiAlias,
-          child: InkWell(
-            hoverColor: themeController.buttonColor(context, true, controller.selectIndex.value==widget.index),
-            child: SizedBox(
-              height: 50,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Row(
-                  children: [
-                    widget.item.status==Status.wait ? const FaIcon(
-                      FontAwesomeIcons.clock,
-                      size: 13,
-                    ) : widget.item.status==Status.finished ? const FaIcon(
-                      FontAwesomeIcons.circleCheck,
-                      size: 13,
-                    ) : const FaIcon(
-                      FontAwesomeIcons.hourglassHalf,
-                      size: 13,
-                    ),
-                    const SizedBox(width: 7,),
-                    Expanded(
-                      child: Text(
-                        p.basename(widget.item.path,),
-                        maxLines: 2,
-                        style: TextStyle(
-                          fontSize: 13,
-                        ),
-                        overflow: TextOverflow.ellipsis,
+    return GestureDetector(
+      onSecondaryTapDown: (detail){
+        
+      },
+      child: Obx(
+        ()=> Padding(
+          padding: const EdgeInsets.only(top: 5),
+          child: Material(
+            color: themeController.buttonColor(context, false, controller.selectIndex.value==widget.index),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            clipBehavior: Clip.antiAlias,
+            child: InkWell(
+              hoverColor: themeController.buttonColor(context, true, controller.selectIndex.value==widget.index),
+              child: SizedBox(
+                height: 50,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Row(
+                    children: [
+                      widget.item.status==Status.wait ? const FaIcon(
+                        FontAwesomeIcons.clock,
+                        size: 13,
+                      ) : widget.item.status==Status.finished ? const FaIcon(
+                        FontAwesomeIcons.circleCheck,
+                        size: 13,
+                      ) : const FaIcon(
+                        FontAwesomeIcons.hourglassHalf,
+                        size: 13,
                       ),
-                    ),
-                  ],
+                      const SizedBox(width: 7,),
+                      Expanded(
+                        child: Text(
+                          p.basename(widget.item.path,),
+                          maxLines: 2,
+                          style: TextStyle(
+                            fontSize: 13,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
+              onTap: (){
+                controller.selectIndex.value=widget.index;
+              },
             ),
-            onTap: (){
-              controller.selectIndex.value=widget.index;
-            },
           ),
         ),
       ),
