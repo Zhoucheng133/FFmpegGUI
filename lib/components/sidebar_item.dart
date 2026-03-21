@@ -22,12 +22,61 @@ class _SidebarItemState extends State<SidebarItem> {
   final controller=Get.find<Controller>();
   final ThemeController themeController=Get.find();
 
+  Future<void> showTaskMenu(BuildContext context, TapDownDetails details) async {
+    final RenderBox overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
+    final Offset position = overlay.localToGlobal(details.globalPosition);
+    var val=await showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB(
+        position.dx,
+        position.dy,
+        position.dx + 50,
+        position.dy + 50,
+      ),
+      items: [
+        PopupMenuItem(
+          value: 'reset',
+          height: 40, 
+          child: Row(
+            children: [
+              SizedBox(
+                width: 25,
+                child: FaIcon(FontAwesomeIcons.rotate, size: 15,)
+              ),
+              Text("resetTaskStatus".tr),
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          value: 'delete',
+          height: 40, 
+          child: Row(
+            children: [
+              SizedBox(
+                width: 25,
+                child: FaIcon(FontAwesomeIcons.trash, size: 15,)
+              ),
+              Text("deleteTask".tr),
+            ],
+          ),
+        ),
+      ]
+    );
+
+    if(val=='delete'){
+      controller.fileList.removeAt(widget.index);
+      controller.selectIndex.value=0;
+      controller.fileList.refresh();
+    }else if(val=='reset'){
+      controller.fileList[widget.index].status=Status.wait;
+      controller.fileList.refresh();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onSecondaryTapDown: (detail){
-        
-      },
+      onSecondaryTapDown: (detail)=>showTaskMenu(context, detail),
       child: Obx(
         ()=> Padding(
           padding: const EdgeInsets.only(top: 5),
