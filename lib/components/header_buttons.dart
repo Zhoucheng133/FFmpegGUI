@@ -4,6 +4,7 @@ import 'package:ffmpeg_gui/dialogs/dialogs.dart';
 import 'package:ffmpeg_gui/dialogs/settings.dart';
 import 'package:ffmpeg_gui/service/command.dart';
 import 'package:ffmpeg_gui/service/task_adder.dart';
+import 'package:ffmpeg_gui/service/task_item.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -89,6 +90,33 @@ class _HeaderButtonsState extends State<HeaderButtons> {
     }
   }
 
+  void applyToAll(BuildContext context) async {
+    bool? apply=await confirmDialog(context, "applyToAll".tr, "applyToAllContent".tr);
+    if(apply==true){
+      final nowConfig=controller.fileList[controller.selectIndex.value];
+      controller.fileList.value=controller.fileList.map((item){
+        if(item.type==nowConfig.type){
+          item.videoEncoders=nowConfig.videoEncoders;
+          item.audioEncoders=nowConfig.audioEncoders;
+          item.format=nowConfig.format;
+          item.channel=nowConfig.channel;
+          item.videoTrack=nowConfig.videoTrack;
+          item.audioTrack=nowConfig.audioTrack;
+          item.outType=nowConfig.outType;
+          item.width=nowConfig.width;
+          item.height=nowConfig.height;
+          item.audioVolume=nowConfig.audioVolume;
+          if(nowConfig.subTitleType==SubTitleType.embed){
+            item.subTitleType=SubTitleType.embed;
+            item.subtitleTrack=nowConfig.subtitleTrack;
+          }
+        }
+        return item;
+      }).toList();
+      controller.fileList.refresh();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -96,7 +124,7 @@ class _HeaderButtonsState extends State<HeaderButtons> {
         children: [
           HeaderButtonItem(buttonSide: ButtonSide.left, icon: Icons.add_rounded, func: ()=>taskAdder.showAddMenu(context), text: 'addTask'.tr, disable: controller.running.value, key: addButtonKey,),
           HeaderButtonItem(buttonSide: ButtonSide.mid, icon: Icons.play_arrow_rounded, func: ()=>showRunMenu(context), text: 'runTask'.tr, disable: controller.running.value || controller.fileList.isEmpty,),
-          HeaderButtonItem(buttonSide: ButtonSide.mid, icon: Icons.tune_rounded, func: (){}, text: 'applyToAll'.tr, disable: controller.running.value || controller.fileList.length<=1,),
+          HeaderButtonItem(buttonSide: ButtonSide.mid, icon: Icons.tune_rounded, func: ()=>applyToAll(context), text: 'applyToAll'.tr, disable: controller.running.value || controller.fileList.length<=1,),
           HeaderButtonItem(buttonSide: ButtonSide.mid, icon: Icons.delete_rounded, func: ()=>clearAll(context), text: 'clearAll'.tr, disable: controller.running.value || controller.fileList.isEmpty,),
           HeaderButtonItem(buttonSide: ButtonSide.right, icon: Icons.paste_rounded, func: ()=>task.log(context), text: 'log'.tr,),
           Expanded(child: Container()),
