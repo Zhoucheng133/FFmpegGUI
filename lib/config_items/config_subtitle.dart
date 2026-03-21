@@ -35,7 +35,7 @@ class _ConfigSubtitleState extends State<ConfigSubtitle> {
         children: [
           SizedBox(
             width: 90,
-            child: Text('track'.tr),
+            child: Text('subtitle'.tr),
           ),
           Dropdown(
             enable: controller.selectedTask.videoEncoders!=VideoEncoders.copy,
