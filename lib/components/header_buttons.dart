@@ -45,7 +45,7 @@ class _HeaderButtonsState extends State<HeaderButtons> {
       items: [
         PopupMenuItem(
           value: 'single',
-          height: 35, 
+          height: 40, 
           child: Row(
             children: [
               SizedBox(
@@ -58,7 +58,7 @@ class _HeaderButtonsState extends State<HeaderButtons> {
         ),
         PopupMenuItem(
           value: 'all',
-          height: 35, 
+          height: 40, 
           child: Row(
             children: [
               SizedBox(
