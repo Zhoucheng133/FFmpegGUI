@@ -22,11 +22,7 @@ Future<void> main() async {
     titleBarStyle: TitleBarStyle.hidden,
     title: 'FFmpeg GUI'
   );
-  windowManager.waitUntilReadyToShow(windowOptions, () async {
-    await windowManager.show();
-    await windowManager.focus();
-    await windowManager.setResizable(false);
-  });
+  windowManager.waitUntilReadyToShow(windowOptions);
 
   final controller=Get.put(Controller());
   Get.put(ThemeController());
