@@ -75,10 +75,10 @@ class _HeaderButtonsState extends State<HeaderButtons> {
 
     switch (key) {
       case 'all':
-        task.singleRun(context);
+        task.multiRun(context);
         break;
       case 'single':
-        task.multiRun(context);
+        task.singleRun(context);
         break;
     }
   }
