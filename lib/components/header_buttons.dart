@@ -82,6 +82,13 @@ class _HeaderButtonsState extends State<HeaderButtons> {
     }
   }
 
+  void clearAll(BuildContext context) async {
+    bool? del=await confirmDialog(context, "clearAll".tr, "clearAllContent".tr);
+    if(del==true){
+      controller.fileList.clear();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -90,7 +97,7 @@ class _HeaderButtonsState extends State<HeaderButtons> {
           HeaderButtonItem(buttonSide: ButtonSide.left, icon: Icons.add_rounded, func: ()=>taskAdder.showAddMenu(context), text: 'addTask'.tr, disable: controller.running.value, key: addButtonKey,),
           HeaderButtonItem(buttonSide: ButtonSide.mid, icon: Icons.play_arrow_rounded, func: ()=>showRunMenu(context), text: 'runTask'.tr, disable: controller.running.value || controller.fileList.isEmpty,),
           HeaderButtonItem(buttonSide: ButtonSide.mid, icon: Icons.tune_rounded, func: (){}, text: 'applyToAll'.tr, disable: controller.running.value || controller.fileList.length<=1,),
-          HeaderButtonItem(buttonSide: ButtonSide.mid, icon: Icons.delete_rounded, func: (){}, text: 'clearAll'.tr, disable: controller.running.value || controller.fileList.isEmpty,),
+          HeaderButtonItem(buttonSide: ButtonSide.mid, icon: Icons.delete_rounded, func: ()=>clearAll(context), text: 'clearAll'.tr, disable: controller.running.value || controller.fileList.isEmpty,),
           HeaderButtonItem(buttonSide: ButtonSide.right, icon: Icons.paste_rounded, func: ()=>task.log(context), text: 'log'.tr,),
           Expanded(child: Container()),
           HeaderButtonItem(buttonSide: ButtonSide.left, icon: Icons.settings_rounded, func: ()=>showSettings(context), text: 'settings'.tr,),

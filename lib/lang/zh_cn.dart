@@ -26,6 +26,7 @@ const Map<String, String> zhCN = {
   'runTask': '运行任务',
   'applyToAll': '应用到所有',
   'clearAll': '清空任务',
+  'clearAllContent': '确定要清空所有任务吗？',
   'log': '日志',
   'settings': '设置',
   'select': '选择',
