@@ -89,7 +89,7 @@ const Map<String, String> zhCN = {
 
   'runSingleTask': '运行当前任务',
   'runAllTask': '运行所有任务',
-
   'resetTaskStatus': '重置任务状态',
   'deleteTask': '删除任务',
+  'stop': '停止',
 };
