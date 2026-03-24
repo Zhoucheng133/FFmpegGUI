@@ -92,4 +92,9 @@ const Map<String, String> zhCN = {
   'resetTaskStatus': '重置任务状态',
   'deleteTask': '删除任务',
   'stop': '停止',
+  'stopContent': '确定要停止任务吗？',
+  'stopNow': '停止当前任务',
+  'stopNowContent': '是否要等待当前任务完成后停止？',
+  'waitForNowTask': '等待当前任务',
+  'forceStop': '强制停止',
 };

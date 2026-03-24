@@ -37,29 +37,15 @@ class Task {
   bool stopTask=false;
   int runIndex=-1;
 
-  Future<void> pause(BuildContext context, setState) async {
-    if(!c.running.value || stopTask){
-      return;
-    }
-
-    final pause=await confirmDialog(context, "pauseRun".tr, "pauseContent".tr, okText: "pause".tr);
-
-    if(pause ?? false){
-      setState((){
-        stopTask=true;
-      });
-    }
-  }
-
-  void stop(){
+  void forceStop(){
     if(!c.running.value){
       return;
     }
-    stopTask=true;
     try {
       shell.kill();
       c.running.value=false;
       c.log.value=[];
+      stopTask=true;
     } catch (_) {}
   }
 
@@ -158,10 +144,8 @@ class Task {
     return '';
   }
 
-  bool forceStop=false;
-
   Future<void> mainService(int? index) async {
-    forceStop=false;
+    stopTask=false;
     TaskItem item=c.fileList[index??c.selectIndex.value];
     String outputPath='';
     String fileName='';
@@ -209,7 +193,6 @@ ${c.ffmpeg.value} -i "$fileName" "$output"
     } on ShellException catch (_) {
       c.fileList[index??c.selectIndex.value].status=Status.wait;
       c.fileList.refresh();
-      forceStop=true;
     }
   }
 
@@ -256,9 +239,6 @@ ${c.ffmpeg.value} -i "$fileName" "$output"
     }
     c.running.value=false;
     stopTask=false;
-    if(!forceStop){
-      showNotification();
-    }
   }
 
   Future<void> singleRun(BuildContext context) async {
@@ -282,8 +262,5 @@ ${c.ffmpeg.value} -i "$fileName" "$output"
     await mainService(null);
     c.running.value=false;
     stopTask=false;
-    if(!forceStop){
-      showNotification();
-    }
   }
 }

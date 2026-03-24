@@ -117,6 +117,18 @@ class _HeaderButtonsState extends State<HeaderButtons> {
     }
   }
 
+  Future<void> stopTask(BuildContext context) async {
+    bool? stop=await await confirmDialog(context, "stop".tr, "stopContent".tr);
+    if(stop==true){
+      bool? stopNow=await confirmDialog(context, "stopNow".tr, "stopNowContent".tr, cancelText: "waitForNowTask".tr, okText: "forceStop".tr,);
+      if(stopNow==true){
+        task.forceStop();
+      }else{
+        task.stopTask=true;
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -125,7 +137,7 @@ class _HeaderButtonsState extends State<HeaderButtons> {
           HeaderButtonItem(buttonSide: ButtonSide.left, icon: Icons.add_rounded, func: ()=>taskAdder.showAddMenu(context), text: 'addTask'.tr, disable: controller.running.value, key: addButtonKey,),
           HeaderButtonItem(buttonSide: ButtonSide.mid, icon: Icons.play_arrow_rounded, func: ()=>showRunMenu(context), text: 'runTask'.tr, disable: controller.running.value || controller.fileList.isEmpty,),
           HeaderButtonItem(buttonSide: ButtonSide.mid, icon: Icons.tune_rounded, func: ()=>applyToAll(context), text: 'applyToAll'.tr, disable: controller.running.value || controller.fileList.length<=1,),
-          HeaderButtonItem(buttonSide: ButtonSide.mid, icon: Icons.stop_rounded, func: ()=>task.stop(), text: 'stop'.tr, disable: !controller.running.value),
+          HeaderButtonItem(buttonSide: ButtonSide.mid, icon: Icons.stop_rounded, func: ()=>stopTask(context), text: 'stop'.tr, disable: !controller.running.value),
           HeaderButtonItem(buttonSide: ButtonSide.mid, icon: Icons.delete_rounded, func: ()=>clearAll(context), text: 'clearAll'.tr, disable: controller.running.value || controller.fileList.isEmpty,),
           HeaderButtonItem(buttonSide: ButtonSide.right, icon: Icons.paste_rounded, func: ()=>task.log(context), text: 'log'.tr,),
           Expanded(child: Container()),
