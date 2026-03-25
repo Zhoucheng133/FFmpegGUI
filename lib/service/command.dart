@@ -60,7 +60,7 @@ class Task {
 
     customOkDialog(
       context, 
-      "日志", 
+      "log".tr, 
       SizedBox(
         height: 300,
         width: 500,

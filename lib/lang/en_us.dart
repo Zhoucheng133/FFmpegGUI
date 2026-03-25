@@ -28,7 +28,7 @@ const Map<String, String> enUS = {
   'applyToAllContent': 'Are you sure you want to apply current configuration to all tasks?',
   'clearAll': 'Clear All Tasks',
   'clearAllContent': 'Are you sure you want to clear all tasks?',
-  'log': 'Log',
+  'log': 'Logs',
   'settings': 'Settings',
   'select': 'Select',
 
