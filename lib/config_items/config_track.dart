@@ -24,7 +24,7 @@ class _ConfigTrackState extends State<ConfigTrack> {
             width: 90,
             child: Text('track'.tr),
           ),
-          Padding(
+          if(controller.fileList[controller.selectIndex.value].outType!=Types.audio) Padding(
             padding: .only(left: 5),
             child: SizedBox(
               width: 100,
@@ -49,7 +49,7 @@ class _ConfigTrackState extends State<ConfigTrack> {
             ),
           ),
           Padding(
-            padding: .only(left: 10),
+            padding: .only(left: controller.fileList[controller.selectIndex.value].outType==Types.audio ? 5 : 10),
             child: SizedBox(
               width: 100,
               child: TextField(
