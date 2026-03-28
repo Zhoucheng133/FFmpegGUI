@@ -42,7 +42,7 @@ class _ConfigOutputState extends State<ConfigOutput> {
               }
             },
             items: [
-              DropdownListItem(label: 'video'.tr, value: Types.video),
+              if(controller.fileList[controller.selectIndex.value].type!=Types.audio) DropdownListItem(label: 'video'.tr, value: Types.video),
               DropdownListItem(label: 'audio'.tr, value: Types.audio)
             ]
           )

@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class DropdownListItem {
   final String label;
   final dynamic value;
+  final bool disable;
 
-  const DropdownListItem({required this.label, required this.value});
+  const DropdownListItem({required this.label, required this.value, this.disable=false});
 }
 
 class Dropdown extends StatefulWidget {
@@ -43,7 +44,8 @@ class _DropdownState extends State<Dropdown> {
           value: widget.value,
           items: widget.items.map((item)=>DropdownMenuItem(
             value: item.value,
-            child: Text(item.label)
+            child: Text(item.label),
+            enabled: !item.disable,
           )).toList(),
           onChanged: widget.enable ? widget.onChanged : null,
         ),

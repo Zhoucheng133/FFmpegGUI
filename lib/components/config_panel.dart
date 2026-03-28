@@ -9,6 +9,7 @@ import 'package:ffmpeg_gui/config_items/config_scale.dart';
 import 'package:ffmpeg_gui/config_items/config_subtitle.dart';
 import 'package:ffmpeg_gui/config_items/config_track.dart';
 import 'package:ffmpeg_gui/controllers/controller.dart';
+import 'package:ffmpeg_gui/service/task_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -46,14 +47,14 @@ class _ConfigPanelState extends State<ConfigPanel> {
                 ConfigFormat(),
                 const SizedBox(height: 10,),
                 ConfigClip(),
-                const SizedBox(height: 10,),
-                ConfigScale(),
+                if(controller.fileList[controller.selectIndex.value].outType!=Types.audio) const SizedBox(height: 10,),
+                if(controller.fileList[controller.selectIndex.value].outType!=Types.audio) ConfigScale(),
                 const SizedBox(height: 10,),
                 ConfigTrack(),
                 const SizedBox(height: 10,),
                 ConfigChannel(),
-                const SizedBox(height: 10,),
-                ConfigSubtitle(),
+                if(controller.fileList[controller.selectIndex.value].outType!=Types.audio) const SizedBox(height: 10,),
+                if(controller.fileList[controller.selectIndex.value].outType!=Types.audio) ConfigSubtitle(),
                 const SizedBox(height: 10,),
                 ConfigName(),
               ],
