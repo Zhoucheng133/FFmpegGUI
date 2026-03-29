@@ -30,8 +30,6 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
     super.initState();
     windowManager.addListener(this);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await windowManager.show();
-      await windowManager.focus();
       await windowManager.setResizable(false);
       if(controller.ffmpeg.value.isEmpty){
         showPickFFmpegDialog(context);
