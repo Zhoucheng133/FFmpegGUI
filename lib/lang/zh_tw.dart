@@ -97,4 +97,7 @@ const Map<String, String> zhTW = {
   'stopNowContent': '是否要等待當前任務完成後停止？',
   'waitForNowTask': '等待當前任務',
   'forceStop': '強制停止',
+
+  'dropFilesInvalid': '拖曳的文件無效',
+  'dropFilesInvalidContent': '無法新增拖曳的任何一個文件',
 };

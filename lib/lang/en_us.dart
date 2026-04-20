@@ -97,4 +97,7 @@ const Map<String, String> enUS = {
   'stopNowContent': 'Do you want to wait for the current task to finish before stopping?',
   'waitForNowTask': 'Wait for Current',
   'forceStop': 'Force Stop',
+
+  'dropFilesInvalid': 'Dragged files are invalid',
+  'dropFilesInvalidContent': 'Unable to add any files that dragged',
 };

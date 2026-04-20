@@ -97,4 +97,7 @@ const Map<String, String> zhCN = {
   'stopNowContent': '是否要等待当前任务完成后停止？',
   'waitForNowTask': '等待当前任务',
   'forceStop': '强制停止',
+
+  'dropFilesInvalid': '拖拽的文件无效',
+  'dropFilesInvalidContent': '无法添加拖拽的任何一个文件',
 };
