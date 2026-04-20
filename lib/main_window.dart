@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:desktop_drop/desktop_drop.dart';
 import 'package:ffmpeg_gui/components/config_panel.dart';
 import 'package:ffmpeg_gui/components/header_buttons.dart';
 import 'package:ffmpeg_gui/components/sidebar.dart';
@@ -7,6 +8,7 @@ import 'package:ffmpeg_gui/controllers/controller.dart';
 import 'package:ffmpeg_gui/dialogs/app_dialogs.dart';
 import 'package:ffmpeg_gui/dialogs/dialogs.dart';
 import 'package:ffmpeg_gui/dialogs/settings.dart';
+import 'package:ffmpeg_gui/service/task_item.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -43,172 +45,191 @@ class _MainWindowState extends State<MainWindow> with WindowListener {
     super.dispose();
   }
 
+  void dropHandler(List<DropItem> files){
+    const allowedExtensions=['mp3', 'mp4', 'mkv', 'flv', 'mov', 'acc', 'flac', 'wav'];
+    int count=0;
+    for(var file in files){
+      if(allowedExtensions.contains(file.path.split('.').last.toLowerCase())){
+        controller.fileList.add(TaskItem(path: file.path));
+        count++;
+      }
+    }
+    if(count==0){
+      okDialog(context, "dropFilesInvalid".tr, "dropFilesInvalidContent".tr);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          height: 30,
-          child: Row(
-            children: [
-              Expanded(child: DragToMoveArea(child: Container())),
-              if(Platform.isWindows) Row(
-                children: [
-                  WindowCaptionButton.minimize(
-                    brightness: Theme.of(context).brightness,
-                    onPressed: ()=>windowManager.minimize()
-                  ),
-                  WindowCaptionButton.close(
-                    brightness: Theme.of(context).brightness,
-                    onPressed: ()=>windowManager.close()
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: HeaderButtons(),
-        ),
-        Expanded(
-          child: Row(
-            children: [
-              Container(width: 250, child: Sidebar(),),
-              Expanded(child: ConfigPanel()),
-            ],
-          )
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
-          child: Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: controller.output,
-                  style: TextStyle(
-                    fontSize: 14
-                  ),
-                  readOnly: true,
-                  decoration: InputDecoration(
-                    hint: Text(
-                      "output".tr,
-                      style: TextStyle(
-                        color: Colors.grey[400],
-                      ),
+    return DropTarget(
+      onDragDone: (detail) {
+        dropHandler(detail.files);
+      },
+      child: Column(
+        children: [
+          SizedBox(
+            height: 30,
+            child: Row(
+              children: [
+                Expanded(child: DragToMoveArea(child: Container())),
+                if(Platform.isWindows) Row(
+                  children: [
+                    WindowCaptionButton.minimize(
+                      brightness: Theme.of(context).brightness,
+                      onPressed: ()=>windowManager.minimize()
                     ),
-                    border: OutlineInputBorder(),
-                    isCollapsed: true,
-                    contentPadding: .symmetric(horizontal: 5, vertical: 10),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 10),
-              FilledButton(
-                onPressed: () async {
-                  String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
-                  if (selectedDirectory != null) {
-                    controller.output.text=selectedDirectory;
-                    SharedPreferences prefs=await SharedPreferences.getInstance();
-                    prefs.setString('output', selectedDirectory);
-                  }
-                }, 
-                child: Text('select'.tr)
-              )
-            ],
-          ),
-        ),
-        if(Platform.isMacOS) PlatformMenuBar(
-          menus: [
-            PlatformMenu(
-              label: "FFmpeg GUI",
-              menus: [
-                PlatformMenuItemGroup(
-                  members: [
-                    PlatformMenuItem(
-                      label: "${'about'.tr} FFmpeg GUI",
-                      onSelected: ()=>showAbout(context)
-                    )
-                  ]
-                ),
-                PlatformMenuItemGroup(
-                  members: [
-                    PlatformMenuItem(
-                      label: "settings".tr,
-                      shortcut: const SingleActivator(
-                        LogicalKeyboardKey.comma,
-                        meta: true,
-                      ),
-                      onSelected: ()=>showSettings(context),
+                    WindowCaptionButton.close(
+                      brightness: Theme.of(context).brightness,
+                      onPressed: ()=>windowManager.close()
                     ),
-                  ]
+                  ],
                 ),
-                const PlatformMenuItemGroup(
-                  members: [
-                    PlatformProvidedMenuItem(
-                      enabled: true,
-                      type: PlatformProvidedMenuItemType.hide,
-                    ),
-                    PlatformProvidedMenuItem(
-                      enabled: true,
-                      type: PlatformProvidedMenuItemType.quit,
-                    ),
-                  ]
-                ),
-              ]
+              ],
             ),
-            PlatformMenu(
-              label: "edit".tr,
-              menus: [
-                PlatformMenuItem(
-                  label: "copy".tr,
-                  onSelected: (){
-                    final focusedContext = FocusManager.instance.primaryFocus?.context;
-                    if (focusedContext != null) {
-                      Actions.invoke(focusedContext, CopySelectionTextIntent.copy);
-                    }
-                  }
-                ),
-                PlatformMenuItem(
-                  label: "paste".tr,
-                  onSelected: (){
-                    final focusedContext = FocusManager.instance.primaryFocus?.context;
-                    if (focusedContext != null) {
-                      Actions.invoke(focusedContext, const PasteTextIntent(SelectionChangedCause.keyboard));
-                    }
-                  },
-                ),
-                PlatformMenuItem(
-                  label: "selectAll".tr,
-                  onSelected: (){
-                    final focusedContext = FocusManager.instance.primaryFocus?.context;
-                    if (focusedContext != null) {
-                      Actions.invoke(focusedContext, const SelectAllTextIntent(SelectionChangedCause.keyboard));
-                    }
-                  }
-                )
-              ]
-            ),
-            PlatformMenu(
-              label: "window".tr, 
-              menus: [
-                PlatformMenuItemGroup(
-                  members: [
-                    PlatformProvidedMenuItem(
-                      enabled: true,
-                      type: PlatformProvidedMenuItemType.minimizeWindow,
-                    ),
-                    PlatformProvidedMenuItem(
-                      enabled: true,
-                      type: PlatformProvidedMenuItemType.toggleFullScreen,
-                    )
-                  ]
-                )
-              ]
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: HeaderButtons(),
+          ),
+          Expanded(
+            child: Row(
+              children: [
+                Container(width: 250, child: Sidebar(),),
+                Expanded(child: ConfigPanel()),
+              ],
             )
-          ]
-        )
-      ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 10),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: controller.output,
+                    style: TextStyle(
+                      fontSize: 14
+                    ),
+                    readOnly: true,
+                    decoration: InputDecoration(
+                      hint: Text(
+                        "output".tr,
+                        style: TextStyle(
+                          color: Colors.grey[400],
+                        ),
+                      ),
+                      border: OutlineInputBorder(),
+                      isCollapsed: true,
+                      contentPadding: .symmetric(horizontal: 5, vertical: 10),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                FilledButton(
+                  onPressed: () async {
+                    String? selectedDirectory = await FilePicker.platform.getDirectoryPath();
+                    if (selectedDirectory != null) {
+                      controller.output.text=selectedDirectory;
+                      SharedPreferences prefs=await SharedPreferences.getInstance();
+                      prefs.setString('output', selectedDirectory);
+                    }
+                  }, 
+                  child: Text('select'.tr)
+                )
+              ],
+            ),
+          ),
+          if(Platform.isMacOS) PlatformMenuBar(
+            menus: [
+              PlatformMenu(
+                label: "FFmpeg GUI",
+                menus: [
+                  PlatformMenuItemGroup(
+                    members: [
+                      PlatformMenuItem(
+                        label: "${'about'.tr} FFmpeg GUI",
+                        onSelected: ()=>showAbout(context)
+                      )
+                    ]
+                  ),
+                  PlatformMenuItemGroup(
+                    members: [
+                      PlatformMenuItem(
+                        label: "settings".tr,
+                        shortcut: const SingleActivator(
+                          LogicalKeyboardKey.comma,
+                          meta: true,
+                        ),
+                        onSelected: ()=>showSettings(context),
+                      ),
+                    ]
+                  ),
+                  const PlatformMenuItemGroup(
+                    members: [
+                      PlatformProvidedMenuItem(
+                        enabled: true,
+                        type: PlatformProvidedMenuItemType.hide,
+                      ),
+                      PlatformProvidedMenuItem(
+                        enabled: true,
+                        type: PlatformProvidedMenuItemType.quit,
+                      ),
+                    ]
+                  ),
+                ]
+              ),
+              PlatformMenu(
+                label: "edit".tr,
+                menus: [
+                  PlatformMenuItem(
+                    label: "copy".tr,
+                    onSelected: (){
+                      final focusedContext = FocusManager.instance.primaryFocus?.context;
+                      if (focusedContext != null) {
+                        Actions.invoke(focusedContext, CopySelectionTextIntent.copy);
+                      }
+                    }
+                  ),
+                  PlatformMenuItem(
+                    label: "paste".tr,
+                    onSelected: (){
+                      final focusedContext = FocusManager.instance.primaryFocus?.context;
+                      if (focusedContext != null) {
+                        Actions.invoke(focusedContext, const PasteTextIntent(SelectionChangedCause.keyboard));
+                      }
+                    },
+                  ),
+                  PlatformMenuItem(
+                    label: "selectAll".tr,
+                    onSelected: (){
+                      final focusedContext = FocusManager.instance.primaryFocus?.context;
+                      if (focusedContext != null) {
+                        Actions.invoke(focusedContext, const SelectAllTextIntent(SelectionChangedCause.keyboard));
+                      }
+                    }
+                  )
+                ]
+              ),
+              PlatformMenu(
+                label: "window".tr, 
+                menus: [
+                  PlatformMenuItemGroup(
+                    members: [
+                      PlatformProvidedMenuItem(
+                        enabled: true,
+                        type: PlatformProvidedMenuItemType.minimizeWindow,
+                      ),
+                      PlatformProvidedMenuItem(
+                        enabled: true,
+                        type: PlatformProvidedMenuItemType.toggleFullScreen,
+                      )
+                    ]
+                  )
+                ]
+              )
+            ]
+          )
+        ],
+      ),
     );
   }
 }
